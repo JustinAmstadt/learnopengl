@@ -146,7 +146,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\..\..\..\OpenGL\include\glad.c" />
+    <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="GeometricObject.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="ObjectData.cpp" />
+    <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Shader.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -154,6 +158,10 @@
     <Text Include="vert.vert" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Camera.h" />
+    <ClInclude Include="GeometricObject.h" />
+    <ClInclude Include="ObjectData.h" />
+    <ClInclude Include="Scene.h" />
     <ClInclude Include="Shader.h" />
   </ItemGroup>
   <ItemGroup>

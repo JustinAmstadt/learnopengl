@@ -24,6 +24,18 @@
     <ClCompile Include="..\..\..\..\..\..\OpenGL\include\glad.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="GeometricObject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectData.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="frag.frag">
@@ -35,6 +47,18 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Shader.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GeometricObject.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectData.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
