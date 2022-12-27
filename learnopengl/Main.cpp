@@ -19,15 +19,19 @@
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void loop();
 void processInput(GLFWwindow* window);
-glm::mat4 multiplyMatrix(glm::mat4 matrix);
 void createSphere(int radius, int sectorCount, int stackCount, std::vector<glm::vec3>& vertices, std::vector<GLuint>& indices);
+void mouse_callback(GLFWwindow* window, double xpos, double ypos);
 
 const int SCREEN_WIDTH = 800;
 const int SCREEN_HEIGHT = 600;
+float deltaTime = 0.0f;	// Time between current frame and last frame
+float lastFrame = 0.0f; // Time of last frame
 GLFWwindow* window;
 std::string vertexShaderSource;
 std::string fragShaderSource;
 Shader* shaderProgram;
+std::unique_ptr<Scene> scene(new Scene);
+
 
 int main() {
 	glfwInit();
@@ -45,6 +49,8 @@ int main() {
 
 	glfwMakeContextCurrent(window);
 	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback); //specifies the function to use when window gets resized
+	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	glfwSetCursorPosCallback(window, mouse_callback);
 
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
 	{
@@ -56,8 +62,6 @@ int main() {
 	
 	shaderProgram = new Shader("vert.vert", "frag.frag");
 
-	srand(static_cast<unsigned int>(clock()));
-
 	loop();
 
 	glfwTerminate();
@@ -65,12 +69,9 @@ int main() {
 }
 
 void loop() {
-	std::unique_ptr<Scene> scene(new Scene);
-
 	ObjectData::createData(shaderProgram);
-	for (int i = 0; i < ObjectData::sceneObjectVec.size(); i++) {
-		scene->addObject(&ObjectData::sceneObjectVec[i]);
-	}
+	//scene->addObjectVec(ObjectData::basicGeometryVec);
+	scene->addObjectVec(ObjectData::floorLines);
 
 	while (!glfwWindowShouldClose(window))
 	{
@@ -78,11 +79,13 @@ void loop() {
 
 		glEnable(GL_DEPTH_TEST);
 
-		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+		glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
 		scene->renderScene();
+		ObjectData::updateData();
+		scene->camera.update();
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();
@@ -96,7 +99,24 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 
 void processInput(GLFWwindow* window)
 {
+	float currentFrame = glfwGetTime();
+	deltaTime = currentFrame - lastFrame;
+	lastFrame = currentFrame;
+
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, true);
+	
+	const float cameraSpeed = 2.5f * deltaTime;
+	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+		scene->camera.cameraPos += cameraSpeed * scene->camera.cameraFront;
+	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+		scene->camera.cameraPos -= cameraSpeed * scene->camera.cameraFront;
+	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+		scene->camera.cameraPos -= glm::normalize(glm::cross(scene->camera.cameraFront, scene->camera.cameraUp)) * cameraSpeed;
+	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+		scene->camera.cameraPos += glm::normalize(glm::cross(scene->camera.cameraFront, scene->camera.cameraUp)) * cameraSpeed;
 }
 
+void mouse_callback(GLFWwindow* window, double xpos, double ypos) {
+	//scene->camera.mouseUpdate(xpos, ypos);
+}

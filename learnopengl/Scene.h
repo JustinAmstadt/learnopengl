@@ -24,7 +24,7 @@ private:
 	const int SCREEN_WIDTH = 800;
 	const int SCREEN_HEIGHT = 600;
 public:
-	std::vector<SceneObject*> objectVec;
+	std::vector<std::vector<SceneObject*>> objectVec;
 
 	Camera camera;
 	glm::mat4 projection;
@@ -35,6 +35,6 @@ public:
 	static GLuint createVAO(std::vector<Vertex> data, std::vector<GLuint> indices = std::vector<GLuint>());
 
 	void renderScene();
-	void addObject(SceneObject* object);
+	void addObjectVec(std::vector<SceneObject*> vector);
 };
 #endif

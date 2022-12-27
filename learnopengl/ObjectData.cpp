@@ -1,13 +1,18 @@
 #include "ObjectData.h"
+#include <iostream>
+#include <initializer_list>
 
 std::vector<glm::vec3> ObjectData::vertices;
+std::vector<glm::vec3> ObjectData::cubeVertices;
 std::vector<glm::vec3> ObjectData::colors;
 std::vector<GLuint> ObjectData::indices;
 std::vector<glm::vec2> ObjectData::texCoords;
 std::vector<glm::vec3> ObjectData::linepts;
 GeometricObject* ObjectData::square;
+GeometricObject* ObjectData::cube;
 GeometricObject* ObjectData::circle;
-std::vector<SceneObject> ObjectData::sceneObjectVec;
+std::vector<SceneObject*> ObjectData::basicGeometryVec;
+std::vector<SceneObject*> ObjectData::floorLines;
 
 void ObjectData::createData(Shader* shaderProgram) {
 	vertices = {
@@ -19,6 +24,50 @@ void ObjectData::createData(Shader* shaderProgram) {
 		//glm::vec3(0.0f, 1.0f, 0.0f),	// center
 		//glm::vec3(-1.0f, -1.0f, 0.0f),	// bottom right
 		//glm::vec3(1.0f, -1.0f, 0.0f),	// bottom left
+	};
+
+	cubeVertices = {
+		glm::vec3(-0.5f, -0.5f, -0.5f),
+		 glm::vec3(0.5f, -0.5f, -0.5f),
+		 glm::vec3(0.5f,  0.5f, -0.5f),
+		 glm::vec3(0.5f,  0.5f, -0.5f),
+		glm::vec3(-0.5f,  0.5f, -0.5f),
+		glm::vec3(-0.5f, -0.5f, -0.5f),
+
+		glm::vec3(-0.5f, -0.5f,  0.5f),
+		glm::vec3(0.5f, -0.5f,  0.5f),
+		glm::vec3(0.5f,  0.5f,  0.5f),
+		glm::vec3(0.5f,  0.5f,  0.5f),
+		glm::vec3(-0.5f,  0.5f,  0.5f),
+	glm::vec3(-0.5f, -0.5f,  0.5f),
+
+	glm::vec3(-0.5f,  0.5f,  0.5f),
+	glm::vec3(-0.5f,  0.5f, -0.5f),
+	glm::vec3(-0.5f, -0.5f, -0.5f),
+	glm::vec3(-0.5f, -0.5f, -0.5f),
+	glm::vec3(-0.5f, -0.5f,  0.5f),
+		glm::vec3(-0.5f,  0.5f,  0.5f),
+
+		glm::vec3(0.5f,  0.5f,  0.5f),
+		glm::vec3(0.5f,  0.5f, -0.5f),
+	glm::vec3(0.5f, -0.5f, -0.5f),
+	glm::vec3(0.5f, -0.5f, -0.5f),
+	glm::vec3(0.5f, -0.5f,  0.5f),
+		glm::vec3(0.5f,  0.5f,  0.5f),
+
+		glm::vec3(-0.5f, -0.5f, -0.5f),
+	glm::vec3(0.5f, -0.5f, -0.5f),
+	glm::vec3(0.5f, -0.5f,  0.5f),
+	glm::vec3(0.5f, -0.5f,  0.5f),
+		glm::vec3(-0.5f, -0.5f,  0.5f),
+		glm::vec3(-0.5f, -0.5f, -0.5f),
+
+	glm::vec3(-0.5f,  0.5f, -0.5f),
+	glm::vec3(0.5f,  0.5f, -0.5f),
+	glm::vec3(0.5f,  0.5f,  0.5f),
+	glm::vec3(0.5f,  0.5f,  0.5f),
+	glm::vec3(-0.5f,  0.5f,  0.5f),
+	glm::vec3(-0.5f,  0.5f, -0.5f),
 	};
 
 	colors = {
@@ -44,14 +93,20 @@ void ObjectData::createData(Shader* shaderProgram) {
 		glm::vec2(0.0f, 1.0f),
 	};
 
+	
+	cube = new GeometricObject(cubeVertices, colors);
 	square = new GeometricObject(vertices);
 	square->indices = indices;
 
 	glm::mat4 model = glm::mat4(1.0f);
 
-	sceneObjectVec.push_back(
-		{ square, Scene::createVAO(square->vertexData, square->indices),
-			model, shaderProgram, GL_TRIANGLES });
+	SceneObject* list = new SceneObject();
+	*list = { cube, Scene::createVAO(cube->vertexData), model, shaderProgram, GL_TRIANGLES };
+	basicGeometryVec.push_back(list);
+
+	list = new SceneObject();
+	*list = { square, Scene::createVAO(square->vertexData, square->indices), model, shaderProgram, GL_TRIANGLES };
+	//basicGeometryVec.push_back(list);
 
 
 	for (double i = -5; i < 5; i = i + .1) {
@@ -60,8 +115,79 @@ void ObjectData::createData(Shader* shaderProgram) {
 	}
 
 	circle = new GeometricObject(linepts, glm::vec3(1.0f, 1.0f, 1.0f));
-	model = glm::scale(model, glm::vec3(0.2, 0.2, 0.2));
-	sceneObjectVec.push_back({ circle, Scene::createVAO(circle->vertexData), glm::mat4(1.0f), shaderProgram, GL_TRIANGLE_FAN });
+	//model = glm::scale(model, glm::vec3(0.2, 0.2, 0.2));
+	list = new SceneObject();
+	*list = { circle, Scene::createVAO(circle->vertexData), model, shaderProgram, GL_TRIANGLE_FAN };
+	//basicGeometryVec.push_back(list);
+
+
+	createFloor(shaderProgram, 50);
+}
+
+void ObjectData::updateData()
+{
+	glm::mat4 model(1.0f);
+	model = glm::rotate(model, glm::radians(1.0f) , glm::vec3(1.0f, 0.0f, 0.0f));
+	basicGeometryVec[0]->model = model * basicGeometryVec[0]->model;
+}
+
+void ObjectData::createFloor(Shader* shaderProgram, float size)
+{
+	float distance = 4.0f;
+
+	SceneObject* list = new SceneObject();
+	glm::mat4 model = glm::mat4(1.0f);
+
+	GeometricObject* line = new GeometricObject(std::vector<glm::vec3> { glm::vec3(0.0f, -2.0f, -size),glm::vec3(0.0f, -2.0f, size) },
+		glm::vec3(0.0f, 0.8f, 0.0f));
+
+	//vertical middle line
+	*list = { line, Scene::createVAO(line->vertexData), model, shaderProgram, GL_LINES };
+	floorLines.push_back(list);
+	
+	//vertical right side
+	for (int i = 0; i < size / 2; i++) {
+		list = new SceneObject();
+		model = glm::translate(model, glm::vec3(distance, 0.0f, 0.0f));
+		*list = { line, Scene::createVAO(line->vertexData), model, shaderProgram, GL_LINES };
+		floorLines.push_back(list);
+	}
+
+	model = glm::mat4(1.0f);
+
+	//vertical left side
+	for (int i = 0; i < size / 2; i++) {
+		list = new SceneObject();
+		model = glm::translate(model, glm::vec3(-distance, 0.0f, 0.0f));
+		*list = { line, Scene::createVAO(line->vertexData), model, shaderProgram, GL_LINES };
+		floorLines.push_back(list);
+	}
+
+	list = new SceneObject();
+	model = glm::mat4(1.0f);
+
+	//horizontal middle line
+	model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+	*list = { line, Scene::createVAO(line->vertexData), model, shaderProgram, GL_LINES };
+	floorLines.push_back(list);
+
+	for (int i = 0; i < size / distance + 1; i++) {
+		list = new SceneObject();
+		model = glm::mat4(1.0f);
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, (float) i * -distance));
+		model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		*list = { line, Scene::createVAO(line->vertexData), model, shaderProgram, GL_LINES };
+		floorLines.push_back(list);
+	}
+
+	for (int i = 0; i < size / distance + 1; i++) {
+		list = new SceneObject();
+		model = glm::mat4(1.0f);
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, (float)i * distance));
+		model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		*list = { line, Scene::createVAO(line->vertexData), model, shaderProgram, GL_LINES };
+		floorLines.push_back(list);
+	}
 }
 
 //taken from http://www.songho.ca/opengl/gl_sphere.html

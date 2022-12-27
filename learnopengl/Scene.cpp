@@ -54,25 +54,26 @@ GLuint Scene::createVAO(std::vector<Vertex> data, std::vector<GLuint> indices)
 
 void Scene::renderScene()
 {
-	glUseProgram(objectVec[0]->program->ID);
+	glUseProgram(objectVec[0][0]->program->ID);
 
-	for (int i = 0; i < objectVec.size(); i++) 
-	{
-		glBindVertexArray(objectVec[i]->VAO);
-		glUniformMatrix4fv(glGetUniformLocation(objectVec[i]->program->ID, "model"), 1, GL_FALSE, glm::value_ptr(objectVec[i]->model));
-		glUniformMatrix4fv(glGetUniformLocation(objectVec[i]->program->ID, "view"), 1, GL_FALSE, glm::value_ptr(camera.view));
-		glUniformMatrix4fv(glGetUniformLocation(objectVec[i]->program->ID, "projection"), 1, GL_FALSE, glm::value_ptr(projection));
+	for (int i = 0; i < objectVec.size(); i++) {
+		for (int j = 0; j < objectVec[i].size(); j++) {
+			glBindVertexArray(objectVec[i][j]->VAO);
+			glUniformMatrix4fv(glGetUniformLocation(objectVec[i][j]->program->ID, "model"), 1, GL_FALSE, glm::value_ptr(objectVec[i][j]->model));
+			glUniformMatrix4fv(glGetUniformLocation(objectVec[i][j]->program->ID, "view"), 1, GL_FALSE, glm::value_ptr(camera.view));
+			glUniformMatrix4fv(glGetUniformLocation(objectVec[i][j]->program->ID, "projection"), 1, GL_FALSE, glm::value_ptr(projection));
 
-		if (objectVec[i]->object->indices.size() == 0) {
-			glDrawArrays(objectVec[i]->DRAW_ENUM, 0, objectVec[i]->object->vertexData.size());
-		}
-		else {
-			glDrawElements(objectVec[i]->DRAW_ENUM, objectVec[i]->object->indices.size(), GL_UNSIGNED_INT, 0);
+			if (objectVec[i][j]->object->indices.size() == 0) {
+				glDrawArrays(objectVec[i][j]->DRAW_ENUM, 0, objectVec[i][j]->object->vertexData.size());
+			}
+			else {
+				glDrawElements(objectVec[i][j]->DRAW_ENUM, objectVec[i][j]->object->indices.size(), GL_UNSIGNED_INT, 0);
+			}
 		}
 	}
 }
 
-void Scene::addObject(SceneObject* object)
+void Scene::addObjectVec(std::vector<SceneObject*> vector)
 {
-	this->objectVec.push_back(object);
+	objectVec.push_back(vector);
 }
