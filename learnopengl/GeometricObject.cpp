@@ -9,7 +9,8 @@ GeometricObject::GeometricObject(std::vector<glm::vec3> vertices, std::vector<gl
 {
 	if (colorVec.size() == 0) {
 		for (int i = 0; i < vertices.size(); i++) {
-			colorVec.push_back(defaultColor);
+			colorVec.push_back(glm::vec3(((float)rand() / (float)RAND_MAX), ((float)rand() / (float)RAND_MAX), ((float)rand() / (float)RAND_MAX)));
+			//colorVec.push_back(defaultColor);
 		}
 	}
 

@@ -1,3 +1,9 @@
+/*
+make the grid move, but feel like you are moving over the grid
+3D quadratic function with falling cubes
+
+*/
+
 #include <glad/glad.h> 
 #include <GLFW/glfw3.h>
 #include <iostream>
@@ -31,6 +37,9 @@ std::string vertexShaderSource;
 std::string fragShaderSource;
 Shader* shaderProgram;
 std::unique_ptr<Scene> scene(new Scene);
+float lastX = SCREEN_WIDTH / 2.0f;
+float lastY = SCREEN_HEIGHT / 2.0f;
+bool firstMouse = true;
 
 
 int main() {
@@ -58,6 +67,8 @@ int main() {
 		return -1;
 	}
 
+	srand((unsigned)time(NULL));
+
 	glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 	
 	shaderProgram = new Shader("vert.vert", "frag.frag");
@@ -72,6 +83,7 @@ void loop() {
 	ObjectData::createData(shaderProgram);
 	//scene->addObjectVec(ObjectData::basicGeometryVec);
 	scene->addObjectVec(ObjectData::floorLines);
+	scene->addObjectVec(ObjectData::graphLines);
 
 	while (!glfwWindowShouldClose(window))
 	{
@@ -85,7 +97,6 @@ void loop() {
 
 		scene->renderScene();
 		ObjectData::updateData();
-		scene->camera.update();
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();
@@ -106,17 +117,32 @@ void processInput(GLFWwindow* window)
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, true);
 	
-	const float cameraSpeed = 2.5f * deltaTime;
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-		scene->camera.cameraPos += cameraSpeed * scene->camera.cameraFront;
+		scene->camera.ProcessKeyboard(FORWARD, deltaTime);
 	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-		scene->camera.cameraPos -= cameraSpeed * scene->camera.cameraFront;
+		scene->camera.ProcessKeyboard(BACKWARD, deltaTime);
 	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-		scene->camera.cameraPos -= glm::normalize(glm::cross(scene->camera.cameraFront, scene->camera.cameraUp)) * cameraSpeed;
+		scene->camera.ProcessKeyboard(LEFT, deltaTime);
 	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-		scene->camera.cameraPos += glm::normalize(glm::cross(scene->camera.cameraFront, scene->camera.cameraUp)) * cameraSpeed;
+		scene->camera.ProcessKeyboard(RIGHT, deltaTime);
 }
 
-void mouse_callback(GLFWwindow* window, double xpos, double ypos) {
-	//scene->camera.mouseUpdate(xpos, ypos);
+void mouse_callback(GLFWwindow* window, double xposIn, double yposIn) {
+	float xpos = static_cast<float>(xposIn);
+	float ypos = static_cast<float>(yposIn);
+
+	if (firstMouse)
+	{
+		lastX = xpos;
+		lastY = ypos;
+		firstMouse = false;
+	}
+
+	float xoffset = xpos - lastX;
+	float yoffset = lastY - ypos; // reversed since y-coordinates go from bottom to top
+
+	lastX = xpos;
+	lastY = ypos;
+
+	scene->camera.ProcessMouseMovement(xoffset, yoffset);
 }
