@@ -1,5 +1,5 @@
 /*
-make the grid move, but feel like you are moving over the grid
+
 3D quadratic function with falling cubes
 
 */
@@ -83,7 +83,7 @@ void loop() {
 	ObjectData::createData(shaderProgram);
 	//scene->addObjectVec(ObjectData::basicGeometryVec);
 	scene->addObjectVec(ObjectData::floorLines);
-	scene->addObjectVec(ObjectData::graphLines);
+	//scene->addObjectVec(ObjectData::graphLines);
 
 	while (!glfwWindowShouldClose(window))
 	{
@@ -96,7 +96,7 @@ void loop() {
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
 		scene->renderScene();
-		ObjectData::updateData();
+		ObjectData::updateData(scene->camera);
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();

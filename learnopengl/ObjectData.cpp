@@ -1,4 +1,5 @@
 #include "ObjectData.h"
+#include "Camera.h"
 #include <iostream>
 #include <initializer_list>
 
@@ -14,6 +15,7 @@ GeometricObject* ObjectData::circle;
 std::vector<SceneObject*> ObjectData::basicGeometryVec;
 std::vector<SceneObject*> ObjectData::floorLines;
 std::vector<SceneObject*> ObjectData::graphLines;
+float ObjectData::floorDistance = 4.0f;
 
 void ObjectData::createData(Shader* shaderProgram) {
 	vertices = {
@@ -122,22 +124,74 @@ void ObjectData::createData(Shader* shaderProgram) {
 	//basicGeometryVec.push_back(list);
 
 
-	createFloor(shaderProgram, 50);
+	createFloor(shaderProgram, 80);
 	createLineFunc(shaderProgram);
 }
 
-void ObjectData::updateData()
+void ObjectData::updateData(const Camera& camera)
 {
 	glm::mat4 model(1.0f);
+
+	//rotate cube
 	model = glm::rotate(model, glm::radians(1.0f) , glm::vec3(0.0f, 1.0f, 0.0f));
 	basicGeometryVec[0]->model = model * basicGeometryVec[0]->model;
 
-	graphLines[0]->model = model * graphLines[0]->model;
+	//rotate graph
+	//graphLines[0]->model = model * graphLines[0]->model;
+
+	updateFloor(camera);
+}
+
+void ObjectData::updateFloor(const Camera& camera) 
+{
+	//std::cout << camera.Position[0] << ", " << camera.Position[1] << ", " << camera.Position[2] << std::endl;
+
+	glm::mat4 model(1.0f);
+	static float cameraOffsetX = 0.0f;
+	static float cameraOffsetZ = 0.0f;
+
+	model = glm::mat4(1.0f);
+
+	//shifts the grid over by the distance between lines in the floor once the next line has been reached.
+	//gives the illusion that you are running over the grid, but the grid is following you and you are flying
+	//over the same square continuously
+	if (camera.Position[0] >= cameraOffsetX + floorDistance) {
+		cameraOffsetX += 4;
+		model = glm::translate(model, glm::vec3(floorDistance, 0.0f, 0.0f));
+		for (int i = 0; i < floorLines.size(); i++) {
+			floorLines[i]->model = model * floorLines[i]->model;
+		}
+	}
+	else if (camera.Position[0] < cameraOffsetX - floorDistance) {
+		cameraOffsetX -= 4;
+		model = glm::translate(model, glm::vec3(-floorDistance, 0.0f, 0.0f));
+		for (int i = 0; i < floorLines.size(); i++) {
+			floorLines[i]->model = model * floorLines[i]->model;
+		}
+	}
+
+	if (camera.Position[2] >= cameraOffsetZ + floorDistance) {
+		cameraOffsetZ += 4;
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, floorDistance));
+		for (int i = 0; i < floorLines.size(); i++) {
+			floorLines[i]->model = model * floorLines[i]->model;
+		}
+	}
+	else if (camera.Position[2] < cameraOffsetZ - floorDistance) {
+		cameraOffsetZ -= 4;
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, -floorDistance));
+		for (int i = 0; i < floorLines.size(); i++) {
+			floorLines[i]->model = model * floorLines[i]->model;
+		}
+	}
 }
 
 void ObjectData::createFloor(Shader* shaderProgram, float size)
 {
-	float distance = 4.0f;
+	//4 is the magic number for some reason lol
+	size -= (int)size % 4;
+
+	std::cout << "size: " << size << std::endl;
 
 	SceneObject* list = new SceneObject();
 	glm::mat4 model = glm::mat4(1.0f);
@@ -145,25 +199,27 @@ void ObjectData::createFloor(Shader* shaderProgram, float size)
 	GeometricObject* line = new GeometricObject(std::vector<glm::vec3> { glm::vec3(0.0f, -2.0f, -size),glm::vec3(0.0f, -2.0f, size) },
 		glm::vec3(0.0f, 0.8f, 0.0f));
 
+	GLuint VAO = Scene::createVAO(line->vertexData);
+
 	//vertical middle line
-	*list = { line, Scene::createVAO(line->vertexData), model, shaderProgram, GL_LINES };
+	*list = { line, VAO, model, shaderProgram, GL_LINES };
 	floorLines.push_back(list);
 	
 	//vertical right side
-	for (int i = 0; i < size / 2; i++) {
+	for (int i = 0; i < size / 4; i++) {
 		list = new SceneObject();
-		model = glm::translate(model, glm::vec3(distance, 0.0f, 0.0f));
-		*list = { line, Scene::createVAO(line->vertexData), model, shaderProgram, GL_LINES };
+		model = glm::translate(model, glm::vec3(floorDistance, 0.0f, 0.0f));
+		*list = { line, VAO, model, shaderProgram, GL_LINES };
 		floorLines.push_back(list);
 	}
 
 	model = glm::mat4(1.0f);
 
 	//vertical left side
-	for (int i = 0; i < size / 2; i++) {
+	for (int i = 0; i < size / 4; i++) {
 		list = new SceneObject();
-		model = glm::translate(model, glm::vec3(-distance, 0.0f, 0.0f));
-		*list = { line, Scene::createVAO(line->vertexData), model, shaderProgram, GL_LINES };
+		model = glm::translate(model, glm::vec3(-floorDistance, 0.0f, 0.0f));
+		*list = { line, VAO, model, shaderProgram, GL_LINES };
 		floorLines.push_back(list);
 	}
 
@@ -172,24 +228,24 @@ void ObjectData::createFloor(Shader* shaderProgram, float size)
 
 	//horizontal middle line
 	model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-	*list = { line, Scene::createVAO(line->vertexData), model, shaderProgram, GL_LINES };
+	*list = { line, VAO, model, shaderProgram, GL_LINES };
 	floorLines.push_back(list);
 
-	for (int i = 0; i < size / distance + 1; i++) {
+	for (int i = 0; i < size / floorDistance + 1; i++) {
 		list = new SceneObject();
 		model = glm::mat4(1.0f);
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, (float) i * -distance));
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, (float) i * -floorDistance));
 		model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-		*list = { line, Scene::createVAO(line->vertexData), model, shaderProgram, GL_LINES };
+		*list = { line, VAO, model, shaderProgram, GL_LINES };
 		floorLines.push_back(list);
 	}
 
-	for (int i = 0; i < size / distance + 1; i++) {
+	for (int i = 0; i < size / floorDistance + 1; i++) {
 		list = new SceneObject();
 		model = glm::mat4(1.0f);
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, (float)i * distance));
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, (float)i * floorDistance));
 		model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-		*list = { line, Scene::createVAO(line->vertexData), model, shaderProgram, GL_LINES };
+		*list = { line, VAO, model, shaderProgram, GL_LINES };
 		floorLines.push_back(list);
 	}
 }
@@ -230,7 +286,7 @@ void ObjectData::createLineFunc(Shader* shaderProgram)
 		}
 	}
 
-	std::cout << verts.size() << std::endl;
+	//std::cout << verts.size() << std::endl;
 
 	//all faces except the last one
 	for (int i = 0; i < verts.size() - (verts.size() / numLines); i += verts.size() / numLines) {
