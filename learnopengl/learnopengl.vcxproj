@@ -147,11 +147,13 @@
   <ItemGroup>
     <ClCompile Include="..\..\..\..\..\..\OpenGL\include\glad.c" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Cube.cpp" />
     <ClCompile Include="GeometricObject.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="ObjectData.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Shader.cpp" />
+    <ClCompile Include="Square.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="frag.frag" />
@@ -159,10 +161,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="Cube.h" />
     <ClInclude Include="GeometricObject.h" />
     <ClInclude Include="ObjectData.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Shader.h" />
+    <ClInclude Include="Square.h" />
+    <ClInclude Include="Tragectory.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resources\container.jpg" />

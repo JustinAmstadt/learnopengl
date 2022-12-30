@@ -36,6 +36,12 @@
     <ClCompile Include="ObjectData.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Cube.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Square.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="frag.frag">
@@ -59,6 +65,15 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="ObjectData.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Cube.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Square.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Tragectory.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,78 +1,20 @@
 #include "ObjectData.h"
 #include "Camera.h"
+#include "Cube.h"
+#include "Square.h"
 #include <iostream>
 #include <initializer_list>
 
-std::vector<glm::vec3> ObjectData::vertices;
-std::vector<glm::vec3> ObjectData::cubeVertices;
 std::vector<glm::vec3> ObjectData::colors;
-std::vector<GLuint> ObjectData::indices;
-std::vector<glm::vec2> ObjectData::texCoords;
 std::vector<glm::vec3> ObjectData::linepts;
-GeometricObject* ObjectData::square;
-GeometricObject* ObjectData::cube;
 GeometricObject* ObjectData::circle;
 std::vector<SceneObject*> ObjectData::basicGeometryVec;
 std::vector<SceneObject*> ObjectData::floorLines;
+std::vector<SceneObject*> ObjectData::fallingCubes;
 std::vector<SceneObject*> ObjectData::graphLines;
 float ObjectData::floorDistance = 4.0f;
 
 void ObjectData::createData(Shader* shaderProgram) {
-	vertices = {
-		glm::vec3(0.5f,  0.5f, 0.0f),  // top right
-		glm::vec3(0.5f, -0.5f, 0.0f),  // bottom right
-		glm::vec3(-0.5f, -0.5f, 0.0f),  // bottom left
-		glm::vec3(-0.5f,  0.5f, 0.0f),   // top left
-
-		//glm::vec3(0.0f, 1.0f, 0.0f),	// center
-		//glm::vec3(-1.0f, -1.0f, 0.0f),	// bottom right
-		//glm::vec3(1.0f, -1.0f, 0.0f),	// bottom left
-	};
-
-	cubeVertices = {
-		glm::vec3(-0.5f, -0.5f, -0.5f),
-		 glm::vec3(0.5f, -0.5f, -0.5f),
-		 glm::vec3(0.5f,  0.5f, -0.5f),
-		 glm::vec3(0.5f,  0.5f, -0.5f),
-		glm::vec3(-0.5f,  0.5f, -0.5f),
-		glm::vec3(-0.5f, -0.5f, -0.5f),
-
-		glm::vec3(-0.5f, -0.5f,  0.5f),
-		glm::vec3(0.5f, -0.5f,  0.5f),
-		glm::vec3(0.5f,  0.5f,  0.5f),
-		glm::vec3(0.5f,  0.5f,  0.5f),
-		glm::vec3(-0.5f,  0.5f,  0.5f),
-	glm::vec3(-0.5f, -0.5f,  0.5f),
-
-	glm::vec3(-0.5f,  0.5f,  0.5f),
-	glm::vec3(-0.5f,  0.5f, -0.5f),
-	glm::vec3(-0.5f, -0.5f, -0.5f),
-	glm::vec3(-0.5f, -0.5f, -0.5f),
-	glm::vec3(-0.5f, -0.5f,  0.5f),
-		glm::vec3(-0.5f,  0.5f,  0.5f),
-
-		glm::vec3(0.5f,  0.5f,  0.5f),
-		glm::vec3(0.5f,  0.5f, -0.5f),
-	glm::vec3(0.5f, -0.5f, -0.5f),
-	glm::vec3(0.5f, -0.5f, -0.5f),
-	glm::vec3(0.5f, -0.5f,  0.5f),
-		glm::vec3(0.5f,  0.5f,  0.5f),
-
-		glm::vec3(-0.5f, -0.5f, -0.5f),
-	glm::vec3(0.5f, -0.5f, -0.5f),
-	glm::vec3(0.5f, -0.5f,  0.5f),
-	glm::vec3(0.5f, -0.5f,  0.5f),
-		glm::vec3(-0.5f, -0.5f,  0.5f),
-		glm::vec3(-0.5f, -0.5f, -0.5f),
-
-	glm::vec3(-0.5f,  0.5f, -0.5f),
-	glm::vec3(0.5f,  0.5f, -0.5f),
-	glm::vec3(0.5f,  0.5f,  0.5f),
-	glm::vec3(0.5f,  0.5f,  0.5f),
-	glm::vec3(-0.5f,  0.5f,  0.5f),
-	glm::vec3(-0.5f,  0.5f, -0.5f),
-	};
-
 	colors = {
 		glm::vec3(0.0f, 0.0f, 1.0f),
 		glm::vec3(0.0f, 1.0f, 0.0f),
@@ -84,29 +26,16 @@ void ObjectData::createData(Shader* shaderProgram) {
 		glm::vec3(0.5f, 0.5f, 0.5f),
 	};
 
-	indices = {
-		0, 1, 3, // first triangle
-		1, 2, 3  // second triangle
-	};
-
-	texCoords = {
-		glm::vec2(1.0f, 1.0f),  // lower-left corner  
-		glm::vec2(1.0f, 0.0f),  // lower-right corner
-		glm::vec2(0.0f, 0.0f),   // top-center corner
-		glm::vec2(0.0f, 1.0f),
-	};
-
-	
-	cube = new GeometricObject(cubeVertices, colors);
-	square = new GeometricObject(vertices);
-	square->indices = indices;
+	GeometricObject* cube = new Cube();
+	GeometricObject* square = new Square();
 
 	glm::mat4 model = glm::mat4(1.0f);
-
+	model = glm::translate(model, glm::vec3(0.0f, 10.0f, 0.0f));
 	SceneObject* list = new SceneObject();
 	*list = { cube, Scene::createVAO(cube->vertexData), model, shaderProgram, GL_TRIANGLES };
 	basicGeometryVec.push_back(list);
 
+	model = glm::mat4(1.0f);
 	list = new SceneObject();
 	*list = { square, Scene::createVAO(square->vertexData, square->indices), model, shaderProgram, GL_TRIANGLES };
 	//basicGeometryVec.push_back(list);
@@ -140,6 +69,7 @@ void ObjectData::updateData(const Camera& camera)
 	//graphLines[0]->model = model * graphLines[0]->model;
 
 	updateFloor(camera);
+	updateFallingCubes();
 }
 
 void ObjectData::updateFloor(const Camera& camera) 
@@ -255,31 +185,17 @@ void ObjectData::createLineFunc(Shader* shaderProgram)
 	const float PI = 3.14159265359;
 
 	std::vector<glm::vec3> verts;
-	std::vector<GLuint> indices{ 
-		22, 1, 0,
-		22, 2, 1,
-		23, 3, 2,
-		24, 4, 3,
-		40, 20, 19,
-
-		23, 1, 22,
-		24, 2, 23,
-		25, 3, 24,
-		41, 19, 40,
-	};
-	indices.clear();
-
+	std::vector<GLuint> indices;
 	std::vector<glm::vec3> graphColor;
-
-
-	float numLines = 100.0;
 	glm::mat4 model = glm::mat4(1.0f);
 
+	float numLines = 100.0;
 	int numPoints = 200;
+
 	for (float i = 0; i < 360.0; i += 360 / numLines) {
 		model = glm::rotate(model, glm::radians(360.0f / numLines), glm::vec3(0.0f, 1.0f, 0.0f));
 		for (float j = 0.0; j < numPoints / 10.0; j += 0.1) {
-			glm::vec4 vec = model * glm::vec4(j, sin(j), 0, 0);
+			glm::vec4 vec = model * glm::vec4(j, lineFuncFormula(j), 0, 0); //update bottom function too
 			//std::cout << counter++ << ": " << vec[0] << ", " << vec[1] << ", " << vec[2] << std::endl;
 			verts.push_back(glm::vec3(vec[0], vec[1], vec[2]));
 			graphColor.push_back(glm::vec3(0.2f, 0.4f, 0.6f));
@@ -321,8 +237,62 @@ void ObjectData::createLineFunc(Shader* shaderProgram)
 	GeometricObject* line = new GeometricObject(verts);
 	line->indices = indices;
 	SceneObject* list = new SceneObject();
-	*list = { line, Scene::createVAO(line->vertexData, line->indices), model, shaderProgram, GL_LINES };
+	*list = { line, Scene::createVAO(line->vertexData, line->indices), model, shaderProgram, GL_TRIANGLES };
 	graphLines.push_back(list);
+
+	createFallingCubes(shaderProgram, verts, numLines, numPoints);
+}
+
+float ObjectData::lineFuncFormula(float val)
+{
+	return 0.01 * val * val;
+}
+
+void ObjectData::createFallingCubes(Shader* shaderProgram, std::vector<glm::vec3> verts, float numLines, int numPoints)
+{
+	SceneObject* list;
+	glm::mat4 model(1.0f);
+	GeometricObject* cube = new Cube(glm::vec3(1.0f, 1.0f, 1.0f));
+	GLuint VAO = Scene::createVAO(cube->vertexData);
+	
+	
+
+	for (int i = 0; i < 3; i++) {
+		int randomVertIndex = 0;
+		int adjVertIndex;
+
+		while (randomVertIndex % numPoints == 0) {
+			randomVertIndex = rand() % verts.size();
+		}
+
+		adjVertIndex = randomVertIndex + numPoints;
+
+		if (adjVertIndex > verts.size()) {
+			adjVertIndex = randomVertIndex - (randomVertIndex / numPoints) * numPoints;
+		}
+
+		glm::vec3 center = verts[randomVertIndex] - glm::vec3(0.5f) * (verts[randomVertIndex] - verts[adjVertIndex]);
+		list = new SceneObject();
+		cube = new Cube(glm::vec3(1.0f, 1.0f, 1.0f));
+		model = glm::mat4(1.0f);
+		model = glm::translate(model, center + glm::vec3(0.0f, 5.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(1.0f));
+		cube->tragectory->addTarget(center, center + glm::vec3(0.0f, 5.0f, 0.0f));
+		cube->tragectory->addTarget(glm::vec3(0.0f, 1.0f, 0.0f), center);
+		*list = { cube, VAO, model, shaderProgram, GL_TRIANGLES };
+		fallingCubes.push_back(list);
+	}
+}
+
+
+void ObjectData::updateFallingCubes()
+{
+	for (int i = 0; i < fallingCubes.size(); i++) {
+		fallingCubes[i]->model = fallingCubes[i]->object->tragectory->update() * fallingCubes[i]->model;
+		if (fallingCubes[i]->object->tragectory->targetQueue.size() == 0) {
+			fallingCubes.erase(fallingCubes.begin() + i);
+		}
+	}
 }
 
 //taken from http://www.songho.ca/opengl/gl_sphere.html
