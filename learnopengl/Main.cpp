@@ -83,7 +83,8 @@ void loop() {
 	ObjectData::createData(shaderProgram);
 	//scene->addObjectVec(ObjectData::basicGeometryVec);
 	scene->addObjectVec(ObjectData::floorLines);
-	//scene->addObjectVec(ObjectData::graphLines);
+	scene->addObjectVec(ObjectData::graphLines);
+	scene->addObjectVec(ObjectData::fallingCubes);
 
 	while (!glfwWindowShouldClose(window))
 	{
