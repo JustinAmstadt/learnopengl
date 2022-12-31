@@ -30,6 +30,7 @@ void loop();
 void processInput(GLFWwindow* window);
 void createSphere(int radius, int sectorCount, int stackCount, std::vector<glm::vec3>& vertices, std::vector<GLuint>& indices);
 void mouse_callback(GLFWwindow* window, double xpos, double ypos);
+void createGeometry();
 void updateGeometry();
 
 const int SCREEN_WIDTH = 800;
@@ -40,6 +41,7 @@ GLFWwindow* window;
 std::string vertexShaderSource;
 std::string fragShaderSource;
 std::shared_ptr<Shader> shaderProgram;
+std::shared_ptr<Shader> lampShader;
 std::unique_ptr<Scene> scene = std::make_unique<Scene>();
 float lastX = SCREEN_WIDTH / 2.0f;
 float lastY = SCREEN_HEIGHT / 2.0f;
@@ -78,6 +80,7 @@ int main() {
 	glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 	
 	shaderProgram = std::make_shared<Shader>("vert.vert", "frag.frag");
+	lampShader = std::make_shared<Shader>("lamp.vert", "lamp.frag");
 
 	loop();
 
@@ -90,10 +93,10 @@ void loop() {
 	gridFloor = std::make_unique<GridFloor>(shaderProgram, 80);
 
 	ObjectData::createData(shaderProgram);
-	//scene->addObjectVec(ObjectData::basicGeometryVec);
 	scene->addObjectVec(gridFloor->getFloorLines());
-	scene->addObjectVec(cp->getFallingCubes());
-	scene->addObjectVec(cp->getGraphLines());
+	//scene->addObjectVec(cp->getFallingCubes());
+	//scene->addObjectVec(cp->getGraphLines());
+	createGeometry();
 
 	while (!glfwWindowShouldClose(window))
 	{
@@ -157,6 +160,32 @@ void mouse_callback(GLFWwindow* window, double xposIn, double yposIn) {
 	lastY = ypos;
 
 	scene->camera.ProcessMouseMovement(xoffset, yoffset);
+}
+
+void createGeometry()
+{
+	std::vector<std::shared_ptr<SceneObject>> cubes;
+
+	//cube
+	std::shared_ptr<GeometricObject> cube = std::make_shared<Cube>();
+	glm::mat4 model = glm::mat4(1.0f);
+	model = glm::translate(model, glm::vec3(2.0f, 1.0f, 0.0f));
+	std::shared_ptr<SceneObject> list = std::make_shared<SceneObject>();
+	*list = { cube, Scene::createVAO(cube->vertexData), model, shaderProgram, GL_TRIANGLES };
+	cubes.push_back(list);
+	scene->addObjectVec(cubes);
+
+	glm::vec3 lightPos = glm::vec3(1.0f, 2.0f, 0.0f);
+
+	//light
+	list.reset(new SceneObject());
+	model = glm::translate(model, lightPos);
+	glm::vec3 lightPosition = model * glm::vec4(1.0f);
+	model = glm::scale(model, glm::vec3(0.5f));
+	*list = { cube, Scene::createVAO(cube->vertexData), model, lampShader, GL_TRIANGLES };
+	scene->addObject(list);
+
+	scene->setLight(lightPos, glm::vec4(1.0f));
 }
 
 void updateGeometry()
