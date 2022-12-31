@@ -14,11 +14,14 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <fstream>
 #include <vector>
+#include <memory>
 
 #include "Shader.h"
 #include "Scene.h"
 #include "GeometricObject.h"
+#include "CircularParabola.h"
 #include "ObjectData.h"
+#include "GridFloor.h"
 
 #define POSITION_ATTRIB 0;
 
@@ -27,6 +30,7 @@ void loop();
 void processInput(GLFWwindow* window);
 void createSphere(int radius, int sectorCount, int stackCount, std::vector<glm::vec3>& vertices, std::vector<GLuint>& indices);
 void mouse_callback(GLFWwindow* window, double xpos, double ypos);
+void updateGeometry();
 
 const int SCREEN_WIDTH = 800;
 const int SCREEN_HEIGHT = 600;
@@ -35,11 +39,13 @@ float lastFrame = 0.0f; // Time of last frame
 GLFWwindow* window;
 std::string vertexShaderSource;
 std::string fragShaderSource;
-Shader* shaderProgram;
-std::unique_ptr<Scene> scene(new Scene);
+std::shared_ptr<Shader> shaderProgram;
+std::unique_ptr<Scene> scene = std::make_unique<Scene>();
 float lastX = SCREEN_WIDTH / 2.0f;
 float lastY = SCREEN_HEIGHT / 2.0f;
 bool firstMouse = true;
+std::unique_ptr<CircularParabola> cp;
+std::unique_ptr<GridFloor> gridFloor;
 
 
 int main() {
@@ -71,7 +77,7 @@ int main() {
 
 	glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 	
-	shaderProgram = new Shader("vert.vert", "frag.frag");
+	shaderProgram = std::make_shared<Shader>("vert.vert", "frag.frag");
 
 	loop();
 
@@ -80,24 +86,29 @@ int main() {
 }
 
 void loop() {
+	cp = std::make_unique<CircularParabola>(shaderProgram);
+	gridFloor = std::make_unique<GridFloor>(shaderProgram, 80);
+
 	ObjectData::createData(shaderProgram);
 	//scene->addObjectVec(ObjectData::basicGeometryVec);
-	scene->addObjectVec(ObjectData::floorLines);
-	scene->addObjectVec(ObjectData::graphLines);
-	scene->addObjectVec(ObjectData::fallingCubes);
+	scene->addObjectVec(gridFloor->getFloorLines());
+	scene->addObjectVec(cp->getFallingCubes());
+	scene->addObjectVec(cp->getGraphLines());
 
 	while (!glfwWindowShouldClose(window))
 	{
 		processInput(window);
 
 		glEnable(GL_DEPTH_TEST);
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 		glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
 		scene->renderScene();
-		ObjectData::updateData(scene->camera);
+		updateGeometry();
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();
@@ -111,7 +122,7 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 
 void processInput(GLFWwindow* window)
 {
-	float currentFrame = glfwGetTime();
+	float currentFrame = (float)glfwGetTime();
 	deltaTime = currentFrame - lastFrame;
 	lastFrame = currentFrame;
 
@@ -146,4 +157,10 @@ void mouse_callback(GLFWwindow* window, double xposIn, double yposIn) {
 	lastY = ypos;
 
 	scene->camera.ProcessMouseMovement(xoffset, yoffset);
+}
+
+void updateGeometry()
+{
+	cp->update();
+	gridFloor->updateFloor(scene->camera);
 }

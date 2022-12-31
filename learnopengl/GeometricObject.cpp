@@ -3,16 +3,21 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
 
-GeometricObject::GeometricObject(std::vector<glm::vec3> vertices, glm::vec3 defaultColor) : GeometricObject(vertices, std::vector<glm::vec3>(), defaultColor){}
+GeometricObject::GeometricObject(std::vector<glm::vec3> vertices, glm::vec4 defaultColor) : GeometricObject(vertices, std::vector<glm::vec4>(), defaultColor){}
 
-GeometricObject::GeometricObject(std::vector<glm::vec3> vertices, std::vector<glm::vec3> colorVec, glm::vec3 defaultColor)
+GeometricObject::GeometricObject(std::vector<glm::vec3> vertices, std::vector<glm::vec4> colorVec, glm::vec4 defaultColor)
 {
-	if (colorVec.size() == 0) {
+	if (colorVec.size() == 0 && defaultColor == glm::vec4(-1.0f)) {
 		for (int i = 0; i < vertices.size(); i++) {
-			colorVec.push_back(glm::vec3(((float)rand() / (float)RAND_MAX), ((float)rand() / (float)RAND_MAX), ((float)rand() / (float)RAND_MAX)));
-			//colorVec.push_back(defaultColor);
+			colorVec.push_back(glm::vec4(((float)rand() / (float)RAND_MAX), ((float)rand() / (float)RAND_MAX), ((float)rand() / (float)RAND_MAX), 1.0f));
 		}
 	}
+	else if (colorVec.size() == 0) {
+		for (int i = 0; i < vertices.size(); i++) {
+			colorVec.push_back(defaultColor);
+		}
+	}
+	
 
 	if (vertices.size() != colorVec.size()) {
 		std::cerr << "ERROR: Position Vector has size " << vertices.size() << " while Color Vector has size " << colorVec.size() << std::endl;
@@ -38,9 +43,9 @@ GeometricObject::GeometricObject(std::vector<glm::vec3> vertices, std::vector<gl
 	}
 }
 
-GeometricObject::GeometricObject(std::vector<glm::vec3> vertices, std::vector<glm::vec2> texCoords, std::string fileName) : GeometricObject(vertices, std::vector<glm::vec3>(), texCoords, fileName){}
+GeometricObject::GeometricObject(std::vector<glm::vec3> vertices, std::vector<glm::vec2> texCoords, std::string fileName) : GeometricObject(vertices, std::vector<glm::vec4>(), texCoords, fileName){}
 
-GeometricObject::GeometricObject(std::vector<glm::vec3> vertices, std::vector<glm::vec3> colorVec, std::vector<glm::vec2> texCoords, std::string fileName) : GeometricObject(vertices, colorVec)
+GeometricObject::GeometricObject(std::vector<glm::vec3> vertices, std::vector<glm::vec4> colorVec, std::vector<glm::vec2> texCoords, std::string fileName) : GeometricObject(vertices, colorVec)
 {
 	if (vertices.size() != texCoords.size()) {
 		std::cerr << "ERROR: PostionVec size of " << vertices.size() << " does not match texCoords size of " << texCoords.size() << std::endl;
@@ -75,7 +80,7 @@ GeometricObject::GeometricObject(std::vector<glm::vec3> vertices, std::vector<gl
 	stbi_image_free(data);
 }
 
-void GeometricObject::changeColor(glm::vec3 color)
+void GeometricObject::changeColor(glm::vec4 color)
 {
 	for (Vertex& v : vertexData) {
 		v.color = color;

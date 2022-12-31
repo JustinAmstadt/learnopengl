@@ -1,6 +1,6 @@
 #include "Square.h"
 
-Square::Square(glm::vec3 color)
+Square::Square(glm::vec4 color)
 	: GeometricObject(std::vector <glm::vec3> {
 	glm::vec3(0.5f, 0.5f, 0.0f),  // top right
 		glm::vec3(0.5f, -0.5f, 0.0f),  // bottom right
