@@ -42,6 +42,9 @@
     <ClCompile Include="Square.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CircularParabola.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="frag.frag">
@@ -74,6 +77,12 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="Tragectory.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CircularParabola.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GridFloor.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>

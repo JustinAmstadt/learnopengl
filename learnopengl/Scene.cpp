@@ -17,6 +17,7 @@ Scene::Scene()
 
 Scene::~Scene()
 {
+	objectVec.clear();
 }
 
 GLuint Scene::createVAO(std::vector<Vertex> data, std::vector<GLuint> indices)
@@ -34,9 +35,9 @@ GLuint Scene::createVAO(std::vector<Vertex> data, std::vector<GLuint> indices)
 	glEnableVertexAttribArray(0);
 	glEnableVertexAttribArray(1);
 	//glEnableVertexAttribArray(2);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)sizeof(data[0].position));
-	//glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(sizeof(Vertex) - sizeof(data[0].texture)));
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0); //position
+	glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)sizeof(data[0].position)); //color
+	//glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(sizeof(Vertex) - sizeof(data[0].texture))); //texture
 
 	GLuint EBO;
 	glGenBuffers(1, &EBO);
@@ -73,7 +74,7 @@ void Scene::renderScene()
 	}
 }
 
-void Scene::addObjectVec(std::vector<SceneObject*> vector)
+void Scene::addObjectVec(std::vector<std::shared_ptr<SceneObject>> vector)
 {
 	objectVec.push_back(vector);
 }

@@ -147,6 +147,7 @@
   <ItemGroup>
     <ClCompile Include="..\..\..\..\..\..\OpenGL\include\glad.c" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="CircularParabola.cpp" />
     <ClCompile Include="Cube.cpp" />
     <ClCompile Include="GeometricObject.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -161,8 +162,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="CircularParabola.h" />
     <ClInclude Include="Cube.h" />
     <ClInclude Include="GeometricObject.h" />
+    <ClInclude Include="GridFloor.h" />
     <ClInclude Include="ObjectData.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Shader.h" />
