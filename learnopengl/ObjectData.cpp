@@ -22,17 +22,13 @@ void ObjectData::createData(std::shared_ptr<Shader> shaderProgram) {
 		glm::vec3(0.5f, 0.5f, 0.5f),
 	};
 
-	std::shared_ptr<GeometricObject> cube(new Cube());
-	std::shared_ptr<GeometricObject> square(new Square());
+
+	std::shared_ptr<GeometricObject> square = std::make_shared<Square>();
+
+	
 
 	glm::mat4 model = glm::mat4(1.0f);
-	model = glm::translate(model, glm::vec3(0.0f, 10.0f, 0.0f));
 	std::shared_ptr<SceneObject> list = std::make_shared<SceneObject>();
-	*list = { cube, Scene::createVAO(cube->vertexData), model, shaderProgram, GL_TRIANGLES };
-	basicGeometryVec.push_back(list);
-
-	model = glm::mat4(1.0f);
-	list.reset(new SceneObject());
 	*list = { square, Scene::createVAO(square->vertexData, square->indices), model, shaderProgram, GL_TRIANGLES };
 	//basicGeometryVec.push_back(list);
 
