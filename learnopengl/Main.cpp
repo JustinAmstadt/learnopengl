@@ -16,9 +16,9 @@
 #include <vector>
 #include <memory>
 
+#include "GeometricObject.h"
 #include "Shader.h"
 #include "Scene.h"
-#include "GeometricObject.h"
 #include "CircularParabola.h"
 #include "ObjectData.h"
 #include "GridFloor.h"
@@ -48,6 +48,9 @@ float lastY = SCREEN_HEIGHT / 2.0f;
 bool firstMouse = true;
 std::unique_ptr<CircularParabola> cp;
 std::unique_ptr<GridFloor> gridFloor;
+std::vector<std::shared_ptr<SceneObject>> lights;
+std::vector<std::shared_ptr<SceneObject>> cubes;
+glm::vec3 lightPos = glm::vec3(0.0f, 5.0f, 3.0f);
 
 
 int main() {
@@ -98,10 +101,14 @@ void loop() {
 	//scene->addObjectVec(cp->getGraphLines());
 	createGeometry();
 
+	scene->addTexture("container.jpg");
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, scene->textureMap["container.jpg"]);
+
 	while (!glfwWindowShouldClose(window))
 	{
 		processInput(window);
-
+		
 		glEnable(GL_DEPTH_TEST);
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -109,6 +116,8 @@ void loop() {
 		glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+
+		scene->setLight(lightPos, glm::vec4(1.0f));
 
 		scene->renderScene();
 		updateGeometry();
@@ -164,32 +173,48 @@ void mouse_callback(GLFWwindow* window, double xposIn, double yposIn) {
 
 void createGeometry()
 {
-	std::vector<std::shared_ptr<SceneObject>> cubes;
-
 	//cube
-	std::shared_ptr<GeometricObject> cube = std::make_shared<Cube>();
-	glm::mat4 model = glm::mat4(1.0f);
-	model = glm::translate(model, glm::vec3(2.0f, 1.0f, 0.0f));
+	Material material{ glm::vec3(1.0f, 0.5f, 0.31f), glm::vec3(1.0f, 0.5f, .031f), glm::vec3(0.5f, 0.5f, 0.5f), 32.0f };
+	std::shared_ptr<GeometricObject> cube = std::make_shared<Cube>(material, glm::vec4(1.0f));
+	glm::mat4 model;
 	std::shared_ptr<SceneObject> list = std::make_shared<SceneObject>();
-	*list = { cube, Scene::createVAO(cube->vertexData), model, shaderProgram, GL_TRIANGLES };
-	cubes.push_back(list);
-	scene->addObjectVec(cubes);
 
-	glm::vec3 lightPos = glm::vec3(1.0f, 2.0f, 0.0f);
+	for (float i = 0; i < 1; i++) {
+		glm::mat4 model = glm::mat4(1.0f);
+		model = glm::translate(model, glm::vec3(0.0f, 5.0f, i * 6));
+		model = glm::scale(model, glm::vec3(3.0f));
+		std::shared_ptr<SceneObject> list = std::make_shared<SceneObject>();
+		*list = { cube, Scene::createVAO(cube->vertexData), model, shaderProgram, GL_TRIANGLES };
+		cubes.push_back(list);
+		scene->addObjectVec(cubes);
+	}
+	
+
 
 	//light
+	model = glm::mat4(1.0f);
 	list.reset(new SceneObject());
 	model = glm::translate(model, lightPos);
-	glm::vec3 lightPosition = model * glm::vec4(1.0f);
 	model = glm::scale(model, glm::vec3(0.5f));
 	*list = { cube, Scene::createVAO(cube->vertexData), model, lampShader, GL_TRIANGLES };
-	scene->addObject(list);
-
-	scene->setLight(lightPos, glm::vec4(1.0f));
+	lights.push_back(list);
+	scene->addObjectVec(lights);
 }
 
 void updateGeometry()
 {
 	cp->update();
 	gridFloor->updateFloor(scene->camera);
+
+	for (auto obj : cubes) {
+		//obj->model = glm::rotate(obj->model, glm::radians(2.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+	}
+
+	glm::mat4 inverseModel(1.0f);
+	lights[0]->model = glm::rotate(lights[0]->model, glm::radians(1.0f), glm::vec3(0.0f, 1.0f,0.0f));
+	//inverseModel = glm::inverse(lights[0]->model);
+	lights[0]->model = glm::translate(lights[0]->model, glm::vec3(0.10f, 0.0f, 0.0f));
+	lights[0]->model = inverseModel * lights[0]->model;
+	lightPos = lights[0]->model * glm::vec4(1.0f);
+	//std::cout << lightPos.x << ", " << lightPos.y << ", " << lightPos.z << std::endl;
 }

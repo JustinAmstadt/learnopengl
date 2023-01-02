@@ -146,9 +146,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\..\..\..\OpenGL\include\glad.c" />
-    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CircularParabola.cpp" />
-    <ClCompile Include="Cube.cpp" />
     <ClCompile Include="GeometricObject.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="ObjectData.cpp" />

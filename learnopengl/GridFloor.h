@@ -11,6 +11,7 @@
 class GridFloor {
 private:
 	std::vector<std::shared_ptr<SceneObject>> floorLines;
+	glm::vec3 normal = glm::vec3(0.0f, 1.0f, 0.0f);
 	float floorDistance = 4.0f;
 
 	void createFloor(std::shared_ptr<Shader> shaderProgram, float size) {
@@ -21,7 +22,9 @@ private:
 		std::shared_ptr<SceneObject> list = std::make_shared<SceneObject>();
 		glm::mat4 model = glm::mat4(1.0f);
 
-		std::shared_ptr<GeometricObject> line = std::make_shared<GeometricObject>(std::vector<glm::vec3> { glm::vec3(0.0f, -2.0f, -size), glm::vec3(0.0f, -2.0f, size) },
+		std::shared_ptr<GeometricObject> line = std::make_shared<GeometricObject>(
+			std::vector<glm::vec3> { glm::vec3(0.0f, -2.0f, -size), glm::vec3(0.0f, -2.0f, size) },
+			std::vector<glm::vec3> {normal, normal},
 			glm::vec4(0.0f, 0.8f, 0.0f, 1.0f));
 
 		GLuint VAO = Scene::createVAO(line->vertexData);

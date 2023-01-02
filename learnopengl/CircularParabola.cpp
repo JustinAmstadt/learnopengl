@@ -89,14 +89,15 @@ glm::mat4 CircularParabola::resetCubePosition(std::shared_ptr<GeometricObject> c
 
 void CircularParabola::createFallingCubes(std::shared_ptr<Shader> shaderProgram)
 {
+	Material material{ glm::vec3(1.0f, 0.5f, 0.31f), glm::vec3(1.0f, 0.5f, .031f), glm::vec3(0.5f, 0.5f, 0.5f), 32.0f };
 	std::shared_ptr<SceneObject> list;
 	glm::mat4 model(1.0f);
-	std::shared_ptr<GeometricObject> cube = std::make_shared<Cube>(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
+	std::shared_ptr<GeometricObject> cube = std::make_shared<Cube>(material, glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
 	GLuint VAO = Scene::createVAO(cube->vertexData);
 
 	for (int i = 0; i < 10; i++) {
 		list.reset(new SceneObject());
-		cube.reset(new Cube(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f)));
+		cube.reset(new Cube(material, glm::vec4(1.0f, 1.0f, 1.0f, 1.0f)));
 		model = resetCubePosition(cube);
 		*list = { cube, VAO, model, shaderProgram, GL_TRIANGLES };
 		fallingCubes.push_back(list);

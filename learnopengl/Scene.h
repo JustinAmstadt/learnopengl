@@ -19,16 +19,24 @@ struct SceneObject {
 	GLenum DRAW_ENUM;
 };
 
+struct Light {
+	glm::vec3 ambient;
+	glm::vec3 diffuse;
+	glm::vec3 specular;
+};
+
 class Scene {
 private:
 	const int SCREEN_WIDTH = 800;
 	const int SCREEN_HEIGHT = 600;
 	glm::vec3 lightPos = glm::vec3(0.0f);
 	glm::vec3 lightColor = glm::vec3(1.0f);
+	Light light{ glm::vec3(0.2f, 0.2f, 0.2f), glm::vec3(0.5f, 0.5f, 0.5f), glm::vec3(1.0f, 1.0f, 1.0f) };
 	std::vector<std::vector<std::shared_ptr<SceneObject>>> objectVec;
 	glm::mat4 projection;
 public:
 	Camera camera;
+	std::unordered_map<std::string, GLuint> textureMap;
 
 	Scene() {
 		projection = glm::mat4(1.0f);
@@ -52,5 +60,7 @@ public:
 		this->lightPos = lightPos;
 		this->lightColor = lightColor;
 	}
+
+	void addTexture(std::string fileName);
 };
 #endif
