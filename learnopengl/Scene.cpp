@@ -57,14 +57,14 @@ void Scene::renderScene()
 			//lamp shader only
 			glUniform3fv(glGetUniformLocation(objectVec[i][j]->program->ID, "lightColor"), 1, glm::value_ptr(light.lightColor));
 
+			glUniform1i(glGetUniformLocation(objectVec[i][j]->program->ID, "material.diffuse"), 0);
+			glUniform1i(glGetUniformLocation(objectVec[i][j]->program->ID, "material.specular"), 1);
+
 			glUniform3fv(glGetUniformLocation(objectVec[i][j]->program->ID, "viewPos"), 1, glm::value_ptr(camera.Position));
 			glUniform3fv(glGetUniformLocation(objectVec[i][j]->program->ID, "light.position"), 1, glm::value_ptr(light.lightPos));
 			glUniform3fv(glGetUniformLocation(objectVec[i][j]->program->ID, "light.ambient"), 1, glm::value_ptr(light.ambientColor));
 			glUniform3fv(glGetUniformLocation(objectVec[i][j]->program->ID, "light.diffuse"), 1, glm::value_ptr(light.diffuseColor));
 			glUniform3fv(glGetUniformLocation(objectVec[i][j]->program->ID, "light.specular"), 1, glm::value_ptr(light.specular));
-			glUniform3fv(glGetUniformLocation(objectVec[i][j]->program->ID, "material.ambient"), 1, glm::value_ptr(objectVec[i][j]->object->material.ambient));
-			glUniform3fv(glGetUniformLocation(objectVec[i][j]->program->ID, "material.diffuse"), 1, glm::value_ptr(objectVec[i][j]->object->material.diffuse));
-			glUniform3fv(glGetUniformLocation(objectVec[i][j]->program->ID, "material.specular"), 1, glm::value_ptr(objectVec[i][j]->object->material.specular));
 			glUniform1f(glGetUniformLocation(objectVec[i][j]->program->ID, "material.shininess"), objectVec[i][j]->object->material.shininess);
 			glUniformMatrix4fv(glGetUniformLocation(objectVec[i][j]->program->ID, "model"), 1, GL_FALSE, glm::value_ptr(objectVec[i][j]->model));
 			glUniformMatrix4fv(glGetUniformLocation(objectVec[i][j]->program->ID, "view"), 1, GL_FALSE, glm::value_ptr(camera.GetViewMatrix()));
@@ -81,9 +81,12 @@ void Scene::renderScene()
 }
 
 void Scene::addTexture(std::string fileName) {
+	int end = fileName.find(".");
+	std::string fileExtension = fileName.substr(end);
+
 	GLuint texture;
 	glGenTextures(1, &texture);
-	textureMap[fileName] = texture;
+	textureMap[fileName] = texture; //add texture to the hashmap
 	glBindTexture(GL_TEXTURE_2D, texture);
 	// set the texture wrapping/filtering options (on the currently bound texture object)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
@@ -96,7 +99,10 @@ void Scene::addTexture(std::string fileName) {
 	unsigned char* data = stbi_load(fileName.c_str(), &width, &height, &nrChannels, 0);
 	if (data)
 	{
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+		if(fileExtension == ".jpg")
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+		else if(fileExtension == ".png")
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
 		glGenerateMipmap(GL_TEXTURE_2D);
 	}
 	else

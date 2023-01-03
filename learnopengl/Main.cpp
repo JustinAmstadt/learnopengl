@@ -101,8 +101,12 @@ void loop() {
 	createGeometry();
 
 	scene->addTexture("container.jpg");
+	scene->addTexture("container2.png");
+	scene->addTexture("container2_specular.png");
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, scene->textureMap["container.jpg"]);
+	glBindTexture(GL_TEXTURE_2D, scene->textureMap["container2.png"]);
+	glActiveTexture(GL_TEXTURE1);
+	glBindTexture(GL_TEXTURE_2D, scene->textureMap["container2_specular.png"]);
 
 	while (!glfwWindowShouldClose(window))
 	{
@@ -116,7 +120,7 @@ void loop() {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
-		scene->setLight(lightPos, glm::vec3(0.0f, 0.0f, 1.0f));
+		scene->setLight(lightPos, glm::vec3(1.0f, 1.0f, 1.0f));
 
 		scene->renderScene();
 		updateGeometry();
@@ -174,7 +178,7 @@ void createGeometry()
 {
 	//cube
 	Material material{ glm::vec3(1.0f, 0.5f, 0.31f), glm::vec3(1.0f, 0.5f, .031f), glm::vec3(0.5f, 0.5f, 0.5f), 32.0f };
-	std::shared_ptr<GeometricObject> cube = std::make_shared<Cube>(glm::vec4(1.0f), material);
+	std::shared_ptr<GeometricObject> cube = std::make_shared<Cube>("container2.png", material);
 	glm::mat4 model;
 	std::shared_ptr<SceneObject> list = std::make_shared<SceneObject>();
 

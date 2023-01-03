@@ -194,6 +194,8 @@ public:
 	})
 	{
 		setMaterials(material);
+		setNormals(normals);
+		setColor(glm::vec4(1.0f));
 		setTextures(texCoords, textureFileName);
 	}
 };
