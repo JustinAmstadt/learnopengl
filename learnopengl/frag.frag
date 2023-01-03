@@ -44,7 +44,7 @@ void main()
     vec3 specular = light.specular * specFactor * vec3(texture(material.specular, TexCoord));
 
     vec3 emission;
-    if(specular == vec3(0.0)){
+    if(vec3(texture(material.specular, TexCoord)) == vec3(0.0)){
         emission = texture(emissionMap, TexCoord).rgb;
     }
     else{
