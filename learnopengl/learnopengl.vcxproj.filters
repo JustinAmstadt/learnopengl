@@ -90,6 +90,12 @@
     <Image Include="resources\container2_specular.png">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="resources\lighting_maps_specular_color.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="resources\matrix.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <None Include="lamp.vert">

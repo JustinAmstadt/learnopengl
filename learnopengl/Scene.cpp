@@ -59,6 +59,7 @@ void Scene::renderScene()
 
 			glUniform1i(glGetUniformLocation(objectVec[i][j]->program->ID, "material.diffuse"), 0);
 			glUniform1i(glGetUniformLocation(objectVec[i][j]->program->ID, "material.specular"), 1);
+			glUniform1i(glGetUniformLocation(objectVec[i][j]->program->ID, "emissionMap"), 2);
 
 			glUniform3fv(glGetUniformLocation(objectVec[i][j]->program->ID, "viewPos"), 1, glm::value_ptr(camera.Position));
 			glUniform3fv(glGetUniformLocation(objectVec[i][j]->program->ID, "light.position"), 1, glm::value_ptr(light.lightPos));

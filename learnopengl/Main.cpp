@@ -103,10 +103,14 @@ void loop() {
 	scene->addTexture("container.jpg");
 	scene->addTexture("container2.png");
 	scene->addTexture("container2_specular.png");
+	scene->addTexture("lighting_maps_specular_color.png");
+	scene->addTexture("matrix.jpg");
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, scene->textureMap["container2.png"]);
 	glActiveTexture(GL_TEXTURE1);
 	glBindTexture(GL_TEXTURE_2D, scene->textureMap["container2_specular.png"]);
+	glActiveTexture(GL_TEXTURE2);
+	glBindTexture(GL_TEXTURE_2D, scene->textureMap["matrix.jpg"]);
 
 	while (!glfwWindowShouldClose(window))
 	{
