@@ -95,7 +95,6 @@ void loop() {
 	cp = std::make_unique<CircularParabola>(shaderProgram);
 	gridFloor = std::make_unique<GridFloor>(shaderProgram, 80);
 
-	ObjectData::createData(shaderProgram);
 	scene->addObjectVec(gridFloor->getFloorLines());
 	//scene->addObjectVec(cp->getFallingCubes());
 	//scene->addObjectVec(cp->getGraphLines());
@@ -117,7 +116,7 @@ void loop() {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
-		scene->setLight(lightPos, glm::vec4(1.0f));
+		scene->setLight(lightPos, glm::vec3(0.0f, 0.0f, 1.0f));
 
 		scene->renderScene();
 		updateGeometry();
@@ -175,7 +174,7 @@ void createGeometry()
 {
 	//cube
 	Material material{ glm::vec3(1.0f, 0.5f, 0.31f), glm::vec3(1.0f, 0.5f, .031f), glm::vec3(0.5f, 0.5f, 0.5f), 32.0f };
-	std::shared_ptr<GeometricObject> cube = std::make_shared<Cube>(material, glm::vec4(1.0f));
+	std::shared_ptr<GeometricObject> cube = std::make_shared<Cube>(glm::vec4(1.0f), material);
 	glm::mat4 model;
 	std::shared_ptr<SceneObject> list = std::make_shared<SceneObject>();
 

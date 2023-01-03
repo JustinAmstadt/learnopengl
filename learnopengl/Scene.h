@@ -20,18 +20,22 @@ struct SceneObject {
 };
 
 struct Light {
-	glm::vec3 ambient;
-	glm::vec3 diffuse;
-	glm::vec3 specular;
+	glm::vec3 lightPos = glm::vec3(0.0f);
+	glm::vec3 lightColor = glm::vec3(1.0f);
+
+	glm::vec3 ambient = glm::vec3(0.2f, 0.2f, 0.2f);
+	glm::vec3 diffuse = glm::vec3(0.5f, 0.5f, 0.5f);
+	glm::vec3 specular = glm::vec3(1.0f, 1.0f, 1.0f);
+
+	glm::vec3 ambientColor;
+	glm::vec3 diffuseColor;
 };
 
 class Scene {
 private:
 	const int SCREEN_WIDTH = 800;
 	const int SCREEN_HEIGHT = 600;
-	glm::vec3 lightPos = glm::vec3(0.0f);
-	glm::vec3 lightColor = glm::vec3(1.0f);
-	Light light{ glm::vec3(0.2f, 0.2f, 0.2f), glm::vec3(0.5f, 0.5f, 0.5f), glm::vec3(1.0f, 1.0f, 1.0f) };
+	Light light { glm::vec3(0.0f), glm::vec3(1.0f), glm::vec3(0.2f, 0.2f, 0.2f), glm::vec3(0.5f, 0.5f, 0.5f), glm::vec3(1.0f, 1.0f, 1.0f) };
 	std::vector<std::vector<std::shared_ptr<SceneObject>>> objectVec;
 	glm::mat4 projection;
 public:
@@ -56,9 +60,12 @@ public:
 	void addObject(std::shared_ptr<SceneObject> object) {
 		objectVec.push_back(std::vector<std::shared_ptr<SceneObject>>{ object });
 	}
-	void setLight(glm::vec3 lightPos, glm::vec4 lightColor) {
-		this->lightPos = lightPos;
-		this->lightColor = lightColor;
+	void setLight(glm::vec3 lightPos, glm::vec3 lightColor) {
+		light.lightPos = lightPos;
+		light.lightColor = lightColor;
+
+		light.diffuseColor = light.lightColor * light.diffuse;
+		light.ambientColor = light.diffuseColor * light.ambient;
 	}
 
 	void addTexture(std::string fileName);

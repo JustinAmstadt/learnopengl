@@ -48,7 +48,8 @@ void CircularParabola::createLineFunc(std::shared_ptr<Shader> shaderProgram)
 		indices.push_back(1 + i);
 	}
 
-	std::shared_ptr<GeometricObject> line = std::make_shared<GeometricObject>(verts, glm::vec4(0.0f, 0.0f, 0.8f, 0.8f));
+	std::shared_ptr<GeometricObject> line = std::make_shared<GeometricObject>(verts);
+	line->setColor(glm::vec4(0.0f, 0.0f, 0.8f, 0.8f));
 	line->indices = indices;
 	std::shared_ptr<SceneObject> list = std::make_shared<SceneObject>();
 	*list = { line, Scene::createVAO(line->vertexData, line->indices), model, shaderProgram, GL_TRIANGLES };
@@ -92,12 +93,12 @@ void CircularParabola::createFallingCubes(std::shared_ptr<Shader> shaderProgram)
 	Material material{ glm::vec3(1.0f, 0.5f, 0.31f), glm::vec3(1.0f, 0.5f, .031f), glm::vec3(0.5f, 0.5f, 0.5f), 32.0f };
 	std::shared_ptr<SceneObject> list;
 	glm::mat4 model(1.0f);
-	std::shared_ptr<GeometricObject> cube = std::make_shared<Cube>(material, glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
+	std::shared_ptr<GeometricObject> cube = std::make_shared<Cube>(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f), material);
 	GLuint VAO = Scene::createVAO(cube->vertexData);
 
 	for (int i = 0; i < 10; i++) {
 		list.reset(new SceneObject());
-		cube.reset(new Cube(material, glm::vec4(1.0f, 1.0f, 1.0f, 1.0f)));
+		cube.reset(new Cube(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f), material));
 		model = resetCubePosition(cube);
 		*list = { cube, VAO, model, shaderProgram, GL_TRIANGLES };
 		fallingCubes.push_back(list);
