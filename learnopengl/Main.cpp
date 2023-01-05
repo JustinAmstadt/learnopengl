@@ -22,6 +22,8 @@
 #include "CircularParabola.h"
 #include "ObjectData.h"
 #include "GridFloor.h"
+#include "PositionalLight.h"
+#include "DirectionalLight.h"
 
 #define POSITION_ATTRIB 0;
 
@@ -50,7 +52,7 @@ std::unique_ptr<CircularParabola> cp;
 std::unique_ptr<GridFloor> gridFloor;
 std::vector<std::shared_ptr<SceneObject>> lights;
 std::vector<std::shared_ptr<SceneObject>> cubes;
-glm::vec3 lightPos = glm::vec3(0.0f, 5.0f, 3.0f);
+glm::vec3 lightPos = glm::vec3(0.0f, 20.0f, 3.0f);
 
 
 int main() {
@@ -95,7 +97,9 @@ void loop() {
 	cp = std::make_unique<CircularParabola>(shaderProgram);
 	gridFloor = std::make_unique<GridFloor>(shaderProgram, 80);
 
-	scene->addObjectVec(gridFloor->getFloorLines());
+	scene->light = std::make_shared<PositionalLight>();
+
+	//scene->addObjectVec(gridFloor->getFloorLines());
 	//scene->addObjectVec(cp->getFallingCubes());
 	//scene->addObjectVec(cp->getGraphLines());
 	createGeometry();
@@ -105,6 +109,7 @@ void loop() {
 	scene->addTexture("container2_specular.png");
 	scene->addTexture("lighting_maps_specular_color.png");
 	scene->addTexture("matrix.jpg");
+	scene->addTexture("colorful.jpg");
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, scene->textureMap["container2.png"]);
 	glActiveTexture(GL_TEXTURE1);
@@ -124,7 +129,8 @@ void loop() {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
-		scene->setLight(lightPos, glm::vec3(1.0f, 1.0f, 1.0f));
+		scene->light->setLightPosDir(lightPos);
+		//scene->light->setLightColor(glm::vec3(1.0f, 0.0f, 1.0f));
 
 		scene->renderScene();
 		updateGeometry();
@@ -186,7 +192,7 @@ void createGeometry()
 	glm::mat4 model;
 	std::shared_ptr<SceneObject> list = std::make_shared<SceneObject>();
 
-	for (float i = 0; i < 1; i++) {
+	for (float i = 0; i < 3; i++) {
 		glm::mat4 model = glm::mat4(1.0f);
 		model = glm::translate(model, glm::vec3(0.0f, 5.0f, i * 6));
 		model = glm::scale(model, glm::vec3(3.0f));
@@ -218,10 +224,10 @@ void updateGeometry()
 	}
 
 	glm::mat4 inverseModel(1.0f);
-	lights[0]->model = glm::rotate(lights[0]->model, glm::radians(1.0f), glm::vec3(0.0f, 1.0f,0.0f));
+	//lights[0]->model = glm::rotate(lights[0]->model, glm::radians(1.0f), glm::vec3(0.0f, 1.0f,0.0f));
 	//inverseModel = glm::inverse(lights[0]->model);
-	lights[0]->model = glm::translate(lights[0]->model, glm::vec3(0.10f, 0.0f, 0.0f));
-	lights[0]->model = inverseModel * lights[0]->model;
-	lightPos = lights[0]->model * glm::vec4(1.0f);
+	//lights[0]->model = glm::translate(lights[0]->model, glm::vec3(0.10f, 0.0f, 0.0f));
+	//lights[0]->model = inverseModel * lights[0]->model;
+	//lightPos = lights[0]->model * glm::vec4(1.0f);
 	//std::cout << lightPos.x << ", " << lightPos.y << ", " << lightPos.z << std::endl;
 }

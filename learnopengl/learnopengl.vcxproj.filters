@@ -79,6 +79,18 @@
     <ClInclude Include="GridFloor.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="Light.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectionalLight.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PositionalLight.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Spotlight.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resources\container.jpg">
@@ -94,6 +106,9 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="resources\matrix.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="resources\colorful.jpg">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

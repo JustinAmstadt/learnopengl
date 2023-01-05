@@ -28,10 +28,10 @@ GLuint Scene::createVAO(std::vector<Vertex> data, std::vector<GLuint> indices)
 	glEnableVertexAttribArray(1);
 	glEnableVertexAttribArray(2);
 	glEnableVertexAttribArray(3);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0); //position
-	glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)sizeof(data[0].position)); //color
+	glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0); //position
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)sizeof(data[0].position)); //color
 	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(sizeof(data[0].position) + sizeof(data[0].color))); //texture
-	glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(sizeof(data[0].position) + sizeof(data[0].color) + +sizeof(data[0].texture))); //normal
+	glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(sizeof(data[0].position) + sizeof(data[0].color) + sizeof(data[0].texture))); //normal
 
 	GLuint EBO;
 	glGenBuffers(1, &EBO);
@@ -55,18 +55,24 @@ void Scene::renderScene()
 			glBindVertexArray(objectVec[i][j]->VAO);
 
 			//lamp shader only
-			glUniform3fv(glGetUniformLocation(objectVec[i][j]->program->ID, "lightColor"), 1, glm::value_ptr(light.lightColor));
+			glUniform3fv(glGetUniformLocation(objectVec[i][j]->program->ID, "lightColor"), 1, glm::value_ptr(light->getLightColor()));
 
 			glUniform1i(glGetUniformLocation(objectVec[i][j]->program->ID, "material.diffuse"), 0);
 			glUniform1i(glGetUniformLocation(objectVec[i][j]->program->ID, "material.specular"), 1);
 			glUniform1i(glGetUniformLocation(objectVec[i][j]->program->ID, "emissionMap"), 2);
 
 			glUniform3fv(glGetUniformLocation(objectVec[i][j]->program->ID, "viewPos"), 1, glm::value_ptr(camera.Position));
-			glUniform3fv(glGetUniformLocation(objectVec[i][j]->program->ID, "light.position"), 1, glm::value_ptr(light.lightPos));
-			glUniform3fv(glGetUniformLocation(objectVec[i][j]->program->ID, "light.ambient"), 1, glm::value_ptr(light.ambientColor));
-			glUniform3fv(glGetUniformLocation(objectVec[i][j]->program->ID, "light.diffuse"), 1, glm::value_ptr(light.diffuseColor));
-			glUniform3fv(glGetUniformLocation(objectVec[i][j]->program->ID, "light.specular"), 1, glm::value_ptr(light.specular));
+
+			glUniform1f(glGetUniformLocation(objectVec[i][j]->program->ID, "light.constant"), light->getAttenConst());
+			glUniform1f(glGetUniformLocation(objectVec[i][j]->program->ID, "light.linear"), light->getAttenLin());
+			glUniform1f(glGetUniformLocation(objectVec[i][j]->program->ID, "light.quadratic"), light->getAttenQuad());
+
+			glUniform4fv(glGetUniformLocation(objectVec[i][j]->program->ID, "light.position"), 1, glm::value_ptr(light->getLightPosDir()));
+			glUniform3fv(glGetUniformLocation(objectVec[i][j]->program->ID, "light.ambient"), 1, glm::value_ptr(light->getAmbientColor()));
+			glUniform3fv(glGetUniformLocation(objectVec[i][j]->program->ID, "light.diffuse"), 1, glm::value_ptr(light->getDiffuseColor()));
+			glUniform3fv(glGetUniformLocation(objectVec[i][j]->program->ID, "light.specular"), 1, glm::value_ptr(light->getSpecular()));
 			glUniform1f(glGetUniformLocation(objectVec[i][j]->program->ID, "material.shininess"), objectVec[i][j]->object->material.shininess);
+
 			glUniformMatrix4fv(glGetUniformLocation(objectVec[i][j]->program->ID, "model"), 1, GL_FALSE, glm::value_ptr(objectVec[i][j]->model));
 			glUniformMatrix4fv(glGetUniformLocation(objectVec[i][j]->program->ID, "view"), 1, GL_FALSE, glm::value_ptr(camera.GetViewMatrix()));
 			glUniformMatrix4fv(glGetUniformLocation(objectVec[i][j]->program->ID, "projection"), 1, GL_FALSE, glm::value_ptr(projection));
