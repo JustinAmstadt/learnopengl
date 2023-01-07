@@ -33,9 +33,6 @@
     <ClCompile Include="ObjectData.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Square.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="CircularParabola.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -91,6 +88,15 @@
     <ClInclude Include="Spotlight.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="FlatPlane.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Skybox.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Rain.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resources\container.jpg">
@@ -111,12 +117,30 @@
     <Image Include="resources\colorful.jpg">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="resources\CartoonWave.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="resources\White.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <None Include="lamp.vert">
       <Filter>Source Files</Filter>
     </None>
     <None Include="lamp.frag">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="ocean.vert">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="ocean.frag">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="skybox.vert">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="skybox.frag">
       <Filter>Source Files</Filter>
     </None>
   </ItemGroup>

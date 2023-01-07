@@ -16,6 +16,7 @@
 #include <vector>
 #include <memory>
 
+#include "FlatPlane.h"
 #include "GeometricObject.h"
 #include "Shader.h"
 #include "Scene.h"
@@ -24,6 +25,8 @@
 #include "GridFloor.h"
 #include "PositionalLight.h"
 #include "DirectionalLight.h"
+#include "Skybox.h"
+#include "Rain.h"
 
 #define POSITION_ATTRIB 0;
 
@@ -44,15 +47,20 @@ std::string vertexShaderSource;
 std::string fragShaderSource;
 std::shared_ptr<Shader> shaderProgram;
 std::shared_ptr<Shader> lampShader;
+std::shared_ptr<Shader> oceanShader;
+std::shared_ptr<Shader> skyboxShader;
 std::unique_ptr<Scene> scene = std::make_unique<Scene>();
+std::unique_ptr<Scene> oceanScene = std::make_unique<Scene>();
 float lastX = SCREEN_WIDTH / 2.0f;
 float lastY = SCREEN_HEIGHT / 2.0f;
 bool firstMouse = true;
 std::unique_ptr<CircularParabola> cp;
 std::unique_ptr<GridFloor> gridFloor;
+std::unique_ptr<FlatPlane> fp;
 std::vector<std::shared_ptr<SceneObject>> lights;
 std::vector<std::shared_ptr<SceneObject>> cubes;
 glm::vec3 lightPos = glm::vec3(0.0f, 20.0f, 3.0f);
+Camera camera;
 
 
 int main() {
@@ -86,6 +94,8 @@ int main() {
 	
 	shaderProgram = std::make_shared<Shader>("vert.vert", "frag.frag");
 	lampShader = std::make_shared<Shader>("lamp.vert", "lamp.frag");
+	oceanShader = std::make_shared<Shader>("ocean.vert", "ocean.frag");
+	skyboxShader = std::make_shared<Shader>("skybox.vert", "skybox.frag");
 
 	loop();
 
@@ -96,15 +106,31 @@ int main() {
 void loop() {
 	cp = std::make_unique<CircularParabola>(shaderProgram);
 	gridFloor = std::make_unique<GridFloor>(shaderProgram, 80);
+	fp = std::make_unique<FlatPlane>(oceanShader, 20, 0.0);
+	std::unique_ptr<Rain> rain = std::make_unique<Rain>(lampShader);
+	std::unique_ptr<Skybox> skybox = std::make_unique<Skybox>(skyboxShader);
 
-	scene->light = std::make_shared<PositionalLight>();
+	oceanScene->light = std::make_shared<DirectionalLight>();
+
+	//oceanScene->addObjectVec(gridFloor->getFloorLines());
+	oceanScene->addObject(skybox->list);
+	oceanScene->addObjectVec(rain->rainVec);
+	oceanScene->addObject(fp->list);
+
+	scene->addTexture("CartoonWave.png");
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, scene->textureMap["CartoonWave.png"]);
+	glActiveTexture(GL_TEXTURE1);
+	glBindTexture(GL_TEXTURE_2D, scene->textureMap["CartoonWave.png"]);
+
+	//scene->light = std::make_shared<PositionalLight>();
 
 	//scene->addObjectVec(gridFloor->getFloorLines());
 	//scene->addObjectVec(cp->getFallingCubes());
 	//scene->addObjectVec(cp->getGraphLines());
-	createGeometry();
+	//createGeometry();
 
-	scene->addTexture("container.jpg");
+	/*scene->addTexture("container.jpg");
 	scene->addTexture("container2.png");
 	scene->addTexture("container2_specular.png");
 	scene->addTexture("lighting_maps_specular_color.png");
@@ -115,7 +141,7 @@ void loop() {
 	glActiveTexture(GL_TEXTURE1);
 	glBindTexture(GL_TEXTURE_2D, scene->textureMap["container2_specular.png"]);
 	glActiveTexture(GL_TEXTURE2);
-	glBindTexture(GL_TEXTURE_2D, scene->textureMap["matrix.jpg"]);
+	glBindTexture(GL_TEXTURE_2D, scene->textureMap["matrix.jpg"]);*/
 
 	while (!glfwWindowShouldClose(window))
 	{
@@ -125,15 +151,17 @@ void loop() {
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-		glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+		glClearColor(0.4f, 0.4f, 0.4f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
-		scene->light->setLightPosDir(lightPos);
+		//scene->light->setLightPosDir(lightPos);
 		//scene->light->setLightColor(glm::vec3(1.0f, 0.0f, 1.0f));
 
-		scene->renderScene();
-		updateGeometry();
+		//scene->renderScene(camera);
+		oceanScene->renderScene(camera);
+		//updateGeometry();
+		rain->updateRain();
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();
@@ -155,13 +183,13 @@ void processInput(GLFWwindow* window)
 		glfwSetWindowShouldClose(window, true);
 	
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-		scene->camera.ProcessKeyboard(FORWARD, deltaTime);
+		camera.ProcessKeyboard(FORWARD, deltaTime);
 	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-		scene->camera.ProcessKeyboard(BACKWARD, deltaTime);
+		camera.ProcessKeyboard(BACKWARD, deltaTime);
 	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-		scene->camera.ProcessKeyboard(LEFT, deltaTime);
+		camera.ProcessKeyboard(LEFT, deltaTime);
 	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-		scene->camera.ProcessKeyboard(RIGHT, deltaTime);
+		camera.ProcessKeyboard(RIGHT, deltaTime);
 }
 
 void mouse_callback(GLFWwindow* window, double xposIn, double yposIn) {
@@ -181,7 +209,7 @@ void mouse_callback(GLFWwindow* window, double xposIn, double yposIn) {
 	lastX = xpos;
 	lastY = ypos;
 
-	scene->camera.ProcessMouseMovement(xoffset, yoffset);
+	camera.ProcessMouseMovement(xoffset, yoffset);
 }
 
 void createGeometry()
@@ -217,7 +245,7 @@ void createGeometry()
 void updateGeometry()
 {
 	cp->update();
-	gridFloor->updateFloor(scene->camera);
+	gridFloor->updateFloor(camera);
 
 	for (auto obj : cubes) {
 		//obj->model = glm::rotate(obj->model, glm::radians(2.0f), glm::vec3(0.0f, 1.0f, 0.0f));

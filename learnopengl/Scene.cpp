@@ -47,12 +47,15 @@ GLuint Scene::createVAO(std::vector<Vertex> data, std::vector<GLuint> indices)
 	return VAO;
 }
 
-void Scene::renderScene()
+void Scene::renderScene(Camera camera)
 {
 	for (int i = 0; i < objectVec.size(); i++) {
 		glUseProgram(objectVec[i][0]->program->ID);
 		for (int j = 0; j < objectVec[i].size(); j++) {
 			glBindVertexArray(objectVec[i][j]->VAO);
+
+			//ocean shader
+			glUniform1f(glGetUniformLocation(objectVec[i][j]->program->ID, "time"), (float)glfwGetTime());
 
 			//lamp shader only
 			glUniform3fv(glGetUniformLocation(objectVec[i][j]->program->ID, "lightColor"), 1, glm::value_ptr(light->getLightColor()));
@@ -117,4 +120,36 @@ void Scene::addTexture(std::string fileName) {
 		std::cout << "Failed to load texture" << std::endl;
 	}
 	stbi_image_free(data);
+}
+
+void Scene::addCubeMap(std::vector<std::string> faces)
+{
+	unsigned int textureID;
+	glGenTextures(1, &textureID);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, textureID);
+
+	int width, height, nrChannels;
+	for (unsigned int i = 0; i < faces.size(); i++)
+	{
+		unsigned char* data = stbi_load(faces[i].c_str(), &width, &height, &nrChannels, 0);
+		if (data)
+		{
+			glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i,
+				0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data
+			);
+			stbi_image_free(data);
+		}
+		else
+		{
+			std::cout << "Cubemap tex failed to load at path: " << faces[i] << std::endl;
+			stbi_image_free(data);
+		}
+	}
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+
+	cubeMap = textureID;
 }
