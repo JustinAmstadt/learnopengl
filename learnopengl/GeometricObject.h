@@ -2,6 +2,7 @@
 #define GEOMETRIC_OBJECT_H
 
 #include <vector>
+#include <memory>
 #include <glm/glm.hpp>
 #include <glad/glad.h> 
 #include <string>

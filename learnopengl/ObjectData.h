@@ -1,6 +1,7 @@
 #ifndef OBJECT_DATA_H
 #define OBJECT_DATA_H
 
+#include <memory>
 #include<vector>
 #include "Shader.h"
 #include "Scene.h"

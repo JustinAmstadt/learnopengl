@@ -1,4 +1,4 @@
-#version 410 core
+#version 330 core
 
 /*
 	Copyright 2021 Patrick Owen

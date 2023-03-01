@@ -65,8 +65,8 @@ Camera camera;
 
 int main() {
 	glfwInit();
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 4);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 	window = glfwCreateWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "LearnOpenGL", NULL, NULL);
@@ -96,7 +96,7 @@ int main() {
 	lampShader = std::make_shared<Shader>("lamp.vert", "lamp.frag", nullptr, nullptr);
 	oceanShader = std::make_shared<Shader>("ocean.vert", "ocean.frag", nullptr, nullptr);
 	skyboxShader = std::make_shared<Shader>("skybox.vert", "skybox.frag", nullptr, nullptr);
-	tessShader = std::make_shared<Shader>("lamp.vert", "lamp.frag", "tess.tese", "tess.tesc");
+	// tessShader = std::make_shared<Shader>("lamp.vert", "lamp.frag", "tess.tese", "tess.tesc");
 	hyperbolic = std::make_shared<Shader>("hyperbolic.vert", "hyperbolic.frag", nullptr, nullptr);
 
 	loop();
@@ -106,9 +106,9 @@ int main() {
 }
 
 void loop() {
-	std::shared_ptr<Scene> ocean = std::make_shared<OceanScene>(oceanShader, lampShader, skyboxShader);
+	// std::shared_ptr<Scene> ocean = std::make_shared<OceanScene>(oceanShader, lampShader, skyboxShader);
 	std::shared_ptr<Scene> sandbox = std::make_shared<SandboxScene>(shaderProgram, lampShader);
-	std::shared_ptr<Scene> tessellation = std::make_shared<TessellationPlaneScene>(tessShader);
+	// std::shared_ptr<Scene> tessellation = std::make_shared<TessellationPlaneScene>(tessShader);
 	std::shared_ptr<Scene> maze = std::make_shared<MazeScene>(lampShader);
 
 	maze->makeCurrent();
