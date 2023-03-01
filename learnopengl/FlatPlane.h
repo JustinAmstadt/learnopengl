@@ -61,7 +61,7 @@ public:
 		plane->setNormals(normals);
 		makeIndices();
 
-		*list = { plane, Scene::createVAO(plane->vertexData, plane->indices), glm::mat4(1.0f), shaderProgram, GL_TRIANGLES };
+		*list = { plane, Scene::createVAO(plane->vertexData, plane->indices), glm::mat4(1.0f), shaderProgram, GL_PATCHES };
 	}
 
 	

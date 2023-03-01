@@ -16,32 +16,24 @@ void Shader::checkShaderError(unsigned int shaderHandle, std::string name)
 
 void Shader::makeShaderProgram()
 {
-	//there's an added character at the end that must be removed to be compiled properly
-	vertexShaderSource.pop_back();
-	fragShaderSource.pop_back();
+	if (isLinked) {
+		std::cout << "Shader program already linked!" << std::endl;
+		return;
+	}
 
-	const GLchar* vertexShaderSourceC = vertexShaderSource.c_str();
+	isLinked = true;
 
-	unsigned int vertexShader;
-	vertexShader = glCreateShader(GL_VERTEX_SHADER);
-	glShaderSource(vertexShader, 1, &vertexShaderSourceC, NULL);
-	glCompileShader(vertexShader);
-	checkShaderError(vertexShader, std::string("VERTEX"));
-
-	const GLchar* fragmentShaderSourceC = fragShaderSource.c_str();
-	unsigned int fragmentShader;
-	fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-	glShaderSource(fragmentShader, 1, &fragmentShaderSourceC, NULL);
-	glCompileShader(fragmentShader);
-	checkShaderError(fragmentShader, std::string("FRAGMENT"));
-
-	unsigned int shaderProgram;
 	shaderProgram = glCreateProgram();
 
 	glAttachShader(shaderProgram, vertexShader);
 	glAttachShader(shaderProgram, fragmentShader);
+	if (TEShader != -1) {
+		glAttachShader(shaderProgram, TEShader);
+	}
+	if (TCShader != -1) {
+		glAttachShader(shaderProgram, TCShader);
+	}
 	glLinkProgram(shaderProgram);
-
 
 	int  success;
 	char infoLog[512];
@@ -53,47 +45,98 @@ void Shader::makeShaderProgram()
 
 	glDeleteShader(vertexShader);
 	glDeleteShader(fragmentShader);
+	if (TEShader != -1) {
+		glDeleteShader(TEShader);
+	}
+	if (TCShader != -1) {
+		glDeleteShader(TCShader);
+	}
 
 	this->ID = shaderProgram;
 }
 
-void Shader::readShaders(std::string vertexFile, std::string fragFile)
+void Shader::readShader(std::string file, std::string& shaderSource, std::string name)
 {
-	std::ifstream file(vertexFile);
+	std::ifstream inFile(file);
 	std::string str;
-	if (file.is_open()) {
-		while (file) {
-			str += file.get();
+	if (inFile.is_open()) {
+		while (inFile) {
+			str += inFile.get();
 		}
 	}
 	else {
-		std::cout << "vertex file could not open" << std::endl;
+		std::cout << name + " file could not open" << std::endl;
 	}
-	vertexShaderSource = str;
+	shaderSource = str;
 
-	file.close();
-
-	str.clear();
-
-	file.open(fragFile);
-	if (file.is_open()) {
-		while (file) {
-			str += file.get();
-		}
-	}
-	else {
-		std::cout << "fragment file could not open" << std::endl;
-	}
-
-	//std::cout << str << std::endl;
-
-	fragShaderSource = str;
-	file.close();
+	inFile.close();
 }
 
-Shader::Shader(const char* vertexFile, const char* fragFile)
+void Shader::addVertFragShaders()
 {
-	readShaders(vertexFile, fragFile);
+	//there's an added character at the end that must be removed to be compiled properly
+	vertexShaderSource.pop_back();
+	fragShaderSource.pop_back();
+
+	const GLchar* vertexShaderSourceC = vertexShaderSource.c_str();
+
+	vertexShader = glCreateShader(GL_VERTEX_SHADER);
+	glShaderSource(vertexShader, 1, &vertexShaderSourceC, NULL);
+	glCompileShader(vertexShader);
+	checkShaderError(vertexShader, std::string("VERTEX"));
+
+	const GLchar* fragmentShaderSourceC = fragShaderSource.c_str();
+	fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+	glShaderSource(fragmentShader, 1, &fragmentShaderSourceC, NULL);
+	glCompileShader(fragmentShader);
+	checkShaderError(fragmentShader, std::string("FRAGMENT"));
+}
+
+void Shader::addTessellationShaders()
+{
+	if (TEShaderSource.size() > 0) {
+		TEShaderSource.pop_back();
+
+		const GLchar* TEShaderSourceC = TEShaderSource.c_str();
+
+		TEShader = glCreateShader(GL_TESS_EVALUATION_SHADER);
+		glShaderSource(TEShader, 1, &TEShaderSourceC, NULL);
+		glCompileShader(TEShader);
+		checkShaderError(TEShader, std::string("TESSELLATION EVALUATION"));
+	}
+	if (TCShaderSource.size() > 0) {
+		TCShaderSource.pop_back();
+
+		const GLchar* TCShaderSourceC = TCShaderSource.c_str();
+
+		TCShader = glCreateShader(GL_TESS_CONTROL_SHADER);
+		glShaderSource(TCShader, 1, &TCShaderSourceC, NULL);
+		glCompileShader(TCShader);
+		checkShaderError(TCShader, std::string("TESSELLATION CONTROL"));
+	}
+}
+
+void Shader::readTessellationShaders(const char* TEFile, const char* TCFile)
+{
+
+	if (TEFile != nullptr) {
+		readShader(TEFile, TEShaderSource, "tessellation evaluation");
+	}
+	else {
+		return;
+	}
+	if (TCFile != nullptr) {
+		readShader(TCFile, TCShaderSource, "tessellation control");
+	}
+}
+
+Shader::Shader(const char* vertexFile, const char* fragFile, const char* TEFile, const char* TCFile)
+{
+	readShader(vertexFile, vertexShaderSource, "vertex");
+	readShader(fragFile, fragShaderSource, "fragment");
+	readTessellationShaders(TEFile, TCFile);
+	addTessellationShaders();
+	addVertFragShaders();
 	makeShaderProgram();
 }
 

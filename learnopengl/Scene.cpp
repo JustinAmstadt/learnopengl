@@ -12,6 +12,8 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
 
+std::unordered_map<std::string, GLuint> Scene::textureMap;
+
 GLuint Scene::createVAO(std::vector<Vertex> data, std::vector<GLuint> indices)
 {
 	GLuint VAO, VBO;
@@ -29,7 +31,7 @@ GLuint Scene::createVAO(std::vector<Vertex> data, std::vector<GLuint> indices)
 	glEnableVertexAttribArray(2);
 	glEnableVertexAttribArray(3);
 	glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0); //position
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)sizeof(data[0].position)); //color
+	glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)sizeof(data[0].position)); //color
 	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(sizeof(data[0].position) + sizeof(data[0].color))); //texture
 	glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(sizeof(data[0].position) + sizeof(data[0].color) + sizeof(data[0].texture))); //normal
 
@@ -84,6 +86,7 @@ void Scene::renderScene(Camera camera)
 				glDrawArrays(objectVec[i][j]->DRAW_ENUM, 0, objectVec[i][j]->object->vertexData.size());
 			}
 			else {
+				glPatchParameteri(GL_PATCH_VERTICES, 4);
 				glDrawElements(objectVec[i][j]->DRAW_ENUM, objectVec[i][j]->object->indices.size(), GL_UNSIGNED_INT, 0);
 			}
 		}

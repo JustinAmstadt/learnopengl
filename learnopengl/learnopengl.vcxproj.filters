@@ -97,6 +97,18 @@
     <ClInclude Include="Rain.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="OceanScene.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SandboxScene.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TessellationPlaneScene.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MazeScene.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resources\container.jpg">
@@ -141,6 +153,18 @@
       <Filter>Source Files</Filter>
     </None>
     <None Include="skybox.frag">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="tess.tese">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="tess.tesc">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="hyperbolic.frag">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="hyperbolic.vert">
       <Filter>Source Files</Filter>
     </None>
   </ItemGroup>

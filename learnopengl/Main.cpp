@@ -27,6 +27,10 @@
 #include "DirectionalLight.h"
 #include "Skybox.h"
 #include "Rain.h"
+#include "OceanScene.h"
+#include "SandboxScene.h"
+#include "TessellationPlaneScene.h"
+#include "MazeScene.h"
 
 #define POSITION_ATTRIB 0;
 
@@ -49,17 +53,13 @@ std::shared_ptr<Shader> shaderProgram;
 std::shared_ptr<Shader> lampShader;
 std::shared_ptr<Shader> oceanShader;
 std::shared_ptr<Shader> skyboxShader;
-std::unique_ptr<Scene> scene = std::make_unique<Scene>();
-std::unique_ptr<Scene> oceanScene = std::make_unique<Scene>();
+std::shared_ptr<Shader> tessShader;
+std::shared_ptr<Shader> hyperbolic;
+
 float lastX = SCREEN_WIDTH / 2.0f;
 float lastY = SCREEN_HEIGHT / 2.0f;
 bool firstMouse = true;
-std::unique_ptr<CircularParabola> cp;
-std::unique_ptr<GridFloor> gridFloor;
-std::unique_ptr<FlatPlane> fp;
-std::vector<std::shared_ptr<SceneObject>> lights;
-std::vector<std::shared_ptr<SceneObject>> cubes;
-glm::vec3 lightPos = glm::vec3(0.0f, 20.0f, 3.0f);
+
 Camera camera;
 
 
@@ -92,10 +92,12 @@ int main() {
 
 	glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 	
-	shaderProgram = std::make_shared<Shader>("vert.vert", "frag.frag");
-	lampShader = std::make_shared<Shader>("lamp.vert", "lamp.frag");
-	oceanShader = std::make_shared<Shader>("ocean.vert", "ocean.frag");
-	skyboxShader = std::make_shared<Shader>("skybox.vert", "skybox.frag");
+	shaderProgram = std::make_shared<Shader>("vert.vert", "frag.frag", nullptr, nullptr);
+	lampShader = std::make_shared<Shader>("lamp.vert", "lamp.frag", nullptr, nullptr);
+	oceanShader = std::make_shared<Shader>("ocean.vert", "ocean.frag", nullptr, nullptr);
+	skyboxShader = std::make_shared<Shader>("skybox.vert", "skybox.frag", nullptr, nullptr);
+	tessShader = std::make_shared<Shader>("lamp.vert", "lamp.frag", "tess.tese", "tess.tesc");
+	hyperbolic = std::make_shared<Shader>("hyperbolic.vert", "hyperbolic.frag", nullptr, nullptr);
 
 	loop();
 
@@ -104,44 +106,14 @@ int main() {
 }
 
 void loop() {
-	cp = std::make_unique<CircularParabola>(shaderProgram);
-	gridFloor = std::make_unique<GridFloor>(shaderProgram, 80);
-	fp = std::make_unique<FlatPlane>(oceanShader, 20, 0.0);
-	std::unique_ptr<Rain> rain = std::make_unique<Rain>(lampShader);
-	std::unique_ptr<Skybox> skybox = std::make_unique<Skybox>(skyboxShader);
+	std::shared_ptr<Scene> ocean = std::make_shared<OceanScene>(oceanShader, lampShader, skyboxShader);
+	std::shared_ptr<Scene> sandbox = std::make_shared<SandboxScene>(shaderProgram, lampShader);
+	std::shared_ptr<Scene> tessellation = std::make_shared<TessellationPlaneScene>(tessShader);
+	std::shared_ptr<Scene> maze = std::make_shared<MazeScene>(lampShader);
 
-	oceanScene->light = std::make_shared<DirectionalLight>();
-
-	//oceanScene->addObjectVec(gridFloor->getFloorLines());
-	oceanScene->addObject(skybox->list);
-	oceanScene->addObjectVec(rain->rainVec);
-	oceanScene->addObject(fp->list);
-
-	scene->addTexture("CartoonWave.png");
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, scene->textureMap["CartoonWave.png"]);
-	glActiveTexture(GL_TEXTURE1);
-	glBindTexture(GL_TEXTURE_2D, scene->textureMap["CartoonWave.png"]);
-
-	//scene->light = std::make_shared<PositionalLight>();
-
-	//scene->addObjectVec(gridFloor->getFloorLines());
-	//scene->addObjectVec(cp->getFallingCubes());
-	//scene->addObjectVec(cp->getGraphLines());
-	//createGeometry();
-
-	/*scene->addTexture("container.jpg");
-	scene->addTexture("container2.png");
-	scene->addTexture("container2_specular.png");
-	scene->addTexture("lighting_maps_specular_color.png");
-	scene->addTexture("matrix.jpg");
-	scene->addTexture("colorful.jpg");
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, scene->textureMap["container2.png"]);
-	glActiveTexture(GL_TEXTURE1);
-	glBindTexture(GL_TEXTURE_2D, scene->textureMap["container2_specular.png"]);
-	glActiveTexture(GL_TEXTURE2);
-	glBindTexture(GL_TEXTURE_2D, scene->textureMap["matrix.jpg"]);*/
+	maze->makeCurrent();
+	
+	glClearColor(0.4f, 0.4f, 0.4f, 1.0f);
 
 	while (!glfwWindowShouldClose(window))
 	{
@@ -151,17 +123,11 @@ void loop() {
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-		glClearColor(0.4f, 0.4f, 0.4f, 1.0f);
+		
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
-		//scene->light->setLightPosDir(lightPos);
-		//scene->light->setLightColor(glm::vec3(1.0f, 0.0f, 1.0f));
-
-		//scene->renderScene(camera);
-		oceanScene->renderScene(camera);
-		//updateGeometry();
-		rain->updateRain();
+		maze->update(camera);
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();
@@ -212,50 +178,6 @@ void mouse_callback(GLFWwindow* window, double xposIn, double yposIn) {
 	camera.ProcessMouseMovement(xoffset, yoffset);
 }
 
-void createGeometry()
-{
-	//cube
-	Material material{ glm::vec3(1.0f, 0.5f, 0.31f), glm::vec3(1.0f, 0.5f, .031f), glm::vec3(0.5f, 0.5f, 0.5f), 32.0f };
-	std::shared_ptr<GeometricObject> cube = std::make_shared<Cube>("container2.png", material);
-	glm::mat4 model;
-	std::shared_ptr<SceneObject> list = std::make_shared<SceneObject>();
-
-	for (float i = 0; i < 3; i++) {
-		glm::mat4 model = glm::mat4(1.0f);
-		model = glm::translate(model, glm::vec3(0.0f, 5.0f, i * 6));
-		model = glm::scale(model, glm::vec3(3.0f));
-		std::shared_ptr<SceneObject> list = std::make_shared<SceneObject>();
-		*list = { cube, Scene::createVAO(cube->vertexData), model, shaderProgram, GL_TRIANGLES };
-		cubes.push_back(list);
-		scene->addObjectVec(cubes);
-	}
-	
 
 
-	//light
-	model = glm::mat4(1.0f);
-	list.reset(new SceneObject());
-	model = glm::translate(model, lightPos);
-	model = glm::scale(model, glm::vec3(0.5f));
-	*list = { cube, Scene::createVAO(cube->vertexData), model, lampShader, GL_TRIANGLES };
-	lights.push_back(list);
-	scene->addObjectVec(lights);
-}
 
-void updateGeometry()
-{
-	cp->update();
-	gridFloor->updateFloor(camera);
-
-	for (auto obj : cubes) {
-		//obj->model = glm::rotate(obj->model, glm::radians(2.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-	}
-
-	glm::mat4 inverseModel(1.0f);
-	//lights[0]->model = glm::rotate(lights[0]->model, glm::radians(1.0f), glm::vec3(0.0f, 1.0f,0.0f));
-	//inverseModel = glm::inverse(lights[0]->model);
-	//lights[0]->model = glm::translate(lights[0]->model, glm::vec3(0.10f, 0.0f, 0.0f));
-	//lights[0]->model = inverseModel * lights[0]->model;
-	//lightPos = lights[0]->model * glm::vec4(1.0f);
-	//std::cout << lightPos.x << ", " << lightPos.y << ", " << lightPos.z << std::endl;
-}

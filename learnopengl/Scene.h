@@ -26,10 +26,12 @@ private:
 	const int SCREEN_HEIGHT = 600;
 	std::vector<std::vector<std::shared_ptr<SceneObject>>> objectVec;
 	glm::mat4 projection;
-	GLuint cubeMap;
+	GLuint cubeMap = -1;
+protected:
+	glm::vec4 clearColor = glm::vec4(0.4f, 0.4f, 0.4f, 1.0f);
 public:
 	std::shared_ptr<Light> light;
-	std::unordered_map<std::string, GLuint> textureMap;
+	static std::unordered_map<std::string, GLuint> textureMap;
 
 	Scene() {
 		projection = glm::mat4(1.0f);
@@ -43,7 +45,8 @@ public:
 
 	void renderScene(Camera camera);
 	void addObjectVec(std::vector<std::shared_ptr<SceneObject>> vector) {
-		objectVec.push_back(vector);
+		if(vector.size() > 0)
+			objectVec.push_back(vector);
 	}
 	void addObject(std::shared_ptr<SceneObject> object) {
 		objectVec.push_back(std::vector<std::shared_ptr<SceneObject>>{ object });
@@ -52,5 +55,15 @@ public:
 	void addTexture(std::string fileName);
 
 	void addCubeMap(std::vector<std::string> faces);
+
+	virtual void update(Camera camera) = 0;
+	virtual void makeCurrent() {
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, 0);
+		glActiveTexture(GL_TEXTURE1);
+		glBindTexture(GL_TEXTURE_2D, 0);
+	}
 };
+
+
 #endif

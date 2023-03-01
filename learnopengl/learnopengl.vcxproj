@@ -166,14 +166,18 @@
     <ClInclude Include="GeometricObject.h" />
     <ClInclude Include="GridFloor.h" />
     <ClInclude Include="Light.h" />
+    <ClInclude Include="MazeScene.h" />
     <ClInclude Include="ObjectData.h" />
+    <ClInclude Include="OceanScene.h" />
     <ClInclude Include="PositionalLight.h" />
     <ClInclude Include="Rain.h" />
+    <ClInclude Include="SandboxScene.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="Skybox.h" />
     <ClInclude Include="Spotlight.h" />
     <ClInclude Include="Square.h" />
+    <ClInclude Include="TessellationPlaneScene.h" />
     <ClInclude Include="Tragectory.h" />
   </ItemGroup>
   <ItemGroup>
@@ -187,12 +191,16 @@
     <Image Include="resources\White.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="hyperbolic.frag" />
+    <None Include="hyperbolic.vert" />
     <None Include="lamp.frag" />
     <None Include="lamp.vert" />
     <None Include="ocean.frag" />
     <None Include="ocean.vert" />
     <None Include="skybox.frag" />
     <None Include="skybox.vert" />
+    <None Include="tess.tesc" />
+    <None Include="tess.tese" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
