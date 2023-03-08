@@ -6,8 +6,8 @@
 #include <glm/gtx/string_cast.hpp>
 #include <GLFW/glfw3.h>
 
-#include "Scene.h"
-#include "GeometricObject.h"
+#include "include/Scene.h"
+#include "include/GeometricObject.h"
 
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>

@@ -1,7 +1,11 @@
 #ifndef SANDBOXSCENE_H
 #define SANDBOXSCENE_H
 
+#include <glm/glm.hpp>
 #include "Light.h"
+#include "CircularParabola.h"
+#include "PositionalLight.h"
+#include "GridFloor.h"
 
 class SandboxScene : public Scene {
 private:

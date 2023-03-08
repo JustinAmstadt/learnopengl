@@ -1,5 +1,5 @@
 #include <memory>
-#include "CircularParabola.h"
+#include "include/CircularParabola.h"
 
 void CircularParabola::createLineFunc(std::shared_ptr<Shader> shaderProgram)
 {

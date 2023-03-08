@@ -1,7 +1,7 @@
-#include "ObjectData.h"
-#include "Camera.h"
-#include "Cube.h"
-#include "Square.h"
+#include "include/ObjectData.h"
+#include "include/Camera.h"
+#include "include/Cube.h"
+#include "include/Square.h"
 #include <iostream>
 #include <initializer_list>
 

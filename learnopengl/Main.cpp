@@ -16,21 +16,22 @@
 #include <vector>
 #include <memory>
 
-#include "FlatPlane.h"
-#include "GeometricObject.h"
-#include "Shader.h"
-#include "Scene.h"
-#include "CircularParabola.h"
-#include "ObjectData.h"
-#include "GridFloor.h"
-#include "PositionalLight.h"
-#include "DirectionalLight.h"
-#include "Skybox.h"
-#include "Rain.h"
-#include "OceanScene.h"
-#include "SandboxScene.h"
-#include "TessellationPlaneScene.h"
-#include "MazeScene.h"
+#include "include/FlatPlane.h"
+#include "include/GeometricObject.h"
+#include "include/Shader.h"
+#include "include/Scene.h"
+#include "include/CircularParabola.h"
+#include "include/ObjectData.h"
+#include "include/GridFloor.h"
+#include "include/PositionalLight.h"
+#include "include/Bot.h"
+#include "include/DirectionalLight.h"
+#include "include/Skybox.h"
+#include "include/Rain.h"
+#include "include/OceanScene.h"
+#include "include/SandboxScene.h"
+#include "include/TessellationPlaneScene.h"
+#include "include/MazeScene.h"
 
 #define POSITION_ATTRIB 0;
 
@@ -56,11 +57,13 @@ std::shared_ptr<Shader> skyboxShader;
 std::shared_ptr<Shader> tessShader;
 std::shared_ptr<Shader> hyperbolic;
 
+std::shared_ptr<Scene> maze;
+
 float lastX = SCREEN_WIDTH / 2.0f;
 float lastY = SCREEN_HEIGHT / 2.0f;
 bool firstMouse = true;
 
-Camera camera;
+Camera camera(glm::vec3(50.0f, 200.0f, 50.0f));
 
 
 int main() {
@@ -109,9 +112,11 @@ void loop() {
 	// std::shared_ptr<Scene> ocean = std::make_shared<OceanScene>(oceanShader, lampShader, skyboxShader);
 	std::shared_ptr<Scene> sandbox = std::make_shared<SandboxScene>(shaderProgram, lampShader);
 	// std::shared_ptr<Scene> tessellation = std::make_shared<TessellationPlaneScene>(tessShader);
-	std::shared_ptr<Scene> maze = std::make_shared<MazeScene>(lampShader);
+
+  maze = std::make_shared<MazeScene>(lampShader);
 
 	maze->makeCurrent();
+  
 	
 	glClearColor(0.4f, 0.4f, 0.4f, 1.0f);
 
@@ -156,6 +161,16 @@ void processInput(GLFWwindow* window)
 		camera.ProcessKeyboard(LEFT, deltaTime);
 	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
 		camera.ProcessKeyboard(RIGHT, deltaTime);
+
+  std::shared_ptr<MazeScene> mazeCast = std::dynamic_pointer_cast<MazeScene>(maze);
+	if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
+    mazeCast->moveBotUp();
+	if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
+    mazeCast->moveBotDown();
+	if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
+    mazeCast->moveBotRight();
+	if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)
+    mazeCast->moveBotLeft();
 }
 
 void mouse_callback(GLFWwindow* window, double xposIn, double yposIn) {

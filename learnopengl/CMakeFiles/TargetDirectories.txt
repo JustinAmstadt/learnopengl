@@ -1,0 +1,4 @@
+/home/justin/learnopengl/learnopengl/CMakeFiles/MazeBotOpenGL.dir
+/home/justin/learnopengl/learnopengl/CMakeFiles/glad.dir
+/home/justin/learnopengl/learnopengl/CMakeFiles/edit_cache.dir
+/home/justin/learnopengl/learnopengl/CMakeFiles/rebuild_cache.dir

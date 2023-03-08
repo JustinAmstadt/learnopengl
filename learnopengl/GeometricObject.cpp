@@ -1,5 +1,5 @@
 #include <memory>
-#include "GeometricObject.h"
+#include "include/GeometricObject.h"
 #include <iostream>
 
 GeometricObject::GeometricObject(std::vector<glm::vec3> vertices) 

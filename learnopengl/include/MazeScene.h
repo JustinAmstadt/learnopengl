@@ -25,12 +25,25 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <memory>
 #include <ctime>
+#include <glm/glm.hpp>
+
+
+#include "Bot.h"
+#include "Cube.h"
+#include "Light.h"
+#include "DirectionalLight.h"
+#include "GridFloor.h"
+#include "Scene.h"
 using namespace std;
 
 class MazeGenerator
 {
 public:
+    MazeGenerator(){
+      MazeGenerator(9);
+    }
     MazeGenerator(int width);
     void info();
     void generate();
@@ -350,12 +363,20 @@ private:
 	std::unique_ptr<GridFloor> gridFloor;
 	std::vector<std::shared_ptr<SceneObject>> walls;	
 	std::vector<std::shared_ptr<SceneObject>> cubes;
-    int mazeGenVal = 5;
-    int mazeSize = mazeGenVal * 2 + 1;
+  std::vector<std::shared_ptr<Bot>> bots;
+  int mazeGenVal = 14;
+  int mazeSize = mazeGenVal * 2 + 1;
 	float wallLength = 5.0f;
 	float wallHeight = 5.0f;
+  int botCount = 1;
+  MazeGenerator maze;
+
 public:
 	MazeScene(std::shared_ptr<Shader> lampShader) {
+    srand(time(0));
+    maze = MazeGenerator(mazeGenVal);
+    maze.generate();
+
 		gridFloor = std::make_unique<GridFloor>(lampShader, 80);
 		this->addObjectVec(gridFloor->getFloorLines());
 		this->light = std::make_shared<DirectionalLight>();
@@ -371,32 +392,59 @@ public:
 
 	void createGeometry(std::shared_ptr<Shader> lampShader)
 	{
-        srand(time(0));
-        MazeGenerator maze(mazeGenVal);
-        maze.generate();
 
-		std::shared_ptr<GeometricObject> cube = std::make_shared<Cube>(glm::vec4(1.0f, 0.0f, 0.0f, 0.3f));
-        glm::mat4 model = glm::mat4(1.0f);
-        std::shared_ptr<SceneObject> list;
+		std::shared_ptr<GeometricObject> cube = std::make_shared<Cube>(glm::vec4(1.0f, 0.0f, 0.0f, 0.4f));
+    glm::mat4 model = glm::mat4(1.0f);
+    std::shared_ptr<SceneObject> list;
 		GLuint cubeVAO = Scene::createVAO(cube->vertexData);
 
 		// If none are rendering, check the for loop
 		for (int x = 0; x < mazeSize; x++) {
 			for (int y = 0; y < mazeSize; y++) {
-                if (maze.grid[y][x] == "#") {
-                    model = glm::mat4(1.0f);
-                    model = glm::translate(model, glm::vec3(wallLength * x, 5.0f, wallLength * y));
-                    model = glm::scale(model, glm::vec3(wallLength));
-                    list = std::make_shared<SceneObject>();
-                    *list = { cube, cubeVAO, model, lampShader, GL_TRIANGLES };
-                    cubes.push_back(list);
-                }
+        if (maze.grid[y][x] == "#") {
+          model = glm::mat4(1.0f);
+          model = glm::translate(model, glm::vec3(wallLength * x, 5.0f, wallLength * y));
+          model = glm::scale(model, glm::vec3(wallLength));
+          list = std::make_shared<SceneObject>();
+          *list = { cube, cubeVAO, model, lampShader, GL_TRIANGLES };
+          cubes.push_back(list);
+        }
 
                 //createSquare(x, y, cube, cubeVAO, lampShader);
 			}
 		}
 		this->addObjectVec(cubes);
+
+    std::vector<std::shared_ptr<SceneObject>> botPtrVec;
+		std::shared_ptr<GeometricObject> botPtr = std::make_shared<Cube>(glm::vec4(1.0f, 0.5f, 0.2f, 1.0f));
+    GLuint botVAO = Scene::createVAO(botPtr->vertexData);
+
+    for(int i = 0; i < botCount; ++i){
+
+      glm::vec3 startingPos = glm::vec3(0.0f, 5.0f, 11.0f / 2.0f);
+      list = std::make_shared<SceneObject>();
+      *list = { botPtr, botVAO, model, lampShader, GL_TRIANGLES };
+      botPtrVec.push_back(list);
+      bots.push_back(std::make_shared<Bot>(list, startingPos));
+    }
+    this->addObjectVec(botPtrVec);
 	}
+
+  void moveBotDown(){
+    bots[0]->moveDown(maze.grid);
+  }
+
+  void moveBotUp(){
+    bots[0]->moveUp(maze.grid);
+  }
+
+  void moveBotRight(){
+    bots[0]->moveRight(maze.grid);
+  }
+
+  void moveBotLeft(){
+    bots[0]->moveLeft(maze.grid);
+  }
 
     //not used. makes a grid with walls that don't count as a space
 	void createSquare(int x, int y, std::shared_ptr<GeometricObject> cube, GLuint cubeVAO, std::shared_ptr<Shader> lampShader) {
@@ -439,7 +487,5 @@ public:
 		}
 	}
 };
-
-
 
 #endif
