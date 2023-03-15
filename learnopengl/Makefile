@@ -117,17 +117,17 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named MazeBotOpenGL
+# Target rules for targets named learnopengl
 
 # Build rule for target.
-MazeBotOpenGL: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 MazeBotOpenGL
-.PHONY : MazeBotOpenGL
+learnopengl: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 learnopengl
+.PHONY : learnopengl
 
 # fast build rule for target.
-MazeBotOpenGL/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/MazeBotOpenGL.dir/build.make CMakeFiles/MazeBotOpenGL.dir/build
-.PHONY : MazeBotOpenGL/fast
+learnopengl/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/learnopengl.dir/build.make CMakeFiles/learnopengl.dir/build
+.PHONY : learnopengl/fast
 
 #=============================================================================
 # Target rules for targets named glad
@@ -147,7 +147,7 @@ CircularParabola.o: CircularParabola.cpp.o
 
 # target to build an object file
 CircularParabola.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/MazeBotOpenGL.dir/build.make CMakeFiles/MazeBotOpenGL.dir/CircularParabola.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/learnopengl.dir/build.make CMakeFiles/learnopengl.dir/CircularParabola.cpp.o
 .PHONY : CircularParabola.cpp.o
 
 CircularParabola.i: CircularParabola.cpp.i
@@ -155,7 +155,7 @@ CircularParabola.i: CircularParabola.cpp.i
 
 # target to preprocess a source file
 CircularParabola.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/MazeBotOpenGL.dir/build.make CMakeFiles/MazeBotOpenGL.dir/CircularParabola.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/learnopengl.dir/build.make CMakeFiles/learnopengl.dir/CircularParabola.cpp.i
 .PHONY : CircularParabola.cpp.i
 
 CircularParabola.s: CircularParabola.cpp.s
@@ -163,7 +163,7 @@ CircularParabola.s: CircularParabola.cpp.s
 
 # target to generate assembly for a file
 CircularParabola.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/MazeBotOpenGL.dir/build.make CMakeFiles/MazeBotOpenGL.dir/CircularParabola.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/learnopengl.dir/build.make CMakeFiles/learnopengl.dir/CircularParabola.cpp.s
 .PHONY : CircularParabola.cpp.s
 
 GeometricObject.o: GeometricObject.cpp.o
@@ -171,7 +171,7 @@ GeometricObject.o: GeometricObject.cpp.o
 
 # target to build an object file
 GeometricObject.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/MazeBotOpenGL.dir/build.make CMakeFiles/MazeBotOpenGL.dir/GeometricObject.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/learnopengl.dir/build.make CMakeFiles/learnopengl.dir/GeometricObject.cpp.o
 .PHONY : GeometricObject.cpp.o
 
 GeometricObject.i: GeometricObject.cpp.i
@@ -179,7 +179,7 @@ GeometricObject.i: GeometricObject.cpp.i
 
 # target to preprocess a source file
 GeometricObject.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/MazeBotOpenGL.dir/build.make CMakeFiles/MazeBotOpenGL.dir/GeometricObject.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/learnopengl.dir/build.make CMakeFiles/learnopengl.dir/GeometricObject.cpp.i
 .PHONY : GeometricObject.cpp.i
 
 GeometricObject.s: GeometricObject.cpp.s
@@ -187,7 +187,7 @@ GeometricObject.s: GeometricObject.cpp.s
 
 # target to generate assembly for a file
 GeometricObject.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/MazeBotOpenGL.dir/build.make CMakeFiles/MazeBotOpenGL.dir/GeometricObject.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/learnopengl.dir/build.make CMakeFiles/learnopengl.dir/GeometricObject.cpp.s
 .PHONY : GeometricObject.cpp.s
 
 Main.o: Main.cpp.o
@@ -195,7 +195,7 @@ Main.o: Main.cpp.o
 
 # target to build an object file
 Main.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/MazeBotOpenGL.dir/build.make CMakeFiles/MazeBotOpenGL.dir/Main.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/learnopengl.dir/build.make CMakeFiles/learnopengl.dir/Main.cpp.o
 .PHONY : Main.cpp.o
 
 Main.i: Main.cpp.i
@@ -203,7 +203,7 @@ Main.i: Main.cpp.i
 
 # target to preprocess a source file
 Main.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/MazeBotOpenGL.dir/build.make CMakeFiles/MazeBotOpenGL.dir/Main.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/learnopengl.dir/build.make CMakeFiles/learnopengl.dir/Main.cpp.i
 .PHONY : Main.cpp.i
 
 Main.s: Main.cpp.s
@@ -211,7 +211,7 @@ Main.s: Main.cpp.s
 
 # target to generate assembly for a file
 Main.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/MazeBotOpenGL.dir/build.make CMakeFiles/MazeBotOpenGL.dir/Main.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/learnopengl.dir/build.make CMakeFiles/learnopengl.dir/Main.cpp.s
 .PHONY : Main.cpp.s
 
 ObjectData.o: ObjectData.cpp.o
@@ -219,7 +219,7 @@ ObjectData.o: ObjectData.cpp.o
 
 # target to build an object file
 ObjectData.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/MazeBotOpenGL.dir/build.make CMakeFiles/MazeBotOpenGL.dir/ObjectData.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/learnopengl.dir/build.make CMakeFiles/learnopengl.dir/ObjectData.cpp.o
 .PHONY : ObjectData.cpp.o
 
 ObjectData.i: ObjectData.cpp.i
@@ -227,7 +227,7 @@ ObjectData.i: ObjectData.cpp.i
 
 # target to preprocess a source file
 ObjectData.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/MazeBotOpenGL.dir/build.make CMakeFiles/MazeBotOpenGL.dir/ObjectData.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/learnopengl.dir/build.make CMakeFiles/learnopengl.dir/ObjectData.cpp.i
 .PHONY : ObjectData.cpp.i
 
 ObjectData.s: ObjectData.cpp.s
@@ -235,7 +235,7 @@ ObjectData.s: ObjectData.cpp.s
 
 # target to generate assembly for a file
 ObjectData.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/MazeBotOpenGL.dir/build.make CMakeFiles/MazeBotOpenGL.dir/ObjectData.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/learnopengl.dir/build.make CMakeFiles/learnopengl.dir/ObjectData.cpp.s
 .PHONY : ObjectData.cpp.s
 
 Pipe.o: Pipe.cpp.o
@@ -243,7 +243,7 @@ Pipe.o: Pipe.cpp.o
 
 # target to build an object file
 Pipe.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/MazeBotOpenGL.dir/build.make CMakeFiles/MazeBotOpenGL.dir/Pipe.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/learnopengl.dir/build.make CMakeFiles/learnopengl.dir/Pipe.cpp.o
 .PHONY : Pipe.cpp.o
 
 Pipe.i: Pipe.cpp.i
@@ -251,7 +251,7 @@ Pipe.i: Pipe.cpp.i
 
 # target to preprocess a source file
 Pipe.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/MazeBotOpenGL.dir/build.make CMakeFiles/MazeBotOpenGL.dir/Pipe.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/learnopengl.dir/build.make CMakeFiles/learnopengl.dir/Pipe.cpp.i
 .PHONY : Pipe.cpp.i
 
 Pipe.s: Pipe.cpp.s
@@ -259,7 +259,7 @@ Pipe.s: Pipe.cpp.s
 
 # target to generate assembly for a file
 Pipe.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/MazeBotOpenGL.dir/build.make CMakeFiles/MazeBotOpenGL.dir/Pipe.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/learnopengl.dir/build.make CMakeFiles/learnopengl.dir/Pipe.cpp.s
 .PHONY : Pipe.cpp.s
 
 Scene.o: Scene.cpp.o
@@ -267,7 +267,7 @@ Scene.o: Scene.cpp.o
 
 # target to build an object file
 Scene.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/MazeBotOpenGL.dir/build.make CMakeFiles/MazeBotOpenGL.dir/Scene.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/learnopengl.dir/build.make CMakeFiles/learnopengl.dir/Scene.cpp.o
 .PHONY : Scene.cpp.o
 
 Scene.i: Scene.cpp.i
@@ -275,7 +275,7 @@ Scene.i: Scene.cpp.i
 
 # target to preprocess a source file
 Scene.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/MazeBotOpenGL.dir/build.make CMakeFiles/MazeBotOpenGL.dir/Scene.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/learnopengl.dir/build.make CMakeFiles/learnopengl.dir/Scene.cpp.i
 .PHONY : Scene.cpp.i
 
 Scene.s: Scene.cpp.s
@@ -283,7 +283,7 @@ Scene.s: Scene.cpp.s
 
 # target to generate assembly for a file
 Scene.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/MazeBotOpenGL.dir/build.make CMakeFiles/MazeBotOpenGL.dir/Scene.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/learnopengl.dir/build.make CMakeFiles/learnopengl.dir/Scene.cpp.s
 .PHONY : Scene.cpp.s
 
 Shader.o: Shader.cpp.o
@@ -291,7 +291,7 @@ Shader.o: Shader.cpp.o
 
 # target to build an object file
 Shader.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/MazeBotOpenGL.dir/build.make CMakeFiles/MazeBotOpenGL.dir/Shader.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/learnopengl.dir/build.make CMakeFiles/learnopengl.dir/Shader.cpp.o
 .PHONY : Shader.cpp.o
 
 Shader.i: Shader.cpp.i
@@ -299,7 +299,7 @@ Shader.i: Shader.cpp.i
 
 # target to preprocess a source file
 Shader.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/MazeBotOpenGL.dir/build.make CMakeFiles/MazeBotOpenGL.dir/Shader.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/learnopengl.dir/build.make CMakeFiles/learnopengl.dir/Shader.cpp.i
 .PHONY : Shader.cpp.i
 
 Shader.s: Shader.cpp.s
@@ -307,7 +307,7 @@ Shader.s: Shader.cpp.s
 
 # target to generate assembly for a file
 Shader.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/MazeBotOpenGL.dir/build.make CMakeFiles/MazeBotOpenGL.dir/Shader.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/learnopengl.dir/build.make CMakeFiles/learnopengl.dir/Shader.cpp.s
 .PHONY : Shader.cpp.s
 
 glad.o: glad.c.o
@@ -342,8 +342,8 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
-	@echo "... MazeBotOpenGL"
 	@echo "... glad"
+	@echo "... learnopengl"
 	@echo "... CircularParabola.o"
 	@echo "... CircularParabola.i"
 	@echo "... CircularParabola.s"

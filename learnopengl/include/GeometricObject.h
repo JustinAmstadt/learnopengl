@@ -33,6 +33,8 @@ public:
 	Material material;
 
 	GeometricObject(std::vector<glm::vec3> vertices);
+  
+  GeometricObject(std::array<glm::vec3, 2> vertices);
 	~GeometricObject() { tragectory.reset(); }
 
 	void setColor(glm::vec4 color);

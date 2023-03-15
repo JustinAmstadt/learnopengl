@@ -32,6 +32,7 @@
 #include "include/SandboxScene.h"
 #include "include/TessellationPlaneScene.h"
 #include "include/MazeScene.h"
+#include "include/Dragonfly.h"
 
 #define POSITION_ATTRIB 0;
 
@@ -63,7 +64,7 @@ float lastX = SCREEN_WIDTH / 2.0f;
 float lastY = SCREEN_HEIGHT / 2.0f;
 bool firstMouse = true;
 
-Camera camera(glm::vec3(50.0f, 200.0f, 50.0f));
+Camera camera(glm::vec3(0.0f, 0.0f, 0.0f));
 
 
 int main() {
@@ -115,9 +116,8 @@ void loop() {
 
   maze = std::make_shared<MazeScene>(lampShader);
 
-	maze->makeCurrent();
+	sandbox->makeCurrent();
   
-	
 	glClearColor(0.4f, 0.4f, 0.4f, 1.0f);
 
 	while (!glfwWindowShouldClose(window))
@@ -132,7 +132,7 @@ void loop() {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
-		maze->update(camera);
+		sandbox->update(camera);
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();

@@ -6,6 +6,7 @@
 #include "CircularParabola.h"
 #include "PositionalLight.h"
 #include "GridFloor.h"
+#include "Dragonfly.h"
 
 class SandboxScene : public Scene {
 private:
@@ -14,13 +15,17 @@ private:
 	std::vector<std::shared_ptr<SceneObject>> lights;
 	std::vector<std::shared_ptr<SceneObject>> cubes;
 	glm::vec3 lightPos = glm::vec3(0.0f, 2.0f, -3.0f);
+
+  std::unique_ptr<Dragonfly> df;
 public:
 	SandboxScene(std::shared_ptr<Shader> shaderProgram, std::shared_ptr<Shader> lampShader) {
 		cp = std::make_unique<CircularParabola>(lampShader);
 		gridFloor = std::make_unique<GridFloor>(lampShader, 80);
+    df = std::make_unique<Dragonfly>(lampShader);
 
 		this->light = std::make_shared<PositionalLight>();
 
+    this->addObject(df->getWings());
 		this->addObjectVec(gridFloor->getFloorLines());
 		//this->addObjectVec(cp->getFallingCubes());
 		//this->addObjectVec(cp->getGraphLines());
@@ -43,6 +48,10 @@ public:
 
 	void createGeometry(std::shared_ptr<Shader> shaderProgram, std::shared_ptr<Shader> lampShader)
 	{
+    //Dragonfly
+    
+
+
 		//cube
 		Material material{ glm::vec3(1.0f, 0.5f, 0.31f), glm::vec3(1.0f, 0.5f, .031f), glm::vec3(0.5f, 0.5f, 0.5f), 32.0f };
 		std::shared_ptr<GeometricObject> cube = std::make_shared<Cube>("container2.png", material);

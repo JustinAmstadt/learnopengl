@@ -11,6 +11,14 @@ GeometricObject::GeometricObject(std::vector<glm::vec3> vertices)
 	}
 }
 
+GeometricObject::GeometricObject(std::array<glm::vec3, 2> vertices){
+  for (glm::vec3 pt : vertices){
+    Vertex v;
+    v.position = pt;
+    vertexData.push_back(v);
+  }
+}
+
 void GeometricObject::setColor(glm::vec4 color)
 {
 	for (Vertex& v : vertexData) {

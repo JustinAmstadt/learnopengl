@@ -121,7 +121,7 @@ CMakeFiles/MazeBotOpenGL.dir/ObjectData.cpp.o: \
  /usr/include/c++/11/bits/stl_bvector.h \
  /usr/include/c++/11/bits/vector.tcc \
  /home/justin/learnopengl/learnopengl/include/Shader.h \
- /usr/local/include/glad/glad.h /usr/local/include/KHR/khrplatform.h \
+ /usr/include/glad/glad.h /usr/include/KHR/khrplatform.h \
  /usr/include/c++/11/string /usr/include/c++/11/bits/char_traits.h \
  /usr/include/c++/11/cstdint /usr/include/c++/11/bits/localefwd.h \
  /usr/include/x86_64-linux-gnu/c++/11/bits/c++locale.h \

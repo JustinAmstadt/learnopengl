@@ -1,4 +1,4 @@
-CMakeFiles/MazeBotOpenGL.dir/Shader.cpp.o: \
+CMakeFiles/learnopengl.dir/Shader.cpp.o: \
  /home/justin/learnopengl/learnopengl/Shader.cpp \
  /usr/include/stdc-predef.h \
  /home/justin/learnopengl/learnopengl/include/Shader.h \

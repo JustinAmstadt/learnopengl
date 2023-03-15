@@ -276,8 +276,8 @@ CMakeFiles/MazeBotOpenGL.dir/GeometricObject.cpp.o: \
  /usr/include/glm/packing.hpp /usr/include/glm/detail/func_packing.inl \
  /usr/include/glm/detail/type_half.hpp \
  /usr/include/glm/detail/type_half.inl /usr/include/glm/integer.hpp \
- /usr/include/glm/detail/func_integer.inl /usr/local/include/glad/glad.h \
- /usr/local/include/KHR/khrplatform.h /usr/include/c++/11/string \
+ /usr/include/glm/detail/func_integer.inl /usr/include/glad/glad.h \
+ /usr/include/KHR/khrplatform.h /usr/include/c++/11/string \
  /usr/include/c++/11/bits/char_traits.h \
  /usr/include/c++/11/bits/localefwd.h \
  /usr/include/x86_64-linux-gnu/c++/11/bits/c++locale.h \

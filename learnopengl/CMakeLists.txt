@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.22)
 
 set(CMAKE_CXX_STANDARD 17)
 
-project(MazeBotOpenGL)
+project(learnopengl)
 
 # Set the path to the OpenGL libraries
 find_package(OpenGL REQUIRED)
@@ -10,11 +10,9 @@ find_package(OpenGL REQUIRED)
 # Set the path to the GLFW library
 find_package(glfw3 REQUIRED)
 
-find_package(Boost REQUIRED)
-
 include_directories(include)
 
-add_executable(MazeBotOpenGL 
+add_executable(learnopengl
   Main.cpp 
   Scene.cpp 
   Shader.cpp 
@@ -44,11 +42,11 @@ add_executable(MazeBotOpenGL
   include/SandboxScene.h
   include/Skybox.h
   include/TessellationPlaneScene.h
+  include/Dragonfly.h
 )
 
 add_library(glad STATIC glad.c)
 
-target_compile_options(MazeBotOpenGL PRIVATE -Wall -Wextra -g)
+target_compile_options(learnopengl PRIVATE -Wall -Wextra -ggdb)
 
-target_link_libraries(MazeBotOpenGL ${Boost_LIBRARIES})
-target_link_libraries(MazeBotOpenGL PRIVATE ${OPENGL_LIBRARIES} glfw glad)
+target_link_libraries(learnopengl PRIVATE ${OPENGL_LIBRARIES} glfw glad)

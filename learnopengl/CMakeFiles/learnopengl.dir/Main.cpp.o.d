@@ -1,4 +1,4 @@
-CMakeFiles/MazeBotOpenGL.dir/Main.cpp.o: \
+CMakeFiles/learnopengl.dir/Main.cpp.o: \
  /home/justin/learnopengl/learnopengl/Main.cpp /usr/include/stdc-predef.h \
  /usr/include/glad/glad.h /usr/include/KHR/khrplatform.h \
  /usr/lib/gcc/x86_64-linux-gnu/11/include/stdint.h /usr/include/stdint.h \
@@ -409,9 +409,11 @@ CMakeFiles/MazeBotOpenGL.dir/Main.cpp.o: \
  /home/justin/learnopengl/learnopengl/include/CircularParabola.h \
  /home/justin/learnopengl/learnopengl/include/PositionalLight.h \
  /home/justin/learnopengl/learnopengl/include/GridFloor.h \
+ /home/justin/learnopengl/learnopengl/include/Dragonfly.h \
  /home/justin/learnopengl/learnopengl/include/TessellationPlaneScene.h \
  /home/justin/learnopengl/learnopengl/include/FlatPlane.h \
  /home/justin/learnopengl/learnopengl/include/MazeScene.h \
  /usr/include/c++/11/ctime \
  /home/justin/learnopengl/learnopengl/include/Bot.h \
- /home/justin/learnopengl/learnopengl/include/DirectionalLight.h
+ /home/justin/learnopengl/learnopengl/include/DirectionalLight.h \
+ /home/justin/learnopengl/learnopengl/include/Dragonfly.h
