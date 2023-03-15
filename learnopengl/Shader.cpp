@@ -1,6 +1,7 @@
 #include "include/Shader.h"
 #include <fstream>
 #include <iostream>
+#include <string.h>
 
 void Shader::checkShaderError(unsigned int shaderHandle, std::string name)
 {
@@ -57,7 +58,7 @@ void Shader::makeShaderProgram()
 
 void Shader::readShader(std::string file, std::string& shaderSource, std::string name)
 {
-	std::ifstream inFile(file);
+	std::ifstream inFile("shaders/" + file);
 	std::string str;
 	if (inFile.is_open()) {
 		while (inFile) {
