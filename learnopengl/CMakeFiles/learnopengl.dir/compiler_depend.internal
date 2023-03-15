@@ -343,8 +343,8 @@ CMakeFiles/learnopengl.dir/CircularParabola.cpp.o
  /usr/include/glm/ext/matrix_transform.inl
  /usr/include/glm/gtc/matrix_transform.inl
  /home/justin/learnopengl/learnopengl/include/Shader.h
- /usr/include/glad/glad.h
- /usr/include/KHR/khrplatform.h
+ /usr/local/include/glad/glad.h
+ /usr/local/include/KHR/khrplatform.h
  /usr/include/c++/11/string
  /usr/include/c++/11/bits/char_traits.h
  /usr/include/c++/11/bits/localefwd.h
@@ -751,8 +751,8 @@ CMakeFiles/learnopengl.dir/GeometricObject.cpp.o
  /usr/include/glm/detail/type_half.inl
  /usr/include/glm/integer.hpp
  /usr/include/glm/detail/func_integer.inl
- /usr/include/glad/glad.h
- /usr/include/KHR/khrplatform.h
+ /usr/local/include/glad/glad.h
+ /usr/local/include/KHR/khrplatform.h
  /usr/include/c++/11/string
  /usr/include/c++/11/bits/char_traits.h
  /usr/include/c++/11/bits/localefwd.h
@@ -833,8 +833,8 @@ CMakeFiles/learnopengl.dir/GeometricObject.cpp.o
 CMakeFiles/learnopengl.dir/Main.cpp.o
  /home/justin/learnopengl/learnopengl/Main.cpp
  /usr/include/stdc-predef.h
- /usr/include/glad/glad.h
- /usr/include/KHR/khrplatform.h
+ /usr/local/include/glad/glad.h
+ /usr/local/include/KHR/khrplatform.h
  /usr/lib/gcc/x86_64-linux-gnu/11/include/stdint.h
  /usr/include/stdint.h
  /usr/include/x86_64-linux-gnu/bits/libc-header-start.h
@@ -1325,6 +1325,7 @@ CMakeFiles/learnopengl.dir/Main.cpp.o
  /home/justin/learnopengl/learnopengl/include/PositionalLight.h
  /home/justin/learnopengl/learnopengl/include/GridFloor.h
  /home/justin/learnopengl/learnopengl/include/Dragonfly.h
+ /home/justin/learnopengl/learnopengl/include/DebugShape.h
  /home/justin/learnopengl/learnopengl/include/TessellationPlaneScene.h
  /home/justin/learnopengl/learnopengl/include/FlatPlane.h
  /home/justin/learnopengl/learnopengl/include/MazeScene.h
@@ -1474,8 +1475,8 @@ CMakeFiles/learnopengl.dir/ObjectData.cpp.o
  /usr/include/c++/11/bits/stl_bvector.h
  /usr/include/c++/11/bits/vector.tcc
  /home/justin/learnopengl/learnopengl/include/Shader.h
- /usr/include/glad/glad.h
- /usr/include/KHR/khrplatform.h
+ /usr/local/include/glad/glad.h
+ /usr/local/include/KHR/khrplatform.h
  /usr/include/c++/11/string
  /usr/include/c++/11/bits/char_traits.h
  /usr/include/c++/11/cstdint
@@ -1988,8 +1989,8 @@ CMakeFiles/learnopengl.dir/Scene.cpp.o
  /usr/include/c++/11/bits/hash_bytes.h
  /usr/include/c++/11/bits/range_access.h
  /usr/include/c++/11/bits/vector.tcc
- /usr/include/glad/glad.h
- /usr/include/KHR/khrplatform.h
+ /usr/local/include/glad/glad.h
+ /usr/local/include/KHR/khrplatform.h
  /usr/lib/gcc/x86_64-linux-gnu/11/include/stdint.h
  /usr/include/stdint.h
  /usr/include/x86_64-linux-gnu/bits/libc-header-start.h

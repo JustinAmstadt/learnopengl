@@ -43,6 +43,7 @@ add_executable(learnopengl
   include/Skybox.h
   include/TessellationPlaneScene.h
   include/Dragonfly.h
+  include/DebugShape.h
 )
 
 add_library(glad STATIC glad.c)

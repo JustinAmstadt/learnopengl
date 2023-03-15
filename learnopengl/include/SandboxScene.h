@@ -25,7 +25,7 @@ public:
 
 		this->light = std::make_shared<PositionalLight>();
 
-    this->addObject(df->getWings());
+    this->addObjectVec(df->getWings());
 		this->addObjectVec(gridFloor->getFloorLines());
 		//this->addObjectVec(cp->getFallingCubes());
 		//this->addObjectVec(cp->getGraphLines());

@@ -290,7 +290,7 @@ CMakeFiles/learnopengl.dir/CircularParabola.cpp.o: \
  /usr/include/glm/ext/matrix_transform.inl \
  /usr/include/glm/gtc/matrix_transform.inl \
  /home/justin/learnopengl/learnopengl/include/Shader.h \
- /usr/include/glad/glad.h /usr/include/KHR/khrplatform.h \
+ /usr/local/include/glad/glad.h /usr/local/include/KHR/khrplatform.h \
  /usr/include/c++/11/string /usr/include/c++/11/bits/char_traits.h \
  /usr/include/c++/11/bits/localefwd.h \
  /usr/include/x86_64-linux-gnu/c++/11/bits/c++locale.h \

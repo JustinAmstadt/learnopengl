@@ -342,8 +342,8 @@ CMakeFiles/learnopengl.dir/CircularParabola.cpp.o: CircularParabola.cpp \
   /usr/include/glm/ext/matrix_transform.inl \
   /usr/include/glm/gtc/matrix_transform.inl \
   include/Shader.h \
-  /usr/include/glad/glad.h \
-  /usr/include/KHR/khrplatform.h \
+  /usr/local/include/glad/glad.h \
+  /usr/local/include/KHR/khrplatform.h \
   /usr/include/c++/11/string \
   /usr/include/c++/11/bits/char_traits.h \
   /usr/include/c++/11/bits/localefwd.h \
@@ -749,8 +749,8 @@ CMakeFiles/learnopengl.dir/GeometricObject.cpp.o: GeometricObject.cpp \
   /usr/include/glm/detail/type_half.inl \
   /usr/include/glm/integer.hpp \
   /usr/include/glm/detail/func_integer.inl \
-  /usr/include/glad/glad.h \
-  /usr/include/KHR/khrplatform.h \
+  /usr/local/include/glad/glad.h \
+  /usr/local/include/KHR/khrplatform.h \
   /usr/include/c++/11/string \
   /usr/include/c++/11/bits/char_traits.h \
   /usr/include/c++/11/bits/localefwd.h \
@@ -830,8 +830,8 @@ CMakeFiles/learnopengl.dir/GeometricObject.cpp.o: GeometricObject.cpp \
 
 CMakeFiles/learnopengl.dir/Main.cpp.o: Main.cpp \
   /usr/include/stdc-predef.h \
-  /usr/include/glad/glad.h \
-  /usr/include/KHR/khrplatform.h \
+  /usr/local/include/glad/glad.h \
+  /usr/local/include/KHR/khrplatform.h \
   /usr/lib/gcc/x86_64-linux-gnu/11/include/stdint.h \
   /usr/include/stdint.h \
   /usr/include/x86_64-linux-gnu/bits/libc-header-start.h \
@@ -1322,6 +1322,7 @@ CMakeFiles/learnopengl.dir/Main.cpp.o: Main.cpp \
   include/PositionalLight.h \
   include/GridFloor.h \
   include/Dragonfly.h \
+  include/DebugShape.h \
   include/TessellationPlaneScene.h \
   include/FlatPlane.h \
   include/MazeScene.h \
@@ -1470,8 +1471,8 @@ CMakeFiles/learnopengl.dir/ObjectData.cpp.o: ObjectData.cpp \
   /usr/include/c++/11/bits/stl_bvector.h \
   /usr/include/c++/11/bits/vector.tcc \
   include/Shader.h \
-  /usr/include/glad/glad.h \
-  /usr/include/KHR/khrplatform.h \
+  /usr/local/include/glad/glad.h \
+  /usr/local/include/KHR/khrplatform.h \
   /usr/include/c++/11/string \
   /usr/include/c++/11/bits/char_traits.h \
   /usr/include/c++/11/cstdint \
@@ -1982,8 +1983,8 @@ CMakeFiles/learnopengl.dir/Scene.cpp.o: Scene.cpp \
   /usr/include/c++/11/bits/hash_bytes.h \
   /usr/include/c++/11/bits/range_access.h \
   /usr/include/c++/11/bits/vector.tcc \
-  /usr/include/glad/glad.h \
-  /usr/include/KHR/khrplatform.h \
+  /usr/local/include/glad/glad.h \
+  /usr/local/include/KHR/khrplatform.h \
   /usr/lib/gcc/x86_64-linux-gnu/11/include/stdint.h \
   /usr/include/stdint.h \
   /usr/include/x86_64-linux-gnu/bits/libc-header-start.h \
@@ -2615,6 +2616,8 @@ ObjectData.cpp:
 
 include/TessellationPlaneScene.h:
 
+include/DebugShape.h:
+
 include/Skybox.h:
 
 /usr/local/include/stb_image.h:
@@ -2755,6 +2758,12 @@ include/GeometricObject.h:
 
 /usr/include/c++/11/bits/cxxabi_forced.h:
 
+/usr/include/glad/glad.h:
+
+/usr/include/x86_64-linux-gnu/bits/types/__fpos_t.h:
+
+/usr/include/c++/11/bits/ostream_insert.h:
+
 /usr/include/ctype.h:
 
 /usr/include/c++/11/cctype:
@@ -2771,11 +2780,9 @@ include/Scene.h:
 
 /usr/include/c++/11/bits/char_traits.h:
 
-/usr/include/x86_64-linux-gnu/bits/types/__fpos_t.h:
+/usr/local/include/KHR/khrplatform.h:
 
-/usr/include/c++/11/bits/ostream_insert.h:
-
-/usr/include/glad/glad.h:
+/usr/local/include/glad/glad.h:
 
 include/Shader.h:
 

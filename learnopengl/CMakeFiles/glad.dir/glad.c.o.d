@@ -49,8 +49,8 @@ CMakeFiles/glad.dir/glad.c.o: /home/justin/learnopengl/learnopengl/glad.c \
  /usr/include/x86_64-linux-gnu/bits/stdlib-float.h /usr/include/string.h \
  /usr/include/x86_64-linux-gnu/bits/types/locale_t.h \
  /usr/include/x86_64-linux-gnu/bits/types/__locale_t.h \
- /usr/include/strings.h /usr/include/glad/glad.h \
- /usr/include/KHR/khrplatform.h \
+ /usr/include/strings.h /usr/local/include/glad/glad.h \
+ /usr/local/include/KHR/khrplatform.h \
  /usr/lib/gcc/x86_64-linux-gnu/11/include/stdint.h /usr/include/stdint.h \
  /usr/include/x86_64-linux-gnu/bits/wchar.h \
  /usr/include/x86_64-linux-gnu/bits/stdint-uintn.h /usr/include/dlfcn.h \
