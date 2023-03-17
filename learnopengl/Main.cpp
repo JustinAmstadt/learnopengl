@@ -57,6 +57,7 @@ std::shared_ptr<Shader> oceanShader;
 std::shared_ptr<Shader> skyboxShader;
 std::shared_ptr<Shader> tessShader;
 std::shared_ptr<Shader> hyperbolic;
+std::shared_ptr<Shader> dragonflyShader;
 
 std::shared_ptr<Scene> maze;
 
@@ -102,6 +103,7 @@ int main() {
 	skyboxShader = std::make_shared<Shader>("skybox.vert", "skybox.frag", nullptr, nullptr);
 	// tessShader = std::make_shared<Shader>("lamp.vert", "lamp.frag", "tess.tese", "tess.tesc");
 	hyperbolic = std::make_shared<Shader>("hyperbolic.vert", "hyperbolic.frag", nullptr, nullptr);
+  dragonflyShader = std::make_shared<Shader>("dragonfly.vert", "lamp.frag", nullptr, nullptr);
 
 	loop();
 
@@ -111,7 +113,7 @@ int main() {
 
 void loop() {
 	// std::shared_ptr<Scene> ocean = std::make_shared<OceanScene>(oceanShader, lampShader, skyboxShader);
-	std::shared_ptr<Scene> sandbox = std::make_shared<SandboxScene>(shaderProgram, lampShader);
+	std::shared_ptr<Scene> sandbox = std::make_shared<SandboxScene>(shaderProgram, lampShader, dragonflyShader);
 	// std::shared_ptr<Scene> tessellation = std::make_shared<TessellationPlaneScene>(tessShader);
 
   maze = std::make_shared<MazeScene>(lampShader);

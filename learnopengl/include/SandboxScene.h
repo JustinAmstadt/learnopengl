@@ -1,12 +1,16 @@
 #ifndef SANDBOXSCENE_H
 #define SANDBOXSCENE_H
 
+
 #include <glm/glm.hpp>
 #include "Light.h"
 #include "CircularParabola.h"
 #include "PositionalLight.h"
 #include "GridFloor.h"
 #include "Dragonfly.h"
+
+#include <GLFW/glfw3.h>
+#include <numbers>
 
 class SandboxScene : public Scene {
 private:
@@ -18,18 +22,19 @@ private:
 
   std::unique_ptr<Dragonfly> df;
 public:
-	SandboxScene(std::shared_ptr<Shader> shaderProgram, std::shared_ptr<Shader> lampShader) {
+	SandboxScene(std::shared_ptr<Shader> shaderProgram, std::shared_ptr<Shader> lampShader, std::shared_ptr<Shader> dragonflyShader) {
 		cp = std::make_unique<CircularParabola>(lampShader);
 		gridFloor = std::make_unique<GridFloor>(lampShader, 80);
-    df = std::make_unique<Dragonfly>(lampShader);
+    df = std::make_unique<Dragonfly>(dragonflyShader, lampShader);
 
 		this->light = std::make_shared<PositionalLight>();
 
     this->addObjectVec(df->getWings());
+    this->addObject(df->getBody());
 		this->addObjectVec(gridFloor->getFloorLines());
 		//this->addObjectVec(cp->getFallingCubes());
 		//this->addObjectVec(cp->getGraphLines());
-		createGeometry(shaderProgram, lampShader);
+		// createGeometry(shaderProgram, lampShader);
 
 		this->addTexture("container.jpg");
 		this->addTexture("container2.png");
@@ -48,10 +53,6 @@ public:
 
 	void createGeometry(std::shared_ptr<Shader> shaderProgram, std::shared_ptr<Shader> lampShader)
 	{
-    //Dragonfly
-    
-
-
 		//cube
 		Material material{ glm::vec3(1.0f, 0.5f, 0.31f), glm::vec3(1.0f, 0.5f, .031f), glm::vec3(0.5f, 0.5f, 0.5f), 32.0f };
 		std::shared_ptr<GeometricObject> cube = std::make_shared<Cube>("container2.png", material);
@@ -101,7 +102,7 @@ public:
 		//std::cout << lightPos.x << ", " << lightPos.y << ", " << lightPos.z << std::endl;
 	}
 
-	void makeCurrent() {
+	void makeCurrent() override {
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, this->textureMap["container2.png"]);
 		glActiveTexture(GL_TEXTURE1);
@@ -109,5 +110,10 @@ public:
 		glActiveTexture(GL_TEXTURE2);
 		glBindTexture(GL_TEXTURE_2D, this->textureMap["matrix.jpg"]);
 	}
+
+  void additionalUniformCalls(GLuint shaderID) override {
+    static float angle = glm::radians(65.0f);
+    glUniform1f(glGetUniformLocation(shaderID, "wingAngle"), angle * sin(1 * glfwGetTime()));
+  }
 };
 #endif

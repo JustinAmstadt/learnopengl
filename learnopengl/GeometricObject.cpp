@@ -11,6 +11,16 @@ GeometricObject::GeometricObject(std::vector<glm::vec3> vertices)
 	}
 }
 
+GeometricObject::GeometricObject(std::vector<glm::vec3> vertices, float vecInLineDist) 
+{
+	for (int i = 0; i < vertices.size(); i++) {
+		Vertex v;
+    v.distFromStart = ((i % 2 == 0) ? i : i - 1) * vecInLineDist; // vertices opposite to each other are made right away, so distance goes up every two
+		v.position = vertices[i];
+		vertexData.push_back(v);
+	}
+}
+
 GeometricObject::GeometricObject(std::array<glm::vec3, 2> vertices){
   for (glm::vec3 pt : vertices){
     Vertex v;

@@ -63,6 +63,8 @@ public:
 		glActiveTexture(GL_TEXTURE1);
 		glBindTexture(GL_TEXTURE_2D, 0);
 	}
+
+  virtual void additionalUniformCalls(GLuint shaderID) {}
 };
 
 

@@ -6,5 +6,5 @@ CXX_DEFINES =
 
 CXX_INCLUDES = -I/home/justin/learnopengl/learnopengl/include
 
-CXX_FLAGS = -Wall -Wextra -ggdb
+CXX_FLAGS = -Wall -Wextra -ggdb -std=gnu++20
 

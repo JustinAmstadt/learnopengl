@@ -20,6 +20,7 @@ struct Vertex {
 	glm::vec4 color;
 	glm::vec2 texture;
 	glm::vec3 normal;
+  float distFromStart = -1; // for lines only!!
 };
 
 class GeometricObject {
@@ -34,6 +35,8 @@ public:
 
 	GeometricObject(std::vector<glm::vec3> vertices);
   
+
+  GeometricObject(std::vector<glm::vec3> vertices, float vecInLineDist);
   GeometricObject(std::array<glm::vec3, 2> vertices);
 	~GeometricObject() { tragectory.reset(); }
 

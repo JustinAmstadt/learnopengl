@@ -11,6 +11,7 @@
 
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
+#include <iostream>
 
 std::unordered_map<std::string, GLuint> Scene::textureMap;
 
@@ -35,6 +36,13 @@ GLuint Scene::createVAO(std::vector<Vertex> data, std::vector<GLuint> indices)
 	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(sizeof(data[0].position) + sizeof(data[0].color))); //texture
 	glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(sizeof(data[0].position) + sizeof(data[0].color) + sizeof(data[0].texture))); //normal
 
+  // for lines only!! checks 
+  if(data[0].distFromStart > -1){
+    std::cout << data[0].distFromStart;
+    glEnableVertexAttribArray(4);
+    glVertexAttribPointer(4, 1, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(sizeof(data[0].position) + sizeof(data[0].color) + sizeof(data[0].texture) + sizeof(data[0].normal))); //distFromStart
+  }
+
 	GLuint EBO;
 	glGenBuffers(1, &EBO);
 
@@ -55,12 +63,17 @@ void Scene::renderScene(Camera camera)
 		glUseProgram(objectVec[i][0]->program->ID);
 		for (int j = 0; j < objectVec[i].size(); j++) {
 			glBindVertexArray(objectVec[i][j]->VAO);
+      
+      // Empty function by default in the parent class
+      additionalUniformCalls(objectVec[i][j]->program->ID);
 
 			//ocean shader
 			glUniform1f(glGetUniformLocation(objectVec[i][j]->program->ID, "time"), (float)glfwGetTime());
 
 			//lamp shader only
 			glUniform3fv(glGetUniformLocation(objectVec[i][j]->program->ID, "lightColor"), 1, glm::value_ptr(light->getLightColor()));
+
+      //dragonfly shader only
 
 			glUniform1i(glGetUniformLocation(objectVec[i][j]->program->ID, "material.diffuse"), 0);
 			glUniform1i(glGetUniformLocation(objectVec[i][j]->program->ID, "material.specular"), 1);
