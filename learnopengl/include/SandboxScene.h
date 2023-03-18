@@ -11,6 +11,7 @@
 
 #include <GLFW/glfw3.h>
 #include <numbers>
+#include <math.h>
 
 class SandboxScene : public Scene {
 private:
@@ -25,13 +26,13 @@ public:
 	SandboxScene(std::shared_ptr<Shader> shaderProgram, std::shared_ptr<Shader> lampShader, std::shared_ptr<Shader> dragonflyShader) {
 		cp = std::make_unique<CircularParabola>(lampShader);
 		gridFloor = std::make_unique<GridFloor>(lampShader, 80);
-    df = std::make_unique<Dragonfly>(dragonflyShader, lampShader);
+    df = std::make_unique<Dragonfly>(dragonflyShader, lampShader, 10.0f, 60.0f, 5.0f, 30.0f);
 
 		this->light = std::make_shared<PositionalLight>();
 
     this->addObjectVec(df->getWings());
     this->addObject(df->getBody());
-		this->addObjectVec(gridFloor->getFloorLines());
+		// this->addObjectVec(gridFloor->getFloorLines());
 		//this->addObjectVec(cp->getFallingCubes());
 		//this->addObjectVec(cp->getGraphLines());
 		// createGeometry(shaderProgram, lampShader);
@@ -112,8 +113,21 @@ public:
 	}
 
   void additionalUniformCalls(GLuint shaderID) override {
-    static float angle = glm::radians(65.0f);
-    glUniform1f(glGetUniformLocation(shaderID, "wingAngle"), angle * sin(1 * glfwGetTime()));
+    float speed = 1.0f;
+    float leftAngle;
+    float rightAngle;
+    double currentTime = glfwGetTime();
+    if(std::fmod(currentTime, glm::pi<float>() * 2.0) < glm::pi<float>() / speed){
+      leftAngle = glm::radians(df->getLeftTopAngle());
+      rightAngle = glm::radians(df->getRightTopAngle());
+    }
+    else{
+      leftAngle = glm::radians(df->getLeftBottomAngle());
+      rightAngle = glm::radians(df->getRightBottomAngle());
+    }
+
+    glUniform1f(glGetUniformLocation(shaderID, "leftWingAngle"), leftAngle * sin(speed * currentTime));
+    glUniform1f(glGetUniformLocation(shaderID, "rightWingAngle"), rightAngle * sin(speed * currentTime));
   }
 };
 #endif

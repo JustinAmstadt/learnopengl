@@ -1412,7 +1412,14 @@ CMakeFiles/learnopengl.dir/Main.cpp.o: Main.cpp \
   include/PositionalLight.h \
   include/GridFloor.h \
   include/Dragonfly.h \
+  /usr/include/c++/11/algorithm \
+  /usr/include/c++/11/bits/ranges_algo.h \
+  /usr/include/c++/11/bits/ranges_util.h \
+  /usr/include/c++/11/pstl/glue_algorithm_defs.h \
+  /usr/include/c++/11/functional \
+  /usr/include/c++/11/bits/std_function.h \
   include/DebugShape.h \
+  /usr/include/c++/11/math.h \
   include/TessellationPlaneScene.h \
   include/FlatPlane.h \
   include/MazeScene.h \
@@ -2792,6 +2799,8 @@ include/TessellationPlaneScene.h:
 
 include/DebugShape.h:
 
+/usr/include/c++/11/algorithm:
+
 include/Skybox.h:
 
 /usr/local/include/stb_image.h:
@@ -3035,6 +3044,8 @@ Main.cpp:
 /usr/include/glm/ext/vector_int2_sized.hpp:
 
 /usr/include/glm/ext/vector_int2.hpp:
+
+/usr/include/c++/11/bits/ranges_util.h:
 
 /usr/include/glm/ext/vector_double2_precision.hpp:
 
@@ -3486,6 +3497,8 @@ include/Scene.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/clock_t.h:
 
+/usr/include/c++/11/bits/std_function.h:
+
 /usr/include/c++/11/bits/stl_tempbuf.h:
 
 /usr/include/x86_64-linux-gnu/c++/11/bits/c++allocator.h:
@@ -3550,6 +3563,8 @@ include/Bot.h:
 
 /usr/include/x86_64-linux-gnu/bits/typesizes.h:
 
+/usr/include/c++/11/bits/ranges_algo.h:
+
 /usr/include/c++/11/bits/stl_iterator.h:
 
 /usr/include/x86_64-linux-gnu/bits/struct_mutex.h:
@@ -3569,6 +3584,8 @@ include/Bot.h:
 /usr/include/x86_64-linux-gnu/c++/11/bits/c++config.h:
 
 /usr/include/x86_64-linux-gnu/bits/pthread_stack_min-dynamic.h:
+
+/usr/include/c++/11/functional:
 
 /usr/include/linux/errno.h:
 
@@ -3713,6 +3730,8 @@ include/OceanScene.h:
 /usr/include/c++/11/utility:
 
 /usr/include/x86_64-linux-gnu/c++/11/bits/error_constants.h:
+
+/usr/include/c++/11/pstl/glue_algorithm_defs.h:
 
 /usr/include/glm/ext/matrix_float3x2_precision.hpp:
 

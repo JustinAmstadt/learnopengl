@@ -8,13 +8,23 @@ out vec4 Color;
 uniform mat4 model;
 uniform mat4 view;
 uniform mat4 projection;
-uniform float wingAngle; // must be in radians
+uniform float leftWingAngle; // must be in radians
+uniform float rightWingAngle; // must be in radians
 
 void main()
 {
   Color = aColor;
   float yPos = aPos.y;
   float xPos = aPos.x;
+  float wingAngle;
+
+  if(xPos < 0){ // I marked all left wing vertices with a negative xPos in Dragonfly.h
+    xPos = -xPos;
+    wingAngle = leftWingAngle;
+  }
+  else{
+    wingAngle = rightWingAngle;
+  }
 
   yPos = aDistFromStart * sin(wingAngle);
   xPos = aDistFromStart * cos(wingAngle);

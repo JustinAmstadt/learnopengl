@@ -436,7 +436,12 @@ CMakeFiles/learnopengl.dir/Main.cpp.o: \
  /home/justin/learnopengl/learnopengl/include/PositionalLight.h \
  /home/justin/learnopengl/learnopengl/include/GridFloor.h \
  /home/justin/learnopengl/learnopengl/include/Dragonfly.h \
+ /usr/include/c++/11/algorithm /usr/include/c++/11/bits/ranges_algo.h \
+ /usr/include/c++/11/bits/ranges_util.h \
+ /usr/include/c++/11/pstl/glue_algorithm_defs.h \
+ /usr/include/c++/11/functional /usr/include/c++/11/bits/std_function.h \
  /home/justin/learnopengl/learnopengl/include/DebugShape.h \
+ /usr/include/c++/11/math.h \
  /home/justin/learnopengl/learnopengl/include/TessellationPlaneScene.h \
  /home/justin/learnopengl/learnopengl/include/FlatPlane.h \
  /home/justin/learnopengl/learnopengl/include/MazeScene.h \
