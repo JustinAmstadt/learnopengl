@@ -9,6 +9,8 @@
 #include "Scene.h"
 #include "DebugShape.h"
 
+#include <GLFW/glfw3.h>
+
 class Dragonfly {
   public:
     Dragonfly(std::shared_ptr<Shader> wingShader, std::shared_ptr<Shader> bodyShader, float tl, float bl, float tr, float br){
@@ -41,7 +43,11 @@ class Dragonfly {
     }
 
     void update(){
-
+      float currentTime = glfwGetTime();
+      leftUniform = glm::radians((leftTopAngle / 2.0f + leftBottomAngle / 2.0f)
+        * sin(wingSpeed * currentTime) + (leftTopAngle / 2.0f - leftBottomAngle / 2.0f));
+      rightUniform = glm::radians((rightTopAngle / 2.0f + rightBottomAngle / 2.0f)
+        * sin(wingSpeed * currentTime) + (rightTopAngle / 2.0f - rightBottomAngle / 2.0f));
     }
 
     void setLeftWingAngle(float top, float bottom){
@@ -58,15 +64,26 @@ class Dragonfly {
       }
     }
     
+    float getRightUniform(){
+      return rightUniform;
+    }
+
+    float getLeftUniform(){
+      return leftUniform;
+    }
+
     float getRightTopAngle(){
       return rightTopAngle;
     }
+
     float getLeftTopAngle(){
       return leftTopAngle;
     }
+
     float getRightBottomAngle(){
       return rightBottomAngle;
     }
+
     float getLeftBottomAngle(){
       return leftBottomAngle;
     }
@@ -87,8 +104,10 @@ class Dragonfly {
     float rightTopAngle = 0;
     float rightBottomAngle = 0;
 
+    float wingSpeed = 10.0f;
     float leftUniform;
     float rightUniform;
+
 
     std::vector<glm::vec3> wingPts;
 

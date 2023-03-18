@@ -9,7 +9,6 @@
 #include "GridFloor.h"
 #include "Dragonfly.h"
 
-#include <GLFW/glfw3.h>
 #include <numbers>
 #include <math.h>
 
@@ -26,7 +25,7 @@ public:
 	SandboxScene(std::shared_ptr<Shader> shaderProgram, std::shared_ptr<Shader> lampShader, std::shared_ptr<Shader> dragonflyShader) {
 		cp = std::make_unique<CircularParabola>(lampShader);
 		gridFloor = std::make_unique<GridFloor>(lampShader, 80);
-    df = std::make_unique<Dragonfly>(dragonflyShader, lampShader, 30.0f, 24.0f, 50.0f, 30.0f);
+    df = std::make_unique<Dragonfly>(dragonflyShader, lampShader, 10.0f, 4.0f, 70.0f, 30.0f);
 
 		this->light = std::make_shared<PositionalLight>();
 
@@ -50,6 +49,7 @@ public:
 		this->light->setLightColor(glm::vec3(1.0f, 0.0f, 1.0f));
 		this->renderScene(camera);
 		updateGeometry(camera);
+    this->df->update();
 	}
 
 	void createGeometry(std::shared_ptr<Shader> shaderProgram, std::shared_ptr<Shader> lampShader)
@@ -117,10 +117,8 @@ public:
     double currentTime = glfwGetTime();
 
     // By offsetting the sine wave appropriately, we can get the function to have a set high and low
-    glUniform1f(glGetUniformLocation(shaderID, "leftWingAngle"), glm::radians((df->getLeftTopAngle() / 2.0f + df->getLeftBottomAngle() / 2.0f)
-          * sin(speed * currentTime) + (df->getLeftTopAngle() / 2.0f - df->getLeftBottomAngle() / 2.0f)));
-    glUniform1f(glGetUniformLocation(shaderID, "rightWingAngle"), glm::radians((df->getRightTopAngle() / 2.0f + df->getRightBottomAngle() / 2.0f)
-          * sin(speed * currentTime) + (df->getRightTopAngle() / 2.0f - df->getRightBottomAngle() / 2.0f)));
+    glUniform1f(glGetUniformLocation(shaderID, "leftWingAngle"), df->getLeftUniform());
+    glUniform1f(glGetUniformLocation(shaderID, "rightWingAngle"), df->getRightUniform());
 
   }
 };
