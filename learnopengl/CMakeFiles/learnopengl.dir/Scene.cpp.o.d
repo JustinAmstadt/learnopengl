@@ -85,8 +85,8 @@ CMakeFiles/learnopengl.dir/Scene.cpp.o: \
  /usr/include/c++/11/bits/functional_hash.h \
  /usr/include/c++/11/bits/hash_bytes.h \
  /usr/include/c++/11/bits/range_access.h \
- /usr/include/c++/11/bits/vector.tcc /usr/local/include/glad/glad.h \
- /usr/local/include/KHR/khrplatform.h \
+ /usr/include/c++/11/bits/vector.tcc /usr/include/glad/glad.h \
+ /usr/include/KHR/khrplatform.h \
  /usr/lib/gcc/x86_64-linux-gnu/11/include/stdint.h /usr/include/stdint.h \
  /usr/include/x86_64-linux-gnu/bits/wchar.h \
  /usr/include/x86_64-linux-gnu/bits/stdint-uintn.h \

@@ -427,8 +427,8 @@ CMakeFiles/learnopengl.dir/CircularParabola.cpp.o: CircularParabola.cpp \
   /usr/include/glm/ext/matrix_transform.inl \
   /usr/include/glm/gtc/matrix_transform.inl \
   include/Shader.h \
-  /usr/local/include/glad/glad.h \
-  /usr/local/include/KHR/khrplatform.h \
+  /usr/include/glad/glad.h \
+  /usr/include/KHR/khrplatform.h \
   include/GeometricObject.h \
   include/Tragectory.h \
   /usr/include/c++/11/iostream \
@@ -864,8 +864,8 @@ CMakeFiles/learnopengl.dir/GeometricObject.cpp.o: GeometricObject.cpp \
   /usr/include/glm/detail/type_half.inl \
   /usr/include/glm/integer.hpp \
   /usr/include/glm/detail/func_integer.inl \
-  /usr/local/include/glad/glad.h \
-  /usr/local/include/KHR/khrplatform.h \
+  /usr/include/glad/glad.h \
+  /usr/include/KHR/khrplatform.h \
   include/Tragectory.h \
   /usr/include/c++/11/iostream \
   /usr/include/c++/11/istream \
@@ -890,8 +890,8 @@ CMakeFiles/learnopengl.dir/GeometricObject.cpp.o: GeometricObject.cpp \
 
 CMakeFiles/learnopengl.dir/Main.cpp.o: Main.cpp \
   /usr/include/stdc-predef.h \
-  /usr/local/include/glad/glad.h \
-  /usr/local/include/KHR/khrplatform.h \
+  /usr/include/glad/glad.h \
+  /usr/include/KHR/khrplatform.h \
   /usr/lib/gcc/x86_64-linux-gnu/11/include/stdint.h \
   /usr/include/stdint.h \
   /usr/include/x86_64-linux-gnu/bits/libc-header-start.h \
@@ -1677,8 +1677,8 @@ CMakeFiles/learnopengl.dir/ObjectData.cpp.o: ObjectData.cpp \
   /usr/include/c++/11/bits/stl_bvector.h \
   /usr/include/c++/11/bits/vector.tcc \
   include/Shader.h \
-  /usr/local/include/glad/glad.h \
-  /usr/local/include/KHR/khrplatform.h \
+  /usr/include/glad/glad.h \
+  /usr/include/KHR/khrplatform.h \
   include/Scene.h \
   /usr/include/glm/glm.hpp \
   /usr/include/glm/detail/_fixes.hpp \
@@ -2170,8 +2170,8 @@ CMakeFiles/learnopengl.dir/Scene.cpp.o: Scene.cpp \
   /usr/include/c++/11/bits/hash_bytes.h \
   /usr/include/c++/11/bits/range_access.h \
   /usr/include/c++/11/bits/vector.tcc \
-  /usr/local/include/glad/glad.h \
-  /usr/local/include/KHR/khrplatform.h \
+  /usr/include/glad/glad.h \
+  /usr/include/KHR/khrplatform.h \
   /usr/lib/gcc/x86_64-linux-gnu/11/include/stdint.h \
   /usr/include/stdint.h \
   /usr/include/x86_64-linux-gnu/bits/wchar.h \
@@ -2580,8 +2580,8 @@ CMakeFiles/learnopengl.dir/Scene.cpp.o: Scene.cpp \
 CMakeFiles/learnopengl.dir/Shader.cpp.o: Shader.cpp \
   /usr/include/stdc-predef.h \
   include/Shader.h \
-  /usr/local/include/glad/glad.h \
-  /usr/local/include/KHR/khrplatform.h \
+  /usr/include/glad/glad.h \
+  /usr/include/KHR/khrplatform.h \
   /usr/lib/gcc/x86_64-linux-gnu/11/include/stdint.h \
   /usr/include/stdint.h \
   /usr/include/x86_64-linux-gnu/bits/libc-header-start.h \
@@ -2873,10 +2873,6 @@ include/Tragectory.h:
 
 include/GeometricObject.h:
 
-/usr/local/include/KHR/khrplatform.h:
-
-/usr/local/include/glad/glad.h:
-
 /usr/include/glm/ext/matrix_transform.hpp:
 
 /usr/include/glm/ext/matrix_projection.inl:
@@ -2928,6 +2924,8 @@ include/GeometricObject.h:
 /usr/include/glm/mat4x4.hpp:
 
 /usr/include/glm/ext/matrix_float4x3.hpp:
+
+/usr/include/KHR/khrplatform.h:
 
 /usr/include/glm/ext/matrix_double4x3_precision.hpp:
 
@@ -3594,6 +3592,8 @@ include/Bot.h:
 /usr/include/glm/mat2x3.hpp:
 
 /usr/include/c++/11/bits/locale_classes.h:
+
+/usr/include/glad/glad.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/__fpos_t.h:
 
