@@ -26,13 +26,13 @@ public:
 	SandboxScene(std::shared_ptr<Shader> shaderProgram, std::shared_ptr<Shader> lampShader, std::shared_ptr<Shader> dragonflyShader) {
 		cp = std::make_unique<CircularParabola>(lampShader);
 		gridFloor = std::make_unique<GridFloor>(lampShader, 80);
-    df = std::make_unique<Dragonfly>(dragonflyShader, lampShader, 30.0f, 10.0f, 5.0f, 50.0f);
+    df = std::make_unique<Dragonfly>(dragonflyShader, lampShader, 30.0f, 24.0f, 50.0f, 30.0f);
 
 		this->light = std::make_shared<PositionalLight>();
 
     this->addObjectVec(df->getWings());
     this->addObject(df->getBody());
-		// this->addObjectVec(gridFloor->getFloorLines());
+		this->addObjectVec(gridFloor->getFloorLines());
 		//this->addObjectVec(cp->getFallingCubes());
 		//this->addObjectVec(cp->getGraphLines());
 		// createGeometry(shaderProgram, lampShader);
@@ -113,7 +113,7 @@ public:
 	}
 
   void additionalUniformCalls(GLuint shaderID) override {
-    float speed = 1.0f;
+    float speed = 10.0f;
     double currentTime = glfwGetTime();
 
     // By offsetting the sine wave appropriately, we can get the function to have a set high and low

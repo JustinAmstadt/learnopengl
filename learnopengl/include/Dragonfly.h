@@ -40,6 +40,10 @@ class Dragonfly {
       bodyPtr->model = translate * bodyPtr->model;
     }
 
+    void update(){
+
+    }
+
     void setLeftWingAngle(float top, float bottom){
       if(top < 90.1f && top > 0 && bottom < 90.1f && bottom > 0){
         leftTopAngle = top;
@@ -83,6 +87,8 @@ class Dragonfly {
     float rightTopAngle = 0;
     float rightBottomAngle = 0;
 
+    float leftUniform;
+    float rightUniform;
 
     std::vector<glm::vec3> wingPts;
 
@@ -164,10 +170,6 @@ class Dragonfly {
       model = glm::scale(model, glm::vec3(bodyWidth, bodyWidth * 1.2f, wingWidth * 2.0 + wingGap));
       *list = { body, Scene::createVAO(body->vertexData), model, bodyShader, GL_TRIANGLES };
       bodyPtr = list;
-
-    }
-
-    void flap(){
 
     }
 
