@@ -166,6 +166,30 @@ CircularParabola.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/learnopengl.dir/build.make CMakeFiles/learnopengl.dir/CircularParabola.cpp.s
 .PHONY : CircularParabola.cpp.s
 
+Dragonfly.o: Dragonfly.cpp.o
+.PHONY : Dragonfly.o
+
+# target to build an object file
+Dragonfly.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/learnopengl.dir/build.make CMakeFiles/learnopengl.dir/Dragonfly.cpp.o
+.PHONY : Dragonfly.cpp.o
+
+Dragonfly.i: Dragonfly.cpp.i
+.PHONY : Dragonfly.i
+
+# target to preprocess a source file
+Dragonfly.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/learnopengl.dir/build.make CMakeFiles/learnopengl.dir/Dragonfly.cpp.i
+.PHONY : Dragonfly.cpp.i
+
+Dragonfly.s: Dragonfly.cpp.s
+.PHONY : Dragonfly.s
+
+# target to generate assembly for a file
+Dragonfly.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/learnopengl.dir/build.make CMakeFiles/learnopengl.dir/Dragonfly.cpp.s
+.PHONY : Dragonfly.cpp.s
+
 GeometricObject.o: GeometricObject.cpp.o
 .PHONY : GeometricObject.o
 
@@ -347,6 +371,9 @@ help:
 	@echo "... CircularParabola.o"
 	@echo "... CircularParabola.i"
 	@echo "... CircularParabola.s"
+	@echo "... Dragonfly.o"
+	@echo "... Dragonfly.i"
+	@echo "... Dragonfly.s"
 	@echo "... GeometricObject.o"
 	@echo "... GeometricObject.i"
 	@echo "... GeometricObject.s"

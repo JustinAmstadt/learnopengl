@@ -8,8 +8,38 @@
 #include "Cube.h"
 #include "Scene.h"
 #include "DebugShape.h"
+#include "Physics.h"
 
 #include <GLFW/glfw3.h>
+
+
+class DragonflyPhysics{
+
+  public:
+
+    const int CFP_CUBED_MASS = 1600; // mass of a thin piece of carbon fiber plate per cubic meter in grams
+    PhysAttributes attrib;
+
+    float wingArea;
+    // body surfaces
+    
+    DragonflyPhysics(float cubeDimH, float cubeDimW, float cubeDimL, float wingL, float wingW){
+      attrib.mass = getSurfaceArea(cubeDimH, cubeDimW, cubeDimL, wingL, wingW);
+
+    }
+
+    // return total weight in grams per cubic meter
+    float getSurfaceArea(float cubeDimH, float cubeDimW, float cubeDimL, float wingL, float wingW){
+      float bodySurfaceArea = 2 * cubeDimH * cubeDimW + 2 * cubeDimH * cubeDimL + 2 * cubeDimW * cubeDimL;
+      float wingSurfaceArea = 2 * wingL * wingW;
+      return bodySurfaceArea + wingSurfaceArea;
+    }
+
+
+  private:
+
+
+};
 
 class Dragonfly {
   public:
@@ -97,6 +127,8 @@ class Dragonfly {
     float wingEndRadius = 0.5;
     float startingYHeight = 5;
     float bodyWidth = wingLength / 2.0f;
+    float bodyLength = wingWidth * 2.0 + wingGap;
+    float bodyHeight = bodyWidth * 1.2f;
     float wingXOffset = (bodyWidth / 2.0f) * (9.0f / 10.0f);
 
     float leftTopAngle = 0;
@@ -142,43 +174,7 @@ class Dragonfly {
       makeWingPtr(wingPts, wingShader);
     }
 
-    void makeWingPtr(std::vector<glm::vec3> wingPts, std::shared_ptr<Shader> wingShader){
-      std::shared_ptr<GeometricObject> rightLine = std::make_shared<GeometricObject>(wingPts, wingDistance);
-      rightLine->setColor(glm::vec4(0.970f, 0.291f, 0.476f, 1.0f));
-      GLuint rightVAO = Scene::createVAO(rightLine->vertexData);
-      std::shared_ptr<SceneObject> list = std::make_shared<SceneObject>();
-
-      // top right
-      glm::mat4 model = glm::translate(glm::mat4(1.0f), glm::vec3(wingXOffset, 0.0f, 0.0f));
-      *list = { rightLine, rightVAO, model, wingShader, GL_TRIANGLE_STRIP };
-      wingptr.push_back(list);
-
-      // bottom right
-      model = glm::translate(model, glm::vec3(0.0f, 0.0f, wingWidth + wingGap));
-      list = std::make_shared<SceneObject>();
-      *list = { rightLine, rightVAO, model, wingShader, GL_TRIANGLE_STRIP };
-      wingptr.push_back(list);
-
-      std::for_each(wingPts.begin(), wingPts.end(), [](glm::vec3& vec) { vec.x = -vec.x; }); // marking the left side with a negative x. will fix in shader
-      std::shared_ptr<GeometricObject> leftLine = std::make_shared<GeometricObject>(wingPts, wingDistance);
-      leftLine->setColor(glm::vec4(0.970f, 0.291f, 0.476f, 1.0f));
-      GLuint leftVAO = Scene::createVAO(leftLine->vertexData);
-
-      // top left
-      model = glm::mat4(1.0f);
-      glm::mat4 translate = glm::translate(glm::mat4(1.0f), glm::vec3(wingXOffset, 0.0f, -2.0f * wingWidth - wingGap)); // negative z here because we are are rotating 180 degress around y axis. z becomes flipped
-      glm::mat4 rotate = glm::rotate(glm::mat4(1.0f), glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f)); // We rotate here so that the endpoints continue to be endpoints on the other side
-      model = rotate * translate;
-      list = std::make_shared<SceneObject>();
-      *list = { leftLine, leftVAO, model, wingShader, GL_TRIANGLE_STRIP };
-      wingptr.push_back(list);
-      
-      // bottom left
-      model = glm::translate(model, glm::vec3(0.0f, 0.0f, wingWidth + wingGap));
-      list = std::make_shared<SceneObject>();
-      *list = { leftLine, leftVAO, model, wingShader, GL_TRIANGLE_STRIP };
-      wingptr.push_back(list);
-    }
+    void makeWingPtr(std::vector<glm::vec3> wingPts, std::shared_ptr<Shader> wingShader);
 
     void drawBody(std::shared_ptr<Shader> bodyShader){
       std::shared_ptr<GeometricObject> body = std::make_shared<Cube>(glm::vec4(0.346f, 0.533f, 1.0f, 1.0f));
@@ -186,12 +182,13 @@ class Dragonfly {
       std::shared_ptr<SceneObject> list = std::make_shared<SceneObject>();
 
       model = glm::translate(model, glm::vec3(0.0f, 0.0f, wingWidth + wingGap / 2.0f));
-      model = glm::scale(model, glm::vec3(bodyWidth, bodyWidth * 1.2f, wingWidth * 2.0 + wingGap));
+      model = glm::scale(model, glm::vec3(bodyWidth, bodyHeight, bodyLength));
       *list = { body, Scene::createVAO(body->vertexData), model, bodyShader, GL_TRIANGLES };
       bodyPtr = list;
 
     }
 
 };
+
 
 #endif

@@ -9,6 +9,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/home/justin/learnopengl/learnopengl/CircularParabola.cpp" "CMakeFiles/learnopengl.dir/CircularParabola.cpp.o" "gcc" "CMakeFiles/learnopengl.dir/CircularParabola.cpp.o.d"
+  "/home/justin/learnopengl/learnopengl/Dragonfly.cpp" "CMakeFiles/learnopengl.dir/Dragonfly.cpp.o" "gcc" "CMakeFiles/learnopengl.dir/Dragonfly.cpp.o.d"
   "/home/justin/learnopengl/learnopengl/GeometricObject.cpp" "CMakeFiles/learnopengl.dir/GeometricObject.cpp.o" "gcc" "CMakeFiles/learnopengl.dir/GeometricObject.cpp.o.d"
   "/home/justin/learnopengl/learnopengl/Main.cpp" "CMakeFiles/learnopengl.dir/Main.cpp.o" "gcc" "CMakeFiles/learnopengl.dir/Main.cpp.o.d"
   "/home/justin/learnopengl/learnopengl/ObjectData.cpp" "CMakeFiles/learnopengl.dir/ObjectData.cpp.o" "gcc" "CMakeFiles/learnopengl.dir/ObjectData.cpp.o.d"

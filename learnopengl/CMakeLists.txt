@@ -20,6 +20,7 @@ add_executable(learnopengl
   GeometricObject.cpp 
   CircularParabola.cpp
   Pipe.cpp
+  Dragonfly.cpp
   include/Bot.h
   include/Cube.h
   include/GeometricObject.h
@@ -44,6 +45,7 @@ add_executable(learnopengl
   include/TessellationPlaneScene.h
   include/Dragonfly.h
   include/DebugShape.h
+  include/Physics.h
 )
 
 add_library(glad STATIC glad.c)

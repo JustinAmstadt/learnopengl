@@ -1,6 +1,8 @@
 file(REMOVE_RECURSE
   "CMakeFiles/learnopengl.dir/CircularParabola.cpp.o"
   "CMakeFiles/learnopengl.dir/CircularParabola.cpp.o.d"
+  "CMakeFiles/learnopengl.dir/Dragonfly.cpp.o"
+  "CMakeFiles/learnopengl.dir/Dragonfly.cpp.o.d"
   "CMakeFiles/learnopengl.dir/GeometricObject.cpp.o"
   "CMakeFiles/learnopengl.dir/GeometricObject.cpp.o.d"
   "CMakeFiles/learnopengl.dir/Main.cpp.o"
