@@ -375,8 +375,8 @@ CMakeFiles/learnopengl.dir/Dragonfly.cpp.o: \
  /usr/include/glm/ext/matrix_transform.inl \
  /usr/include/glm/gtc/matrix_transform.inl \
  /home/justin/learnopengl/learnopengl/include/Scene.h \
+ /usr/local/include/GLFW/glfw3.h \
  /home/justin/learnopengl/learnopengl/include/Camera.h \
  /home/justin/learnopengl/learnopengl/include/Light.h \
  /home/justin/learnopengl/learnopengl/include/DebugShape.h \
- /home/justin/learnopengl/learnopengl/include/Physics.h \
- /usr/local/include/GLFW/glfw3.h
+ /home/justin/learnopengl/learnopengl/include/Physics.h

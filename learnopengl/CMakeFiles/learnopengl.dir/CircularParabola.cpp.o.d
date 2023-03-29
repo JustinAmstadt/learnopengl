@@ -366,7 +366,7 @@ CMakeFiles/learnopengl.dir/CircularParabola.cpp.o: \
  /usr/include/c++/11/bits/enable_special_members.h \
  /usr/include/c++/11/bits/node_handle.h \
  /usr/include/c++/11/bits/unordered_map.h \
- /usr/include/c++/11/bits/erase_if.h \
+ /usr/include/c++/11/bits/erase_if.h /usr/local/include/GLFW/glfw3.h \
  /home/justin/learnopengl/learnopengl/include/Camera.h \
  /home/justin/learnopengl/learnopengl/include/Light.h \
  /home/justin/learnopengl/learnopengl/include/Cube.h

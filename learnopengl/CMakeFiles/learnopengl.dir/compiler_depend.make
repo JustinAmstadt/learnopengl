@@ -447,6 +447,7 @@ CMakeFiles/learnopengl.dir/CircularParabola.cpp.o: CircularParabola.cpp \
   /usr/include/c++/11/bits/node_handle.h \
   /usr/include/c++/11/bits/unordered_map.h \
   /usr/include/c++/11/bits/erase_if.h \
+  /usr/local/include/GLFW/glfw3.h \
   include/Camera.h \
   include/Light.h \
   include/Cube.h
@@ -904,11 +905,11 @@ CMakeFiles/learnopengl.dir/Dragonfly.cpp.o: Dragonfly.cpp \
   /usr/include/glm/ext/matrix_transform.inl \
   /usr/include/glm/gtc/matrix_transform.inl \
   include/Scene.h \
+  /usr/local/include/GLFW/glfw3.h \
   include/Camera.h \
   include/Light.h \
   include/DebugShape.h \
-  include/Physics.h \
-  /usr/local/include/GLFW/glfw3.h
+  include/Physics.h
 
 CMakeFiles/learnopengl.dir/GeometricObject.cpp.o: GeometricObject.cpp \
   /usr/include/stdc-predef.h \
@@ -2315,6 +2316,7 @@ CMakeFiles/learnopengl.dir/ObjectData.cpp.o: ObjectData.cpp \
   /usr/include/c++/11/bits/node_handle.h \
   /usr/include/c++/11/bits/unordered_map.h \
   /usr/include/c++/11/bits/erase_if.h \
+  /usr/local/include/GLFW/glfw3.h \
   include/GeometricObject.h \
   include/Tragectory.h \
   /usr/include/c++/11/queue \

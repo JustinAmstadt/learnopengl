@@ -6,6 +6,7 @@
 #include <vector>
 #include <iostream>
 #include <unordered_map>
+#include <GLFW/glfw3.h>
 
 #include "GeometricObject.h"
 #include "Camera.h"
@@ -27,6 +28,8 @@ private:
 	std::vector<std::vector<std::shared_ptr<SceneObject>>> objectVec;
 	glm::mat4 projection;
 	GLuint cubeMap = -1;
+  float prevTime = static_cast<float>(glfwGetTime());
+  float curTime;
 protected:
 	glm::vec4 clearColor = glm::vec4(0.4f, 0.4f, 0.4f, 1.0f);
 public:
@@ -47,16 +50,33 @@ public:
 	void addObjectVec(std::vector<std::shared_ptr<SceneObject>> vector) {
 		if(vector.size() > 0)
 			objectVec.push_back(vector);
+    else {
+      throw "Vector cannot be size 0";
+    }
 	}
 	void addObject(std::shared_ptr<SceneObject> object) {
-		objectVec.push_back(std::vector<std::shared_ptr<SceneObject>>{ object });
+    if(object != nullptr){
+      objectVec.push_back(std::vector<std::shared_ptr<SceneObject>>{ object });
+    }
+    else{
+      throw "object cannot be nullptr";
+    }
 	}
+
+  float getDeltaT() {
+    curTime = static_cast<float>(glfwGetTime());
+    float deltaT = curTime - prevTime;
+    prevTime = curTime;
+    return deltaT;
+  }
 
 	void addTexture(std::string fileName);
 
 	void addCubeMap(std::vector<std::string> faces);
 
 	virtual void update(Camera camera) = 0;
+
+  // Binds textures to what the scene requires
 	virtual void makeCurrent() {
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, 0);

@@ -13,7 +13,7 @@ void Dragonfly::makeWingPtr(std::vector<glm::vec3> wingPts, std::shared_ptr<Shad
   wingptr.push_back(list);
 
   // bottom right
-  model = glm::translate(model, glm::vec3(0.0f, 0.0f, wingWidth + wingGap));
+  model = glm::translate(model, glm::vec3(0.0f, 0.0f, dim.wingWidth + wingGap));
   list = std::make_shared<SceneObject>();
   *list = { rightLine, rightVAO, model, wingShader, GL_TRIANGLE_STRIP };
   wingptr.push_back(list);
@@ -25,7 +25,7 @@ void Dragonfly::makeWingPtr(std::vector<glm::vec3> wingPts, std::shared_ptr<Shad
 
   // top left
   model = glm::mat4(1.0f);
-  glm::mat4 translate = glm::translate(glm::mat4(1.0f), glm::vec3(wingXOffset, 0.0f, -2.0f * wingWidth - wingGap)); // negative z here because we are are rotating 180 degress around y axis. z becomes flipped
+  glm::mat4 translate = glm::translate(glm::mat4(1.0f), glm::vec3(wingXOffset, 0.0f, -2.0f * dim.wingWidth - wingGap)); // negative z here because we are are rotating 180 degress around y axis. z becomes flipped
   glm::mat4 rotate = glm::rotate(glm::mat4(1.0f), glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f)); // We rotate here so that the endpoints continue to be endpoints on the other side
   model = rotate * translate;
   list = std::make_shared<SceneObject>();
@@ -33,7 +33,7 @@ void Dragonfly::makeWingPtr(std::vector<glm::vec3> wingPts, std::shared_ptr<Shad
   wingptr.push_back(list);
   
   // bottom left
-  model = glm::translate(model, glm::vec3(0.0f, 0.0f, wingWidth + wingGap));
+  model = glm::translate(model, glm::vec3(0.0f, 0.0f, dim.wingWidth + wingGap));
   list = std::make_shared<SceneObject>();
   *list = { leftLine, leftVAO, model, wingShader, GL_TRIANGLE_STRIP };
   wingptr.push_back(list);
