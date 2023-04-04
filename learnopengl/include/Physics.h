@@ -14,8 +14,9 @@ class PhysicsObject{
 
   public:
 
-    constexpr static float GRAVITY_ACCEL_S = 9.81f;
+    constexpr static float GRAVITY_ACCEL_S = 25.81f;
     constexpr static float GRAVITY_ACCEL_MS = 0.00981f;
+    constexpr static float FLOOR_HEIGHT = 0.0f;
 
   protected:
 
@@ -25,8 +26,14 @@ class PhysicsObject{
     }
 
     virtual void calcAccel(float deltaT) {
-      glm::vec3 change = glm::vec3(0.0f, deltaT * -GRAVITY_ACCEL_MS, 0.0f);
-      attrib.accel + change;
+    }
+
+    virtual void calcDrag(float deltaT) {
+      
+    }
+
+    virtual void calcLift(float deltaT) {
+      
     }
 
     virtual void calcVelocity(float deltaT) {
@@ -37,8 +44,15 @@ class PhysicsObject{
     virtual glm::vec3 calcPos(float deltaT) {
       glm::vec3 deltaP = deltaT * attrib.velocity;
       attrib.pos += deltaP;
-      std::cout << deltaP[1] << std::endl;
+
+      if (attrib.pos[1] < 0.0f) {
+        attrib.pos[1] = 0.0f;
+        attrib.velocity[1] = 0.0f;
+        deltaP[1] = 0.0f;
+      }
+      
       return deltaP;
+
     }
 
     // Returns change in position to that can be used for graphical translation

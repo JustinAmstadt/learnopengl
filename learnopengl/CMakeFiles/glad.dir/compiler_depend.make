@@ -59,8 +59,8 @@ CMakeFiles/glad.dir/glad.c.o: glad.c \
   /usr/include/x86_64-linux-gnu/bits/types/locale_t.h \
   /usr/include/x86_64-linux-gnu/bits/types/__locale_t.h \
   /usr/include/strings.h \
-  /usr/include/glad/glad.h \
-  /usr/include/KHR/khrplatform.h \
+  /usr/local/include/glad/glad.h \
+  /usr/local/include/KHR/khrplatform.h \
   /usr/lib/gcc/x86_64-linux-gnu/11/include/stdint.h \
   /usr/include/stdint.h \
   /usr/include/x86_64-linux-gnu/bits/wchar.h \
@@ -79,7 +79,7 @@ CMakeFiles/glad.dir/glad.c.o: glad.c \
 
 /usr/include/stdint.h:
 
-/usr/include/KHR/khrplatform.h:
+/usr/local/include/KHR/khrplatform.h:
 
 /usr/include/x86_64-linux-gnu/bits/waitstatus.h:
 
@@ -108,8 +108,6 @@ CMakeFiles/glad.dir/glad.c.o: glad.c \
 /usr/include/x86_64-linux-gnu/bits/waitflags.h:
 
 /usr/include/x86_64-linux-gnu/bits/typesizes.h:
-
-/usr/include/x86_64-linux-gnu/bits/types/struct_FILE.h:
 
 /usr/include/x86_64-linux-gnu/bits/endianness.h:
 
@@ -163,8 +161,6 @@ glad.c:
 
 /usr/include/x86_64-linux-gnu/bits/stdlib-float.h:
 
-/usr/include/glad/glad.h:
-
 /usr/include/x86_64-linux-gnu/bits/stdint-intn.h:
 
 /usr/include/string.h:
@@ -200,3 +196,7 @@ glad.c:
 /usr/include/x86_64-linux-gnu/bits/atomic_wide_counter.h:
 
 /usr/include/x86_64-linux-gnu/bits/struct_rwlock.h:
+
+/usr/include/x86_64-linux-gnu/bits/types/struct_FILE.h:
+
+/usr/local/include/glad/glad.h:

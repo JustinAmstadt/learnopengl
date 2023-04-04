@@ -41,7 +41,7 @@ class Dragonfly : public PhysicsObject {
       wingGap = dim.wingWidth / 20.0f;
       wingXOffset = (dim.bodyWidth / 2.0f) * (9.0f / 10.0f);
 
-      attrib.accel = glm::vec3(0.0f);
+      attrib.accel = glm::vec3(0.0f, -GRAVITY_ACCEL_S, 0.0f);
       attrib.velocity = glm::vec3(0.0f);
       attrib.mass = getBodyMass() + getWingMass(dim);
       attrib.pos = glm::vec3(0.0f);
@@ -52,6 +52,8 @@ class Dragonfly : public PhysicsObject {
       setLeftWingAngle(tl, bl);
       setRightWingAngle(tr, br);
 
+      translate(startingOffset);
+      attrib.pos = startingOffset;
     }
 
     ~Dragonfly(){
@@ -133,6 +135,7 @@ class Dragonfly : public PhysicsObject {
     float startingYHeight = 5;
     float wingXOffset;
     float wingGap;
+    glm::vec3 startingOffset = glm::vec3(0.0f, 10.0f, 0.0f);
 
     float leftTopAngle = 0;
     float leftBottomAngle = 0;

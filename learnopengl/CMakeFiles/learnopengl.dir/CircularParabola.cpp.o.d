@@ -353,7 +353,7 @@ CMakeFiles/learnopengl.dir/CircularParabola.cpp.o: \
  /usr/include/glm/ext/matrix_transform.inl \
  /usr/include/glm/gtc/matrix_transform.inl \
  /home/justin/learnopengl/learnopengl/include/Shader.h \
- /usr/include/glad/glad.h /usr/include/KHR/khrplatform.h \
+ /usr/local/include/glad/glad.h /usr/local/include/KHR/khrplatform.h \
  /home/justin/learnopengl/learnopengl/include/GeometricObject.h \
  /home/justin/learnopengl/learnopengl/include/Tragectory.h \
  /usr/include/c++/11/iostream /usr/include/c++/11/istream \

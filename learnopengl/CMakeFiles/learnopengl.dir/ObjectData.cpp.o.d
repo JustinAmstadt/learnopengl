@@ -203,7 +203,7 @@ CMakeFiles/learnopengl.dir/ObjectData.cpp.o: \
  /usr/include/c++/11/bits/stl_bvector.h \
  /usr/include/c++/11/bits/vector.tcc \
  /home/justin/learnopengl/learnopengl/include/Shader.h \
- /usr/include/glad/glad.h /usr/include/KHR/khrplatform.h \
+ /usr/local/include/glad/glad.h /usr/local/include/KHR/khrplatform.h \
  /home/justin/learnopengl/learnopengl/include/Scene.h \
  /usr/include/glm/glm.hpp /usr/include/glm/detail/_fixes.hpp \
  /usr/include/c++/11/cmath /usr/include/math.h \

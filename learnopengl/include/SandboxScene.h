@@ -25,7 +25,7 @@ public:
 	SandboxScene(std::shared_ptr<Shader> shaderProgram, std::shared_ptr<Shader> lampShader, std::shared_ptr<Shader> dragonflyShader) {
 		cp = std::make_unique<CircularParabola>(lampShader);
 		gridFloor = std::make_unique<GridFloor>(lampShader, 80);
-    df = std::make_unique<Dragonfly>(dragonflyShader, lampShader, 10.0f, 4.0f, 70.0f, 30.0f);
+    df = std::make_unique<Dragonfly>(dragonflyShader, lampShader, 0.0f, 0.0f, 0.0f, 0.0f);
 
 		this->light = std::make_shared<PositionalLight>();
 
