@@ -44,8 +44,8 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos);
 void createGeometry();
 void updateGeometry();
 
-const int SCREEN_WIDTH = 800;
-const int SCREEN_HEIGHT = 600;
+const int SCREEN_WIDTH = 800 * 3;
+const int SCREEN_HEIGHT = 600 * 3;
 float deltaTime = 0.0f;	// Time between current frame and last frame
 float lastFrame = 0.0f; // Time of last frame
 GLFWwindow* window;

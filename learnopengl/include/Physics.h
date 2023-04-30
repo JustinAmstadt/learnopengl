@@ -14,7 +14,7 @@ class PhysicsObject{
 
   public:
 
-    constexpr static float GRAVITY_ACCEL_S = 25.81f;
+    constexpr static float GRAVITY_ACCEL_S = 5.81f;
     constexpr static float GRAVITY_ACCEL_MS = 0.00981f;
     constexpr static float FLOOR_HEIGHT = 0.0f;
 
