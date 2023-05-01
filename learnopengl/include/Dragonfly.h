@@ -41,7 +41,7 @@ class Dragonfly : public PhysicsObject {
       wingGap = dim.wingWidth / 20.0f;
       wingXOffset = (dim.bodyWidth / 2.0f) * (9.0f / 10.0f);
 
-      attrib.accel = glm::vec3(0.0f, -GRAVITY_ACCEL_S, 0.0f);
+      attrib.accel = glm::vec3(0.0f, 0.0f, 0.0f);
       attrib.velocity = glm::vec3(0.0f);
       attrib.mass = getBodyMass() + getWingMass(dim);
       attrib.pos = glm::vec3(0.0f);
@@ -80,10 +80,21 @@ class Dragonfly : public PhysicsObject {
 
     void update(float deltaT){
       float currentTime = glfwGetTime();
+      float prevUniform = leftUniform;
+      
       leftUniform = glm::radians((leftTopAngle / 2.0f + leftBottomAngle / 2.0f)
-        * sin(wingSpeed * currentTime) + (leftTopAngle / 2.0f - leftBottomAngle / 2.0f));
+        * sin(upWingSpeed * currentTime) + (leftTopAngle / 2.0f - leftBottomAngle / 2.0f));
       rightUniform = glm::radians((rightTopAngle / 2.0f + rightBottomAngle / 2.0f)
-        * sin(wingSpeed * currentTime) + (rightTopAngle / 2.0f - rightBottomAngle / 2.0f));
+        * sin(upWingSpeed * currentTime) + (rightTopAngle / 2.0f - rightBottomAngle / 2.0f));
+      
+      // curWingSpeed = swapWingSpeed(curWingSpeed, leftUniform - prevUniform);
+
+      std::cout << "curAngle - prevAngle: " << glm::degrees(leftUniform - prevUniform) << ", leftUniform: " << glm::degrees(leftUniform) << ", rightUniform: " << rightUniform << ", wingSpeed: " << upWingSpeed << std::endl;
+
+      float wingDiffFactor = .003;
+
+      attrib.accel += glm::vec3(0.0f, upWingSpeed / 2.0f, 0.0f);
+      attrib.accel += glm::vec3((leftTopAngle - rightTopAngle) * wingDiffFactor, 0.0f, 0.0f);
       
       translate(physUpdate(deltaT));
     }
@@ -126,6 +137,62 @@ class Dragonfly : public PhysicsObject {
       return leftBottomAngle;
     }
 
+    void decWingSpeed(){
+      upWingSpeed--;
+    }
+
+    void incWingSpeed(){
+      upWingSpeed++;
+    }
+
+    void inclAngle(){
+      setLeftWingAngle(leftTopAngle + 1.0f, leftBottomAngle - 1.0f);
+    }
+
+    void declAngle(){
+      setLeftWingAngle(leftTopAngle - 1.0f, leftBottomAngle + 1.0f);
+    }
+
+    void incrAngle(){
+      setRightWingAngle(rightTopAngle + 1.0f, rightBottomAngle - 1.0f);
+    }
+
+    void decrAngle(){
+      setRightWingAngle(rightTopAngle - 1.0f, rightBottomAngle + 1.0f);
+    }
+
+    void incluAngle(){
+      setLeftWingAngle(leftTopAngle + 1.0f, leftBottomAngle);
+    }
+
+    void incldAngle(){
+      setLeftWingAngle(leftTopAngle, leftBottomAngle + 1.0f);
+    }
+
+    void decluAngle(){
+      setLeftWingAngle(leftTopAngle - 1.0f, leftBottomAngle);
+    }
+
+    void decldAngle(){
+      setLeftWingAngle(leftTopAngle, leftBottomAngle - 1.0f);
+    }
+
+    void incruAngle(){
+      setRightWingAngle(rightTopAngle + 1.0f, rightBottomAngle);
+    }
+
+    void incrdAngle(){
+      setRightWingAngle(rightTopAngle, rightBottomAngle + 1.0f);
+    }
+
+    void decruAngle(){
+      setRightWingAngle(rightTopAngle - 1.0f, rightBottomAngle);
+    }
+
+    void decrdAngle(){
+      setRightWingAngle(rightTopAngle, rightBottomAngle - 1.0f);
+    }
+
   private:
     DragonFlyDim dim;
 
@@ -142,7 +209,8 @@ class Dragonfly : public PhysicsObject {
     float rightTopAngle = 0;
     float rightBottomAngle = 0;
 
-    float wingSpeed = 10.0f;
+    float upWingSpeed = 15.0f;
+    float downWingSpeed = 8.0f;
     float leftUniform;
     float rightUniform;
 
@@ -151,6 +219,28 @@ class Dragonfly : public PhysicsObject {
 
     std::vector<std::shared_ptr<SceneObject>> wingptr;
     std::shared_ptr<SceneObject> bodyPtr;
+    
+    // give angle difference in radians
+    // returns the new speed. gives back same speed if no change is necessary
+    float swapWingSpeed(float curSpeed, float angleDifference){
+      static bool diffIsPos = 1;
+      static int cooldown = 5;
+      
+      if(diffIsPos && angleDifference < 0 && cooldown <= 0){
+        diffIsPos = 0;
+        cooldown = 3;
+        return downWingSpeed;
+      }
+      else if(!diffIsPos && angleDifference > 0 && cooldown <= 0){
+        diffIsPos = 1;
+        cooldown = 3;
+        return upWingSpeed;
+      }
+      
+      cooldown--;
+      
+      return curSpeed;
+    }
 
     void drawRectangleWings(std::shared_ptr<Shader> wingShader){
       wingPts.clear(); // Accounting for if the other draw wing method was called

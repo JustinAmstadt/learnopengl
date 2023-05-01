@@ -85,6 +85,19 @@ public:
 	}
 
   virtual void additionalUniformCalls(GLuint shaderID) {}
+
+  virtual void pressUp() {}
+  virtual void pressDown() {}
+  virtual void pressLeft() {}
+  virtual void pressRight() {}
+  virtual void pressR() {}
+  virtual void pressF() {}
+  virtual void pressT() {}
+  virtual void pressG() {}
+  virtual void pressY() {}
+  virtual void pressH() {}
+  virtual void pressU() {}
+  virtual void pressJ() {}
 };
 
 

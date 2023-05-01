@@ -19,7 +19,6 @@ private:
 	std::vector<std::shared_ptr<SceneObject>> lights;
 	std::vector<std::shared_ptr<SceneObject>> cubes;
 	glm::vec3 lightPos = glm::vec3(0.0f, 2.0f, -3.0f);
-
   std::unique_ptr<Dragonfly> df;
 public:
 	SandboxScene(std::shared_ptr<Shader> shaderProgram, std::shared_ptr<Shader> lampShader, std::shared_ptr<Shader> dragonflyShader) {
@@ -121,5 +120,26 @@ public:
     glUniform1f(glGetUniformLocation(shaderID, "rightWingAngle"), df->getRightUniform());
 
   }
+
+  virtual void pressUp() override {
+    df->incWingSpeed();
+  }
+  virtual void pressDown() override {
+    df->decWingSpeed();
+  }
+
+  virtual void pressR() override {
+    df->inclAngle();
+  }
+  virtual void pressF() override {
+    df->declAngle();
+  }
+  virtual void pressT() override {
+    df->incrAngle();
+  }
+  virtual void pressG() override {
+    df->decrAngle();
+  }
+
 };
 #endif

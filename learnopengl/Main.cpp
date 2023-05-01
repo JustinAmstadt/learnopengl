@@ -60,13 +60,13 @@ std::shared_ptr<Shader> hyperbolic;
 std::shared_ptr<Shader> dragonflyShader;
 
 std::shared_ptr<Scene> maze;
+std::shared_ptr<Scene> sandbox;
 
 float lastX = SCREEN_WIDTH / 2.0f;
 float lastY = SCREEN_HEIGHT / 2.0f;
 bool firstMouse = true;
 
 Camera camera(glm::vec3(0.0f, 0.0f, 8.0f));
-
 
 int main() {
 	glfwInit();
@@ -113,7 +113,7 @@ int main() {
 
 void loop() {
 	// std::shared_ptr<Scene> ocean = std::make_shared<OceanScene>(oceanShader, lampShader, skyboxShader);
-	std::shared_ptr<Scene> sandbox = std::make_shared<SandboxScene>(shaderProgram, lampShader, dragonflyShader);
+	sandbox = std::make_shared<SandboxScene>(shaderProgram, lampShader, dragonflyShader);
 	// std::shared_ptr<Scene> tessellation = std::make_shared<TessellationPlaneScene>(tessShader);
 
   maze = std::make_shared<MazeScene>(lampShader);
@@ -165,14 +165,33 @@ void processInput(GLFWwindow* window)
 		camera.ProcessKeyboard(RIGHT, deltaTime);
 
   std::shared_ptr<MazeScene> mazeCast = std::dynamic_pointer_cast<MazeScene>(maze);
-	if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
+  std::shared_ptr<SandboxScene> sandboxCast = std::dynamic_pointer_cast<SandboxScene>(sandbox);
+
+	if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS){
     mazeCast->moveBotUp();
-	if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
+    sandboxCast->pressUp();
+  }
+	if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS){
     mazeCast->moveBotDown();
+    sandboxCast->pressDown();
+  }
 	if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
     mazeCast->moveBotRight();
 	if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)
     mazeCast->moveBotLeft();
+
+	if (glfwGetKey(window, GLFW_KEY_R) == GLFW_PRESS){
+    sandboxCast->pressR();
+  }
+	if (glfwGetKey(window, GLFW_KEY_F) == GLFW_PRESS){
+    sandboxCast->pressF();
+  }
+	if (glfwGetKey(window, GLFW_KEY_T) == GLFW_PRESS){
+    sandboxCast->pressT();
+  }
+	if (glfwGetKey(window, GLFW_KEY_G) == GLFW_PRESS){
+    sandboxCast->pressG();
+  }
 }
 
 void mouse_callback(GLFWwindow* window, double xposIn, double yposIn) {

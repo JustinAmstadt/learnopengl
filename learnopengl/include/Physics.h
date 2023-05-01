@@ -37,7 +37,7 @@ class PhysicsObject{
     }
 
     virtual void calcVelocity(float deltaT) {
-      attrib.velocity += deltaT * attrib.accel;
+      attrib.velocity += deltaT * (glm::vec3(0.0f, -GRAVITY_ACCEL_S, 0.0f) + attrib.accel);
     }
 
     // Returns change in position
@@ -57,8 +57,8 @@ class PhysicsObject{
 
     // Returns change in position to that can be used for graphical translation
     glm::vec3 physUpdate(float deltaT) {
-      calcAccel(deltaT);
       calcVelocity(deltaT);
+      attrib.accel = glm::vec3(attrib.accel[0], 0.0f, attrib.accel[2]);
       return calcPos(deltaT);
     }
 
