@@ -43,7 +43,7 @@ class Dragonfly : public PhysicsObject {
 
       attrib.accel = glm::vec3(0.0f, 0.0f, 0.0f);
       attrib.velocity = glm::vec3(0.0f);
-      attrib.mass = getBodyMass() + getWingMass(dim);
+      attrib.mass = 2;
       attrib.pos = glm::vec3(0.0f);
       attrib.density = CFP_DENSITY;
 
@@ -89,14 +89,17 @@ class Dragonfly : public PhysicsObject {
       
       // curWingSpeed = swapWingSpeed(curWingSpeed, leftUniform - prevUniform);
 
-      std::cout << "curAngle - prevAngle: " << glm::degrees(leftUniform - prevUniform) << ", leftUniform: " << glm::degrees(leftUniform) << ", rightUniform: " << rightUniform << ", wingSpeed: " << upWingSpeed << std::endl;
+      // std::cout << "curAngle - prevAngle: " << glm::degrees(leftUniform - prevUniform) << ", leftUniform: " << glm::degrees(leftUniform) << ", rightUniform: " << rightUniform << ", wingSpeed: " << upWingSpeed << std::endl;
 
-      float wingDiffFactor = .003;
-
-      attrib.accel += glm::vec3(0.0f, upWingSpeed / 2.0f, 0.0f);
-      attrib.accel += glm::vec3((leftTopAngle - rightTopAngle) * wingDiffFactor, 0.0f, 0.0f);
-      
       translate(physUpdate(deltaT));
+    }
+
+    virtual void calcLift(float deltaT){
+      float wingDiffFactor = .1;
+      force.Flift = glm::vec3(0.0f);
+
+      force.Flift += glm::vec3(0.0f, upWingSpeed / 2.0f, 0.0f);
+      force.Flift += glm::vec3((leftTopAngle - rightTopAngle) * wingDiffFactor, 0.0f, 0.0f);
     }
 
     void setLeftWingAngle(float top, float bottom){
@@ -139,6 +142,9 @@ class Dragonfly : public PhysicsObject {
 
     void decWingSpeed(){
       upWingSpeed--;
+      if(upWingSpeed < 0){
+        upWingSpeed = 0;
+      }
     }
 
     void incWingSpeed(){
