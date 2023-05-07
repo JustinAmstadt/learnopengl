@@ -1,6 +1,6 @@
 CMakeFiles/learnopengl.dir/Main.cpp.o: \
  /home/justin/learnopengl/learnopengl/Main.cpp /usr/include/stdc-predef.h \
- /usr/include/glad/glad.h /usr/include/KHR/khrplatform.h \
+ /usr/local/include/glad/glad.h /usr/local/include/KHR/khrplatform.h \
  /usr/lib/gcc/x86_64-linux-gnu/11/include/stdint.h /usr/include/stdint.h \
  /usr/include/x86_64-linux-gnu/bits/libc-header-start.h \
  /usr/include/features.h /usr/include/features-time64.h \
@@ -442,7 +442,13 @@ CMakeFiles/learnopengl.dir/Main.cpp.o: \
  /usr/include/c++/11/functional /usr/include/c++/11/bits/std_function.h \
  /home/justin/learnopengl/learnopengl/include/DebugShape.h \
  /home/justin/learnopengl/learnopengl/include/Physics.h \
- /usr/include/c++/11/math.h \
+ /home/justin/learnopengl/learnopengl/include/Arrow.h \
+ /usr/include/glm/gtx/matrix_decompose.hpp \
+ /usr/include/glm/gtx/matrix_decompose.inl \
+ /usr/include/glm/gtx/euler_angles.hpp \
+ /usr/include/glm/gtx/euler_angles.inl \
+ /usr/include/glm/gtx/compatibility.hpp \
+ /usr/include/glm/gtx/compatibility.inl /usr/include/c++/11/math.h \
  /home/justin/learnopengl/learnopengl/include/TessellationPlaneScene.h \
  /home/justin/learnopengl/learnopengl/include/FlatPlane.h \
  /home/justin/learnopengl/learnopengl/include/MazeScene.h \

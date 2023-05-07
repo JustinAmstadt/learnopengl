@@ -8,6 +8,7 @@
 #include "PositionalLight.h"
 #include "GridFloor.h"
 #include "Dragonfly.h"
+#include "Arrow.h"
 
 #include <numbers>
 #include <math.h>
@@ -20,14 +21,25 @@ private:
 	std::vector<std::shared_ptr<SceneObject>> cubes;
 	glm::vec3 lightPos = glm::vec3(0.0f, 2.0f, -3.0f);
   std::unique_ptr<Dragonfly> df;
+  std::unique_ptr<Arrow> liftYArrow;
+  std::unique_ptr<Arrow> liftXArrow;
+  std::unique_ptr<Arrow> dragArrow;
+  std::unique_ptr<Arrow> gravityArrow;
+
 public:
 	SandboxScene(std::shared_ptr<Shader> shaderProgram, std::shared_ptr<Shader> lampShader, std::shared_ptr<Shader> dragonflyShader) {
 		cp = std::make_unique<CircularParabola>(lampShader);
 		gridFloor = std::make_unique<GridFloor>(lampShader, 80);
     df = std::make_unique<Dragonfly>(dragonflyShader, lampShader, 60.0f, 30.0f, 60.0f, 30.0f);
+    liftYArrow = std::make_unique<Arrow>(lampShader);
+    liftXArrow = std::make_unique<Arrow>(lampShader);
+    gravityArrow = std::make_unique<Arrow>(lampShader);
 
 		this->light = std::make_shared<PositionalLight>();
 
+    this->addObject(liftYArrow->getObjPtr());
+    this->addObject(liftXArrow->getObjPtr());
+    this->addObject(gravityArrow->getObjPtr());
     this->addObjectVec(df->getWings());
     this->addObject(df->getBody());
 		this->addObjectVec(gridFloor->getFloorLines());
@@ -49,6 +61,18 @@ public:
 		this->renderScene(camera);
 		updateGeometry(camera);
     this->df->update(getDeltaT());
+    this->liftYArrow->update(df->getPosition(), glm::vec3(df->getForces().Flift[1], df->getForces().Flift[1] / 2.0f, 1.0f), 90.0f);
+
+    float rotation = 0.0f;
+    if(df->getForces().Flift[0] < 0){
+      rotation = 180.0f;
+    }
+
+    this->liftXArrow->update(df->getPosition(), glm::vec3(abs(df->getForces().Flift[0]), abs(df->getForces().Flift[0]) / 2.0f, 1.0f), rotation);
+    std::cout << "lift x scalar: " << abs(df->getForces().Flift[0]) << std::endl;
+
+    this->gravityArrow->update(df->getPosition(), glm::vec3(df->getForces().Fg[1], df->getForces().Fg[1] / 2.0f, 1.0f), 270.0f);
+
 	}
 
 	void createGeometry(std::shared_ptr<Shader> shaderProgram, std::shared_ptr<Shader> lampShader)

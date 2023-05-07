@@ -172,7 +172,7 @@ CMakeFiles/learnopengl.dir/Dragonfly.cpp.o: \
  /usr/include/c++/11/bits/vector.tcc \
  /usr/include/c++/11/pstl/execution_defs.h \
  /home/justin/learnopengl/learnopengl/include/Shader.h \
- /usr/include/glad/glad.h /usr/include/KHR/khrplatform.h \
+ /usr/local/include/glad/glad.h /usr/local/include/KHR/khrplatform.h \
  /home/justin/learnopengl/learnopengl/include/Cube.h \
  /home/justin/learnopengl/learnopengl/include/GeometricObject.h \
  /usr/include/c++/11/memory \

@@ -91,7 +91,8 @@ class Dragonfly : public PhysicsObject {
 
       // std::cout << "curAngle - prevAngle: " << glm::degrees(leftUniform - prevUniform) << ", leftUniform: " << glm::degrees(leftUniform) << ", rightUniform: " << rightUniform << ", wingSpeed: " << upWingSpeed << std::endl;
 
-      translate(physUpdate(deltaT));
+      position = physUpdate(deltaT);
+      translate(position);
     }
 
     virtual void calcLift(float deltaT){
@@ -114,6 +115,10 @@ class Dragonfly : public PhysicsObject {
         rightTopAngle = top;
         rightBottomAngle = bottom;
       }
+    }
+
+    const glm::vec3& getPosition(){
+      return position;
     }
     
     float getRightUniform(){
@@ -208,7 +213,8 @@ class Dragonfly : public PhysicsObject {
     float startingYHeight = 5;
     float wingXOffset;
     float wingGap;
-    glm::vec3 startingOffset = glm::vec3(0.0f, 10.0f, 0.0f);
+    glm::vec3 startingOffset = glm::vec3(0.0f, 0.0f, 0.0f);
+    glm::vec3 position;
 
     float leftTopAngle = 0;
     float leftBottomAngle = 0;

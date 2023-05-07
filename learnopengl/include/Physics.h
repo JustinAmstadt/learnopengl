@@ -18,19 +18,22 @@ struct Forces {
 
 class PhysicsObject{
 
-  public:
+public:
 
-    constexpr static float GRAVITY_ACCEL_S = 5.81f;
-    constexpr static float GRAVITY_ACCEL_MS = 0.00981f;
-    constexpr static float FLOOR_HEIGHT = 0.0f;
+  constexpr static float GRAVITY_ACCEL_S = 5.81f;
+  constexpr static float GRAVITY_ACCEL_MS = 0.00981f;
+  constexpr static float FLOOR_HEIGHT = 0.0f;
 
-  protected:
+  const Forces& getForces(){
+    return force;
+  }
+
+protected:
 
     PhysAttributes attrib;
     Forces force;
 
-    PhysicsObject() {
-    }
+    PhysicsObject() {}
 
     virtual void calcAccel(float deltaT) {
       calcGravity();
