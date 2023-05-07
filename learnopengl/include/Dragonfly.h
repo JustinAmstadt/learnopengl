@@ -69,6 +69,10 @@ class Dragonfly : public PhysicsObject {
       return bodyPtr;
     }
 
+    const glm::vec3& getDeltaP(){
+      return deltaP;
+    }
+
     void translate(glm::vec3 direction){
       glm::mat4 translate = glm::translate(glm::mat4(1.0f), direction);
       for(const std::shared_ptr<SceneObject>& wing : wingptr){
@@ -91,16 +95,20 @@ class Dragonfly : public PhysicsObject {
 
       // std::cout << "curAngle - prevAngle: " << glm::degrees(leftUniform - prevUniform) << ", leftUniform: " << glm::degrees(leftUniform) << ", rightUniform: " << rightUniform << ", wingSpeed: " << upWingSpeed << std::endl;
 
-      position = physUpdate(deltaT);
-      translate(position);
+      deltaP = physUpdate(deltaT);
+      translate(deltaP);
     }
 
-    virtual void calcLift(float deltaT){
+    virtual void calcLift(){
       float wingDiffFactor = .1;
       force.Flift = glm::vec3(0.0f);
 
       force.Flift += glm::vec3(0.0f, upWingSpeed / 2.0f, 0.0f);
-      force.Flift += glm::vec3((leftTopAngle - rightTopAngle) * wingDiffFactor, 0.0f, 0.0f);
+      
+      // ensures that the dragonfly isn't moving sideways on the ground
+      if(attrib.pos[1] > 0){
+        force.Flift += glm::vec3((leftTopAngle - rightTopAngle) * wingDiffFactor, 0.0f, 0.0f);
+      }
     }
 
     void setLeftWingAngle(float top, float bottom){
@@ -115,10 +123,6 @@ class Dragonfly : public PhysicsObject {
         rightTopAngle = top;
         rightBottomAngle = bottom;
       }
-    }
-
-    const glm::vec3& getPosition(){
-      return position;
     }
     
     float getRightUniform(){
@@ -214,7 +218,7 @@ class Dragonfly : public PhysicsObject {
     float wingXOffset;
     float wingGap;
     glm::vec3 startingOffset = glm::vec3(0.0f, 0.0f, 0.0f);
-    glm::vec3 position;
+    glm::vec3 deltaP;
 
     float leftTopAngle = 0;
     float leftBottomAngle = 0;
@@ -225,7 +229,6 @@ class Dragonfly : public PhysicsObject {
     float downWingSpeed = 8.0f;
     float leftUniform;
     float rightUniform;
-
 
     std::vector<glm::vec3> wingPts;
 

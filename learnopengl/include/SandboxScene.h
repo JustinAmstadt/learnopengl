@@ -21,8 +21,7 @@ private:
 	std::vector<std::shared_ptr<SceneObject>> cubes;
 	glm::vec3 lightPos = glm::vec3(0.0f, 2.0f, -3.0f);
   std::unique_ptr<Dragonfly> df;
-  std::unique_ptr<Arrow> liftYArrow;
-  std::unique_ptr<Arrow> liftXArrow;
+  std::unique_ptr<Arrow> liftArrow;
   std::unique_ptr<Arrow> dragArrow;
   std::unique_ptr<Arrow> gravityArrow;
 
@@ -31,14 +30,14 @@ public:
 		cp = std::make_unique<CircularParabola>(lampShader);
 		gridFloor = std::make_unique<GridFloor>(lampShader, 80);
     df = std::make_unique<Dragonfly>(dragonflyShader, lampShader, 60.0f, 30.0f, 60.0f, 30.0f);
-    liftYArrow = std::make_unique<Arrow>(lampShader);
-    liftXArrow = std::make_unique<Arrow>(lampShader);
+    liftArrow = std::make_unique<Arrow>(lampShader);
     gravityArrow = std::make_unique<Arrow>(lampShader);
+    dragArrow = std::make_unique<Arrow>(lampShader);
 
 		this->light = std::make_shared<PositionalLight>();
 
-    this->addObject(liftYArrow->getObjPtr());
-    this->addObject(liftXArrow->getObjPtr());
+    this->addObject(dragArrow->getObjPtr());
+    this->addObject(liftArrow->getObjPtr());
     this->addObject(gravityArrow->getObjPtr());
     this->addObjectVec(df->getWings());
     this->addObject(df->getBody());
@@ -61,18 +60,44 @@ public:
 		this->renderScene(camera);
 		updateGeometry(camera);
     this->df->update(getDeltaT());
-    this->liftYArrow->update(df->getPosition(), glm::vec3(df->getForces().Flift[1], df->getForces().Flift[1] / 2.0f, 1.0f), 90.0f);
 
-    float rotation = 0.0f;
-    if(df->getForces().Flift[0] < 0){
-      rotation = 180.0f;
+    float liftScalar = std::sqrt(df->getForces().Flift[0] * df->getForces().Flift[0] + df->getForces().Flift[1] * df->getForces().Flift[1]);
+    float liftTheta = 90.0f;
+
+    if(df->getForces().Flift[0] != 0){
+      liftTheta = glm::degrees(std::atan(df->getForces().Flift[1] / df->getForces().Flift[0]));
     }
 
-    this->liftXArrow->update(df->getPosition(), glm::vec3(abs(df->getForces().Flift[0]), abs(df->getForces().Flift[0]) / 2.0f, 1.0f), rotation);
-    std::cout << "lift x scalar: " << abs(df->getForces().Flift[0]) << std::endl;
+    if(liftTheta < 0){
+      float distTo90 = 90.0f - std::abs(liftTheta);
+      liftTheta = 90 + distTo90;
+    }
 
-    this->gravityArrow->update(df->getPosition(), glm::vec3(df->getForces().Fg[1], df->getForces().Fg[1] / 2.0f, 1.0f), 270.0f);
+    std::cout << "lift theta: " << liftTheta << std::endl;
 
+    this->liftArrow->update(df->getDeltaP(), glm::vec3(liftScalar, liftScalar / 2.0f, 1.0f), liftTheta);
+
+    float gravityScalar = std::sqrt(df->getForces().Fg[1] * df->getForces().Fg[1]);
+    this->gravityArrow->update(df->getDeltaP(), glm::vec3(gravityScalar, gravityScalar / 2.0f, 1.0f), 270.0f);
+
+    float dragScalar = std::sqrt(df->getForces().Fdrag[0] * df->getForces().Fdrag[0] + df->getForces().Fdrag[1] * df->getForces().Fdrag[1]);
+    float dragTheta = 90.0f;
+
+    if(df->getForces().Fdrag[0] != 0){
+      dragTheta = glm::degrees(std::atan(df->getForces().Fdrag[1] / df->getForces().Fdrag[0]));
+    }
+
+    if(dragTheta < 0){
+      float distTo90 = 90.0f - std::abs(dragTheta);
+      dragTheta = 90 + distTo90;
+    }
+
+    if(df->getForces().Fdrag.y < 0){
+      dragTheta = -dragTheta;
+    }
+    std::cout << "drag theta: " << dragTheta << std::endl;
+
+    this->dragArrow->update(df->getDeltaP(), glm::vec3(dragScalar, dragScalar / 2.0f, 1.0f), dragTheta);
 	}
 
 	void createGeometry(std::shared_ptr<Shader> shaderProgram, std::shared_ptr<Shader> lampShader)

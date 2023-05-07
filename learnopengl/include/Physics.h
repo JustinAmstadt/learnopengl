@@ -28,6 +28,10 @@ public:
     return force;
   }
 
+  const PhysAttributes& getAttrib(){
+    return attrib;
+  }
+
 protected:
 
     PhysAttributes attrib;
@@ -37,7 +41,7 @@ protected:
 
     virtual void calcAccel(float deltaT) {
       calcGravity();
-      calcLift(deltaT);
+      calcLift();
       calcDrag();
 
       // std::cout << "x: " << force.Fg[0] << ", y: " << force.Fg[1] << ", z: " << force.Fg[2] << std::endl;
@@ -82,10 +86,13 @@ protected:
       force.Fdrag += glm::vec3(0.0f, drag, 0.0f);
     }
 
-    virtual void calcLift(float deltaT){}
+    virtual void calcLift(){}
 
     virtual void calcVelocity(float deltaT) {
       attrib.velocity += deltaT * attrib.accel;
+      if(attrib.pos.y == 0){
+        attrib.velocity.x = 0;
+      }
       std::cout << "velocity: x: " << attrib.velocity[0] << ", y: " << attrib.velocity[1] << ", z: " << attrib.velocity[2] << std::endl;
     }
 
@@ -101,6 +108,7 @@ protected:
       }
 
       std::cout << "x: " << attrib.pos[0] << ", y: " << attrib.pos[1] << ", z: " << attrib.pos[2] << std::endl;
+      std::cout << "deltaP x: " << deltaP[0] << ", y: " << deltaP[1] << ", z: " << attrib.pos[2] << std::endl;
       
       return deltaP;
     }

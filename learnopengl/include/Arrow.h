@@ -24,8 +24,6 @@ public:
   }
 
   void update(glm::vec3 position, glm::vec3 newScale, float rotateDegrees){
-    static bool start = true;
-
     glm::vec3 scale, rotation, translation, skew;
     glm::quat orientation;
     glm::vec4 perspective;
@@ -35,16 +33,9 @@ public:
     if(newScale[0] == 0 || newScale[1] == 0 || newScale[2] == 0){
       newScale = scale;
     }
-    else{
-      start = false;
-    }
 
     // Create a new translation matrix using the new position
     glm::mat4 newTranslation = glm::translate(glm::mat4(1.0f), position + translation);
-    if(start){
-      newScale = glm::vec3(0.01f);
-    std::cout << "inside";
-    }
     glm::mat4 newScaling = glm::scale(glm::mat4(1.0f), newScale);
     glm::mat4 newRotation = glm::rotate(glm::mat4(1.0f), glm::radians(rotateDegrees), glm::vec3(0.0f, 0.0f, 1.0f));
 
