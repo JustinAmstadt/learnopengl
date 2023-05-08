@@ -661,8 +661,8 @@ CMakeFiles/learnopengl.dir/Dragonfly.cpp.o: Dragonfly.cpp \
   /usr/include/c++/11/bits/vector.tcc \
   /usr/include/c++/11/pstl/execution_defs.h \
   include/Shader.h \
-  /usr/local/include/glad/glad.h \
-  /usr/local/include/KHR/khrplatform.h \
+  /usr/include/glad/glad.h \
+  /usr/include/KHR/khrplatform.h \
   include/Cube.h \
   include/GeometricObject.h \
   /usr/include/c++/11/memory \
@@ -1350,8 +1350,8 @@ CMakeFiles/learnopengl.dir/GeometricObject.cpp.o: GeometricObject.cpp \
 
 CMakeFiles/learnopengl.dir/Main.cpp.o: Main.cpp \
   /usr/include/stdc-predef.h \
-  /usr/local/include/glad/glad.h \
-  /usr/local/include/KHR/khrplatform.h \
+  /usr/include/glad/glad.h \
+  /usr/include/KHR/khrplatform.h \
   /usr/lib/gcc/x86_64-linux-gnu/11/include/stdint.h \
   /usr/include/stdint.h \
   /usr/include/x86_64-linux-gnu/bits/libc-header-start.h \
@@ -3256,10 +3256,6 @@ CMakeFiles/learnopengl.dir/Shader.cpp.o: Shader.cpp \
 
 /usr/include/c++/11/stdlib.h:
 
-/usr/local/include/stb_image.h:
-
-Scene.cpp:
-
 /usr/include/x86_64-linux-gnu/bits/flt-eval-method.h:
 
 /usr/include/x86_64-linux-gnu/bits/libm-simd-decl-stubs.h:
@@ -3595,6 +3591,8 @@ include/Camera.h:
 /usr/include/glm/detail/func_exponential.inl:
 
 /usr/include/glm/detail/type_mat4x2.hpp:
+
+/usr/include/glm/detail/type_mat4x2.inl:
 
 /usr/include/c++/11/bits/stl_iterator_base_types.h:
 
@@ -4262,12 +4260,6 @@ include/Dragonfly.h:
 
 /usr/include/c++/11/algorithm:
 
-/usr/include/glm/detail/type_mat4x2.inl:
-
-/usr/local/include/glad/glad.h:
-
-/usr/local/include/KHR/khrplatform.h:
-
 include/DebugShape.h:
 
 /usr/include/stdint.h:
@@ -4326,6 +4318,8 @@ Shader.cpp:
 
 include/Square.h:
 
+/usr/local/include/stb_image.h:
+
 /usr/include/c++/11/bits/std_abs.h:
 
 include/Skybox.h:
@@ -4347,3 +4341,5 @@ include/TessellationPlaneScene.h:
 ObjectData.cpp:
 
 Pipe.cpp:
+
+Scene.cpp:

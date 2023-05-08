@@ -75,10 +75,10 @@ public:
 
     std::cout << "lift theta: " << liftTheta << std::endl;
 
-    this->liftArrow->update(df->getDeltaP(), glm::vec3(liftScalar, liftScalar / 2.0f, 1.0f), liftTheta);
+    this->liftArrow->update(df->getAttrib().pos, glm::vec3(liftScalar, liftScalar / 2.0f, 1.0f), liftTheta);
 
     float gravityScalar = std::sqrt(df->getForces().Fg[1] * df->getForces().Fg[1]);
-    this->gravityArrow->update(df->getDeltaP(), glm::vec3(gravityScalar, gravityScalar / 2.0f, 1.0f), 270.0f);
+    this->gravityArrow->update(df->getAttrib().pos, glm::vec3(gravityScalar, gravityScalar / 2.0f, 1.0f), 270.0f);
 
     float dragScalar = std::sqrt(df->getForces().Fdrag[0] * df->getForces().Fdrag[0] + df->getForces().Fdrag[1] * df->getForces().Fdrag[1]);
     float dragTheta = 90.0f;
@@ -95,9 +95,9 @@ public:
     if(df->getForces().Fdrag.y < 0){
       dragTheta = -dragTheta;
     }
-    std::cout << "drag theta: " << dragTheta << std::endl;
+    std::cout << "drag theta: " << dragTheta << ", drag scalar: " << dragScalar << std::endl;
 
-    this->dragArrow->update(df->getDeltaP(), glm::vec3(dragScalar, dragScalar / 2.0f, 1.0f), dragTheta);
+    this->dragArrow->update(df->getAttrib().pos, glm::vec3(dragScalar, dragScalar / 2.0f, 1.0f), dragTheta);
 	}
 
 	void createGeometry(std::shared_ptr<Shader> shaderProgram, std::shared_ptr<Shader> lampShader)
@@ -178,16 +178,10 @@ public:
   }
 
   virtual void pressR() override {
-    df->inclAngle();
+    df->goLeft();
   }
   virtual void pressF() override {
-    df->declAngle();
-  }
-  virtual void pressT() override {
-    df->incrAngle();
-  }
-  virtual void pressG() override {
-    df->decrAngle();
+    df->goRight();
   }
 
 };

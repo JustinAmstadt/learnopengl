@@ -100,14 +100,14 @@ class Dragonfly : public PhysicsObject {
     }
 
     virtual void calcLift(){
-      float wingDiffFactor = .1;
+      float wingDiffFactor = 0.009f;
       force.Flift = glm::vec3(0.0f);
 
       force.Flift += glm::vec3(0.0f, upWingSpeed / 2.0f, 0.0f);
       
       // ensures that the dragonfly isn't moving sideways on the ground
-      if(attrib.pos[1] > 0){
-        force.Flift += glm::vec3((leftTopAngle - rightTopAngle) * wingDiffFactor, 0.0f, 0.0f);
+      if(attrib.pos.y > 0){
+        force.Flift += glm::vec3((leftTopAngle - rightTopAngle) * wingDiffFactor * upWingSpeed, 0.0f, 0.0f);
       }
     }
 
@@ -158,6 +158,16 @@ class Dragonfly : public PhysicsObject {
 
     void incWingSpeed(){
       upWingSpeed++;
+    }
+
+    void goLeft(){
+      setRightWingAngle(rightTopAngle + 1.0f, rightBottomAngle - 1.0f); // increase angle
+      setLeftWingAngle(leftTopAngle - 1.0f, leftBottomAngle + 1.0f); // decrease angle
+    }
+
+    void goRight(){
+      setLeftWingAngle(leftTopAngle + 1.0f, leftBottomAngle - 1.0f); // increase angle
+      setRightWingAngle(rightTopAngle - 1.0f, rightBottomAngle + 1.0f); // decrease angle
     }
 
     void inclAngle(){

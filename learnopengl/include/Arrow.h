@@ -24,24 +24,18 @@ public:
   }
 
   void update(glm::vec3 position, glm::vec3 newScale, float rotateDegrees){
-    glm::vec3 scale, rotation, translation, skew;
-    glm::quat orientation;
-    glm::vec4 perspective;
-    glm::decompose(objPtr->model, scale, orientation, translation, skew, perspective);
-
-    // glm::scale freaks out when one of the values is 0
-    if(newScale[0] == 0 || newScale[1] == 0 || newScale[2] == 0){
-      newScale = scale;
-    }
+    // glm::vec3 scale, rotation, translation, skew;
+    // glm::quat orientation;
+    // glm::vec4 perspective;
+    // glm::decompose(objPtr->model, scale, orientation, translation, skew, perspective);
 
     // Create a new translation matrix using the new position
-    glm::mat4 newTranslation = glm::translate(glm::mat4(1.0f), position + translation);
+    glm::mat4 newTranslation = glm::translate(glm::mat4(1.0f), position);
     glm::mat4 newScaling = glm::scale(glm::mat4(1.0f), newScale);
     glm::mat4 newRotation = glm::rotate(glm::mat4(1.0f), glm::radians(rotateDegrees), glm::vec3(0.0f, 0.0f, 1.0f));
 
     // Combine the new translation with the existing rotation and scaling
     objPtr->model = newTranslation * newRotation * newScaling;
-    std::cout << "scale: x: " << scale.x << ", y: " << scale.y << ", z: " << scale.z << std::endl;
   }
 
   void translate(glm::vec3 direction){
