@@ -87,14 +87,16 @@ public:
       dragTheta = glm::degrees(std::atan(df->getForces().Fdrag[1] / df->getForces().Fdrag[0]));
     }
 
-    if(dragTheta < 0){
-      float distTo90 = 90.0f - std::abs(dragTheta);
-      dragTheta = 90 + distTo90;
+    // if(dragTheta < 0){
+    //   // float distTo90 = 90.0f - std::abs(dragTheta);
+    //   // dragTheta = 90 + distTo90;
+    //   dragTheta += 180.0;
+    // }
+
+    if(df->getForces().Fdrag.x < 0){
+      dragTheta += 180.0;
     }
 
-    if(df->getForces().Fdrag.y < 0){
-      dragTheta = -dragTheta;
-    }
     std::cout << "drag theta: " << dragTheta << ", drag scalar: " << dragScalar << std::endl;
 
     this->dragArrow->update(df->getAttrib().pos, glm::vec3(dragScalar, dragScalar / 2.0f, 1.0f), dragTheta);
