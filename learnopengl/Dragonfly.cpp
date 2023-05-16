@@ -1,4 +1,3 @@
-
 #include "include/Dragonfly.h"
 
 void Dragonfly::makeWingPtr(std::vector<glm::vec3> wingPts, std::shared_ptr<Shader> wingShader){

@@ -61,18 +61,22 @@ class Dragonfly : public PhysicsObject {
       bodyPtr.reset();
     }
 
+    // returns two SceneObject ptrs that point to the wings
     std::vector<std::shared_ptr<SceneObject>> getWings(){
       return wingptr;
     }
 
+    // Returns a SceneObject ptr that points to the cube that is the body
     std::shared_ptr<SceneObject> getBody(){
       return bodyPtr;
     }
 
+    // Returns the difference in position from one render cycle to the next
     const glm::vec3& getDeltaP(){
       return deltaP;
     }
 
+    // Translates the body and wings by a certain distance
     void translate(glm::vec3 direction){
       glm::mat4 translate = glm::translate(glm::mat4(1.0f), direction);
       for(const std::shared_ptr<SceneObject>& wing : wingptr){
@@ -85,20 +89,20 @@ class Dragonfly : public PhysicsObject {
     void update(float deltaT){
       float currentTime = glfwGetTime();
       float prevUniform = leftUniform;
-      
+
+      // Sets the angles for the right and left wing. This is plugged into the wingAngle in dragonfly.vert 
       leftUniform = glm::radians((leftTopAngle / 2.0f + leftBottomAngle / 2.0f)
         * sin(upWingSpeed * currentTime) + (leftTopAngle / 2.0f - leftBottomAngle / 2.0f));
       rightUniform = glm::radians((rightTopAngle / 2.0f + rightBottomAngle / 2.0f)
         * sin(upWingSpeed * currentTime) + (rightTopAngle / 2.0f - rightBottomAngle / 2.0f));
       
-      // curWingSpeed = swapWingSpeed(curWingSpeed, leftUniform - prevUniform);
-
       // std::cout << "curAngle - prevAngle: " << glm::degrees(leftUniform - prevUniform) << ", leftUniform: " << glm::degrees(leftUniform) << ", rightUniform: " << rightUniform << ", wingSpeed: " << upWingSpeed << std::endl;
 
       deltaP = physUpdate(deltaT);
       translate(deltaP);
     }
 
+    // Calculates the Flift that gets transformed into acceleration in the physics calculations
     virtual void calcLift(){
       float wingDiffFactor = 0.009f;
       force.Flift = glm::vec3(0.0f);
@@ -160,28 +164,34 @@ class Dragonfly : public PhysicsObject {
       upWingSpeed++;
     }
 
+    // Sets the wing angles to go left
     void goLeft(){
       setRightWingAngle(rightTopAngle + 1.0f, rightBottomAngle - 1.0f); // increase angle
       setLeftWingAngle(leftTopAngle - 1.0f, leftBottomAngle + 1.0f); // decrease angle
     }
 
+    // Sets the wing angles to go right
     void goRight(){
       setLeftWingAngle(leftTopAngle + 1.0f, leftBottomAngle - 1.0f); // increase angle
       setRightWingAngle(rightTopAngle - 1.0f, rightBottomAngle + 1.0f); // decrease angle
     }
 
+    // Increase left angle
     void inclAngle(){
       setLeftWingAngle(leftTopAngle + 1.0f, leftBottomAngle - 1.0f);
     }
 
+    // Decrease left angle
     void declAngle(){
       setLeftWingAngle(leftTopAngle - 1.0f, leftBottomAngle + 1.0f);
     }
 
+    // Increase right angle
     void incrAngle(){
       setRightWingAngle(rightTopAngle + 1.0f, rightBottomAngle - 1.0f);
     }
 
+    // Decrease right angle
     void decrAngle(){
       setRightWingAngle(rightTopAngle - 1.0f, rightBottomAngle + 1.0f);
     }
@@ -267,6 +277,7 @@ class Dragonfly : public PhysicsObject {
       return curSpeed;
     }
 
+    // Makes rectangular wings
     void drawRectangleWings(std::shared_ptr<Shader> wingShader){
       wingPts.clear(); // Accounting for if the other draw wing method was called
       for (float i = 0; i <= dim.wingLength; i += wingDistance){
@@ -277,6 +288,7 @@ class Dragonfly : public PhysicsObject {
       makeWingPtr(wingPts, wingShader);
     }
 
+    // Makes circular wings that are more shaped like a dragonfly (doesn't work)
     void drawDragonflyWings(std::shared_ptr<Shader> wingShader){
       wingPts.clear(); // Accounting for if the other draw wing method was called
       // long part
@@ -295,8 +307,10 @@ class Dragonfly : public PhysicsObject {
       makeWingPtr(wingPts, wingShader);
     }
 
+    // Creates the SceneObjects for each of the four wings
     void makeWingPtr(std::vector<glm::vec3> wingPts, std::shared_ptr<Shader> wingShader);
 
+    // Creates the SceneObject that points to the rectangular body of the dragonfly
     void drawBody(std::shared_ptr<Shader> bodyShader){
       std::shared_ptr<GeometricObject> body = std::make_shared<Cube>(glm::vec4(0.346f, 0.533f, 1.0f, 1.0f));
       glm::mat4 model(1.0f);
@@ -306,7 +320,6 @@ class Dragonfly : public PhysicsObject {
       model = glm::scale(model, glm::vec3(dim.bodyWidth, dim.bodyHeight, dim.bodyLength));
       *list = { body, Scene::createVAO(body->vertexData), model, bodyShader, GL_TRIANGLES };
       bodyPtr = list;
-
     }
 
     // Returns wing mass of all 4 wings

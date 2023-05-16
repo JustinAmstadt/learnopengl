@@ -1,9 +1,3 @@
-/*
-
-3D quadratic function with falling cubes
-
-*/
-
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
