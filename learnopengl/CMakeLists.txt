@@ -48,6 +48,7 @@ add_executable(learnopengl
   include/Dragonfly.h
   include/DebugShape.h
   include/Physics.h
+  include/Arrow.h
 )
 
 add_library(glad STATIC glad.c)
