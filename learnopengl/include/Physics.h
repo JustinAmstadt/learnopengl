@@ -5,9 +5,14 @@ struct PhysAttributes {
   glm::vec3 velocity;
   glm::vec3 accel;
   glm::vec3 pos;
+
   float weight;
   float mass;
   float density;
+
+  float area;
+  float Cd;
+  float rho;
 };
 
 struct Forces {
@@ -40,11 +45,12 @@ protected:
     PhysicsObject() {}
 
     virtual void calcAccel(float deltaT) {
+      // Update forces
       calcGravity();
       calcLift();
       calcDrag();
 
-      // std::cout << "x: " << force.Fg[0] << ", y: " << force.Fg[1] << ", z: " << force.Fg[2] << std::endl;
+      // Update acceleration
       attrib.accel = (force.Flift + force.Fdrag - force.Fg) / attrib.mass;
       std::cout << "accel: x: " << attrib.accel[0] << ", y: " << attrib.accel[1] << ", z: " << attrib.accel[2] << std::endl;
       std::cout << "lift: x: " << force.Flift[0] << ", y: " << force.Flift[1] << ", z: " << force.Flift[2] << std::endl;
@@ -54,7 +60,6 @@ protected:
 
     virtual void calcGravity() {
       force.Fg = glm::vec3(0.0f, (attrib.mass * GRAVITY_ACCEL_S), 0.0f);
-      // std::cout << "x: " << force.Fg[0] << ", y: " << force.Fg[1] << ", z: " << force.Fg[2] << std::endl;
     }
 
     virtual void calcDrag() {
@@ -64,32 +69,36 @@ protected:
     }
 
     virtual void calcDragX() {
-      float area = 1;
-      float Cd = .3;
-      float rho = 1.225;
-      float drag = Cd * rho * attrib.velocity[0] * attrib.velocity[0] * area * .5;
+      float drag = attrib.Cd * attrib.rho * attrib.velocity[0] * attrib.velocity[0] * attrib.area * .5;
       if (attrib.velocity[0] > 0){
         drag = -drag;
       }
-      std::cout << "drag: " << drag << std::endl;
+
+      // Give drag vector an x value
       force.Fdrag += glm::vec3(drag, 0.0f, 0.0f);
     }
 
+    // Calculates drag in y direction
     virtual void calcDragY() {
-      float area = 1;
-      float Cd = .3;
-      float rho = 1.225;
-      float drag = Cd * rho * attrib.velocity[1] * attrib.velocity[1] * area * .5;
+      float drag = attrib.Cd * attrib.rho * attrib.velocity[1] * attrib.velocity[1] * attrib.area * .5;
+      
+      // If the velocity in the y direction is position, change the drag scalar to negative
       if (attrib.velocity[1] > 0){
         drag = -drag;
       }
+
+      // Give drag vector a y value
       force.Fdrag += glm::vec3(0.0f, drag, 0.0f);
     }
 
+    // Look at dragonfly.h to find implementation
     virtual void calcLift(){}
 
     virtual void calcVelocity(float deltaT) {
+      // Get change in velocity with accel * change in time then add to previous velocity
       attrib.velocity += deltaT * attrib.accel;
+
+      // Velocity side to side is cancelled if the dragonfly is on the ground
       if(attrib.pos.y == 0){
         attrib.velocity.x = 0;
       }
@@ -98,17 +107,19 @@ protected:
 
     // Returns change in position
     virtual glm::vec3 calcPos(float deltaT) {
+      // Get change in position with velocity * change in time then add to previous position
       glm::vec3 deltaP = deltaT * attrib.velocity;
       attrib.pos += deltaP;
 
+      // Set the y position, y velocity, and y change in position to zero if the dragonfly goes below zero
       if (attrib.pos[1] < 0.0f) {
         attrib.pos[1] = 0.0f;
         attrib.velocity[1] = 0.0f;
         deltaP[1] = 0.0f;
       }
 
-      std::cout << "x: " << attrib.pos[0] << ", y: " << attrib.pos[1] << ", z: " << attrib.pos[2] << std::endl;
-      std::cout << "deltaP x: " << deltaP[0] << ", y: " << deltaP[1] << ", z: " << attrib.pos[2] << std::endl;
+      std::cout << "position: x: " << attrib.pos[0] << ", y: " << attrib.pos[1] << ", z: " << attrib.pos[2] << std::endl;
+      std::cout << "change in position: x: " << deltaP[0] << ", y: " << deltaP[1] << ", z: " << attrib.pos[2] << std::endl;
       
       return deltaP;
     }
@@ -120,13 +131,13 @@ protected:
       return calcPos(deltaT);
     }
 
-    // return total surface area of body and wings. don't see a use though
+    // return total surface area of body and wings. Not used
     virtual float getSurfaceArea() = 0;
     
-    // Returns the surface area that faces -y when not rotated
+    // Returns the surface area that faces -y when not rotated. Not used
     virtual float getBottomSurfaceArea() = 0;
 
-    // returns body mass
+    // returns body mass. Not used
     virtual float getBodyMass() = 0;
 
 };

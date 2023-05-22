@@ -46,6 +46,9 @@ class Dragonfly : public PhysicsObject {
       attrib.mass = 2;
       attrib.pos = glm::vec3(0.0f);
       attrib.density = CFP_DENSITY;
+      attrib.area = 1;
+      attrib.Cd = .3;
+      attrib.rho = 1.225;
 
       drawRectangleWings(wingShader);
       drawBody(bodyShader);

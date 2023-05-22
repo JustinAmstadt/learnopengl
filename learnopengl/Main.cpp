@@ -9,6 +9,9 @@
 #include <fstream>
 #include <vector>
 #include <memory>
+// #include <assimp/Importer.hpp>
+// #include <assimp/scene.h>
+// #include <assimp/postprocess.h>
 
 #include "include/FlatPlane.h"
 #include "include/GeometricObject.h"

@@ -9,8 +9,10 @@ find_package(OpenGL REQUIRED)
 
 # Set the path to the GLFW library
 find_package(glfw3 REQUIRED)
+# find_package(assimp REQUIRED)
 
 include_directories(include)
+# include_directories(${ASSIMP_INCLUDE_DIRS})
 
 add_executable(learnopengl
   Main.cpp 
@@ -52,4 +54,5 @@ add_library(glad STATIC glad.c)
 
 target_compile_options(learnopengl PRIVATE -Wall -Wextra -ggdb)
 
+# ${ASSIMP_LIBRARIES} in target_link_libraries
 target_link_libraries(learnopengl PRIVATE ${OPENGL_LIBRARIES} glfw glad)
