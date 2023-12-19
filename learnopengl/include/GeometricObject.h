@@ -7,6 +7,7 @@
 #include <glad/glad.h> 
 #include <string>
 #include "Tragectory.h"
+#include "Mesh.h"
 
 struct Material {
 	glm::vec3 ambient = glm::vec3(1.0f, 0.5f, 0.31f);
@@ -15,29 +16,27 @@ struct Material {
 	float shininess = 32.0f;
 };
 
-struct Vertex {
-	glm::vec3 position;
-	glm::vec4 color;
-	glm::vec2 texture;
-	glm::vec3 normal;
-  float distFromStart = -1; // for lines only!!
-};
-
 class GeometricObject {
 private:
 	std::string textureFileName;
-public:
-	std::vector<GLuint> indices;
 	std::vector<Vertex> vertexData;
+	std::vector<GLuint> indices;
+protected:
+	Mesh mesh;
+	std::string objName = "";
+public:
 	std::unique_ptr<Tragectory> tragectory = std::make_unique<Tragectory>();
 	GLuint texture = -1;
 	Material material;
+	bool meshCreated;
 
+	GeometricObject();
 	GeometricObject(std::vector<glm::vec3> vertices);
-  
+	GeometricObject(Mesh mesh);
 
-  GeometricObject(std::vector<glm::vec3> vertices, float vecInLineDist);
-  GeometricObject(std::array<glm::vec3, 2> vertices);
+	// Keep this legacy code for the dragonfly scene
+	GeometricObject(std::vector<glm::vec3> vertices, float vecInLineDist);
+
 	~GeometricObject() { tragectory.reset(); }
 
 	void setColor(glm::vec4 color);
@@ -45,5 +44,8 @@ public:
 	void setColorVec(std::vector<glm::vec4>& colorVec, glm::vec4 defaultColor = glm::vec4(1.0f, 0.0f, 0.0f, 1.0f));
 	bool setTextures(std::vector<glm::vec2>& texCoords, std::string fileName);
 	bool setMaterials(Material m);
+	void createMesh();
+
+	Mesh& getMesh();
 };
 #endif

@@ -1,6 +1,6 @@
 CMakeFiles/learnopengl.dir/Main.cpp.o: \
  /home/justin/learnopengl/learnopengl/Main.cpp /usr/include/stdc-predef.h \
- /usr/include/glad/glad.h /usr/include/KHR/khrplatform.h \
+ /usr/local/include/glad/glad.h /usr/local/include/KHR/khrplatform.h \
  /usr/lib/gcc/x86_64-linux-gnu/11/include/stdint.h /usr/include/stdint.h \
  /usr/include/x86_64-linux-gnu/bits/libc-header-start.h \
  /usr/include/features.h /usr/include/features-time64.h \
@@ -61,6 +61,7 @@ CMakeFiles/learnopengl.dir/Main.cpp.o: \
  /usr/include/c++/11/bits/concept_check.h \
  /usr/include/c++/11/debug/assertions.h \
  /usr/include/c++/11/bits/stl_iterator.h \
+ /usr/include/c++/11/bits/stl_construct.h \
  /usr/include/c++/11/debug/debug.h \
  /usr/include/c++/11/bits/predefined_ops.h /usr/include/c++/11/cstdint \
  /usr/include/c++/11/bits/localefwd.h \
@@ -120,7 +121,6 @@ CMakeFiles/learnopengl.dir/Main.cpp.o: \
  /usr/include/c++/11/bits/algorithmfwd.h \
  /usr/include/c++/11/initializer_list /usr/include/c++/11/bits/stl_heap.h \
  /usr/include/c++/11/bits/stl_tempbuf.h \
- /usr/include/c++/11/bits/stl_construct.h \
  /usr/include/c++/11/bits/uniform_int_dist.h \
  /usr/include/c++/11/bits/range_access.h \
  /usr/include/c++/11/bits/basic_string.h \
@@ -401,6 +401,31 @@ CMakeFiles/learnopengl.dir/Main.cpp.o: \
  /usr/include/c++/11/bits/uses_allocator_args.h \
  /usr/include/c++/11/pstl/glue_memory_defs.h \
  /usr/include/c++/11/pstl/execution_defs.h \
+ /usr/include/assimp/Importer.hpp /usr/include/assimp/types.h \
+ /usr/include/assimp/defs.h /usr/include/assimp/config.h \
+ /usr/include/assimp/vector2.h /usr/include/assimp/vector3.h \
+ /usr/include/assimp/color4.h /usr/include/assimp/matrix3x3.h \
+ /usr/include/assimp/matrix4x4.h /usr/include/assimp/quaternion.h \
+ /usr/include/assimp/vector2.inl /usr/include/assimp/vector3.inl \
+ /usr/include/assimp/color4.inl /usr/include/assimp/matrix3x3.inl \
+ /usr/include/c++/11/algorithm /usr/include/c++/11/bits/ranges_algo.h \
+ /usr/include/c++/11/bits/ranges_util.h \
+ /usr/include/c++/11/pstl/glue_algorithm_defs.h \
+ /usr/include/c++/11/functional /usr/include/c++/11/bits/std_function.h \
+ /usr/include/c++/11/unordered_map /usr/include/c++/11/bits/hashtable.h \
+ /usr/include/c++/11/bits/hashtable_policy.h \
+ /usr/include/c++/11/bits/enable_special_members.h \
+ /usr/include/c++/11/bits/node_handle.h \
+ /usr/include/c++/11/bits/unordered_map.h \
+ /usr/include/c++/11/bits/erase_if.h /usr/include/assimp/matrix4x4.inl \
+ /usr/include/assimp/MathFunctions.h /usr/include/assimp/quaternion.inl \
+ /usr/include/assimp/scene.h /usr/include/assimp/texture.h \
+ /usr/include/assimp/Compiler/pushpack1.h \
+ /usr/include/assimp/Compiler/poppack1.h /usr/include/assimp/mesh.h \
+ /usr/include/assimp/aabb.h /usr/include/assimp/light.h \
+ /usr/include/assimp/camera.h /usr/include/assimp/material.h \
+ /usr/include/assimp/material.inl /usr/include/assimp/anim.h \
+ /usr/include/assimp/metadata.h /usr/include/assimp/postprocess.h \
  /home/justin/learnopengl/learnopengl/include/FlatPlane.h \
  /home/justin/learnopengl/learnopengl/include/Square.h \
  /home/justin/learnopengl/learnopengl/include/GeometricObject.h \
@@ -409,12 +434,6 @@ CMakeFiles/learnopengl.dir/Main.cpp.o: \
  /usr/include/c++/11/bits/stl_deque.h /usr/include/c++/11/bits/deque.tcc \
  /usr/include/c++/11/bits/stl_queue.h \
  /home/justin/learnopengl/learnopengl/include/Scene.h \
- /usr/include/c++/11/unordered_map /usr/include/c++/11/bits/hashtable.h \
- /usr/include/c++/11/bits/hashtable_policy.h \
- /usr/include/c++/11/bits/enable_special_members.h \
- /usr/include/c++/11/bits/node_handle.h \
- /usr/include/c++/11/bits/unordered_map.h \
- /usr/include/c++/11/bits/erase_if.h \
  /home/justin/learnopengl/learnopengl/include/Camera.h \
  /home/justin/learnopengl/learnopengl/include/Shader.h \
  /home/justin/learnopengl/learnopengl/include/Light.h \
@@ -436,10 +455,6 @@ CMakeFiles/learnopengl.dir/Main.cpp.o: \
  /home/justin/learnopengl/learnopengl/include/PositionalLight.h \
  /home/justin/learnopengl/learnopengl/include/GridFloor.h \
  /home/justin/learnopengl/learnopengl/include/Dragonfly.h \
- /usr/include/c++/11/algorithm /usr/include/c++/11/bits/ranges_algo.h \
- /usr/include/c++/11/bits/ranges_util.h \
- /usr/include/c++/11/pstl/glue_algorithm_defs.h \
- /usr/include/c++/11/functional /usr/include/c++/11/bits/std_function.h \
  /home/justin/learnopengl/learnopengl/include/DebugShape.h \
  /home/justin/learnopengl/learnopengl/include/Physics.h \
  /home/justin/learnopengl/learnopengl/include/Arrow.h \
@@ -455,4 +470,5 @@ CMakeFiles/learnopengl.dir/Main.cpp.o: \
  /usr/include/c++/11/ctime \
  /home/justin/learnopengl/learnopengl/include/Bot.h \
  /home/justin/learnopengl/learnopengl/include/DirectionalLight.h \
- /home/justin/learnopengl/learnopengl/include/Dragonfly.h
+ /home/justin/learnopengl/learnopengl/include/Dragonfly.h \
+ /home/justin/learnopengl/learnopengl/include/DragonflyScene.h

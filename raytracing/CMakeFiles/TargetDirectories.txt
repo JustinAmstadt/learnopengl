@@ -1,0 +1,4 @@
+/home/justin/learnopengl/raytracing/CMakeFiles/raytracer.dir
+/home/justin/learnopengl/raytracing/CMakeFiles/glad.dir
+/home/justin/learnopengl/raytracing/CMakeFiles/edit_cache.dir
+/home/justin/learnopengl/raytracing/CMakeFiles/rebuild_cache.dir

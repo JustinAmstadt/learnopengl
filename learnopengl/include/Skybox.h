@@ -21,7 +21,7 @@ public:
 		glm::mat4 scale(1.0f);
 		scale = glm::scale(scale, glm::vec3(200.0f));
 
-		*list = { cube, Scene::createVAO(cube->vertexData), scale, shaderProgram, GL_TRIANGLES };
+		// *list = { cube, scale, shaderProgram, GL_TRIANGLES };
 	}
 };
 

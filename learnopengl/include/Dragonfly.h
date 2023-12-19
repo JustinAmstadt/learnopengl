@@ -12,7 +12,6 @@
 
 #include <GLFW/glfw3.h>
 
-
 struct DragonFlyDim {
   float bodyWidth;
   float bodyHeight;
@@ -88,7 +87,6 @@ class Dragonfly : public PhysicsObject {
 
     void update(float deltaT){
       float currentTime = glfwGetTime();
-      float prevUniform = leftUniform;
 
       // Sets the angles for the right and left wing. This is plugged into the wingAngle in dragonfly.vert 
       leftUniform = glm::radians((leftTopAngle / 2.0f + leftBottomAngle / 2.0f)
@@ -318,7 +316,7 @@ class Dragonfly : public PhysicsObject {
 
       model = glm::translate(model, glm::vec3(0.0f, 0.0f, dim.wingWidth + wingGap / 2.0f));
       model = glm::scale(model, glm::vec3(dim.bodyWidth, dim.bodyHeight, dim.bodyLength));
-      *list = { body, Scene::createVAO(body->vertexData), model, bodyShader, GL_TRIANGLES };
+      *list = { body, model, bodyShader, GL_TRIANGLES };
       bodyPtr = list;
     }
 

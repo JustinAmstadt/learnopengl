@@ -1,0 +1,4 @@
+/home/justin/learnopengl/learnopengl/build/CMakeFiles/learnopengl.dir
+/home/justin/learnopengl/learnopengl/build/CMakeFiles/glad.dir
+/home/justin/learnopengl/learnopengl/build/CMakeFiles/edit_cache.dir
+/home/justin/learnopengl/learnopengl/build/CMakeFiles/rebuild_cache.dir

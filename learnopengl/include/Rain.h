@@ -28,22 +28,21 @@ public:
 
 	Rain(std::shared_ptr<Shader> shaderProgram) {
 		std::shared_ptr<GeometricObject> line = std::make_shared<GeometricObject>(
-			std::vector<glm::vec3> { glm::vec3(0.0f, -dropLength / 2.0f, 0.0f), glm::vec3(0.0f, dropLength / 2.0f, 0.0f) });
+		std::vector<glm::vec3> { glm::vec3(0.0f, -dropLength / 2.0f, 0.0f), glm::vec3(0.0f, dropLength / 2.0f, 0.0f) });
 		line->setColor(glm::vec4(34.0f / 255.0f, 25.0f / 255.0f, 255.0f / 255.0f, 0.0f));
 		std::shared_ptr<SceneObject> list;
-		GLuint VAO = Scene::createVAO(line->vertexData);
 
 		for (int i = 0; i < dropCount; ++i) {
 
 			list.reset(new SceneObject());
-			*list = { line, VAO, generateResetMatrix(), shaderProgram, GL_LINES };
+			*list = { line, generateResetMatrix(), shaderProgram, GL_LINES };
 			rainVec.push_back(list);
 		}
 		
 	}
 
 	void updateRain() {
-		for (int i = 0; i < rainVec.size(); ++i) {
+		for (auto i = 0u; i < rainVec.size(); ++i) {
 			if (rainVec[i]->model[3][1] <= minHeight) { //[3][1] represents the y value for height
 				rainVec[i]->model = generateResetMatrix();
 			}

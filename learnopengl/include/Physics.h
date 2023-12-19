@@ -39,7 +39,7 @@ protected:
 
     PhysicsObject() {}
 
-    virtual void calcAccel(float deltaT) {
+    virtual void calcAccel() {
       calcGravity();
       calcLift();
       calcDrag();
@@ -115,7 +115,7 @@ protected:
 
     // Returns change in position to that can be used for graphical translation
     glm::vec3 physUpdate(float deltaT) {
-      calcAccel(deltaT);
+      calcAccel();
       calcVelocity(deltaT);
       return calcPos(deltaT);
     }

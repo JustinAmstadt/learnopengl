@@ -79,9 +79,9 @@ private:
 
     std::shared_ptr<GeometricObject> line = std::make_shared<GeometricObject>(verts);
     line->setColor(glm::vec4(1.0f, 0.0f, 0.0f, 1.0f));
-    line->indices = indicies;
+    line->getMesh().indices = indicies;
     objPtr = std::make_shared<SceneObject>();
-    *objPtr = { line, Scene::createVAO(line->vertexData, line->indices), glm::mat4(1.0f), shaderProgram, GL_LINES };
+    *objPtr = { line, glm::mat4(1.0f), shaderProgram, GL_LINES };
   }
 };
 

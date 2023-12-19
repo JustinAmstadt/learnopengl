@@ -144,6 +144,8 @@ public:
 		setMaterials(material);
 		setNormals(normals);
 		setColor(defaultColor);
+		createMesh();
+		objName = "Cube";
 	}
 
 	Cube(std::string textureFileName, 
@@ -197,6 +199,8 @@ public:
 		setNormals(normals);
 		setColor(glm::vec4(1.0f));
 		setTextures(texCoords, textureFileName);
+		createMesh();
+		objName = "Cube";
 	}
 };
 

@@ -12,7 +12,7 @@ private:
 	ObjectData() {};
 public:
 	static void createData(std::shared_ptr<Shader> shaderProgram);
-	static void updateData(const Camera& camera);
+	static void updateData();
 	static void createSphere(int radius, int sectorCount, int stackCount, std::vector<glm::vec3>& vertices, std::vector<GLuint>& indices);
 	static std::vector<glm::vec3> colors;
 	static std::vector<glm::vec3> linepts;

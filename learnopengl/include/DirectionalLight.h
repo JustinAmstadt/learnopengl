@@ -21,14 +21,17 @@ public:
 	}
 
 	virtual void setAttenConst(float val) {
+		static_cast<void>(val);
 		std::cerr << "Cannot set attenuation for a directional light" << std::endl;
 	}
 
 	virtual void setAttenLin(float val) {
+		static_cast<void>(val);
 		std::cerr << "Cannot set attenuation for a directional light" << std::endl;
 	}
 
 	virtual void setAttenQuad(float val) {
+		static_cast<void>(val);
 		std::cerr << "Cannot set attenuation for a directional light" << std::endl;
 	}
 };

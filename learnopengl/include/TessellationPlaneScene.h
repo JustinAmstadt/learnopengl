@@ -10,7 +10,8 @@ private:
 	std::unique_ptr<FlatPlane> fp;
 
 public:
-	TessellationPlaneScene(std::shared_ptr<Shader> lampShader) {
+	TessellationPlaneScene(const float screenWidth, const float screenHeight, std::shared_ptr<Shader> lampShader) : Scene(screenWidth, screenHeight)
+	{
 		fp = std::make_unique<FlatPlane>(lampShader, 20, 0.0);
 
 		this->addObject(fp->list);

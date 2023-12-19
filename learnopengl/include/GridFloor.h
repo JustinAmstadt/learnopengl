@@ -28,18 +28,17 @@ private:
 		std::vector<glm::vec3> normals{ normal, normal };
 		line->setNormals(normals);
 		line->setColor(glm::vec4(0.0f, 0.8f, 0.0f, 1.0f));
-
-		GLuint VAO = Scene::createVAO(line->vertexData);
+		line->createMesh();
 
 		//vertical middle line
-		*list = { line, VAO, model, shaderProgram, GL_LINES };
+		*list = { line, model, shaderProgram, GL_LINES };
 		floorLines.push_back(list);
 
 		//vertical right side
 		for (int i = 0; i < size / 4; i++) {
 			list.reset(new SceneObject());
 			model = glm::translate(model, glm::vec3(floorDistance, 0.0f, 0.0f));
-			*list = { line, VAO, model, shaderProgram, GL_LINES };
+			*list = { line, model, shaderProgram, GL_LINES };
 			floorLines.push_back(list);
 		}
 
@@ -49,7 +48,7 @@ private:
 		for (int i = 0; i < size / 4; i++) {
 			list.reset(new SceneObject());
 			model = glm::translate(model, glm::vec3(-floorDistance, 0.0f, 0.0f));
-			*list = { line, VAO, model, shaderProgram, GL_LINES };
+			*list = { line, model, shaderProgram, GL_LINES };
 			floorLines.push_back(list);
 		}
 
@@ -58,7 +57,7 @@ private:
 
 		//horizontal middle line
 		model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-		*list = { line, VAO, model, shaderProgram, GL_LINES };
+		*list = { line, model, shaderProgram, GL_LINES };
 		floorLines.push_back(list);
 
 		for (int i = 0; i < size / floorDistance + 1; i++) {
@@ -66,7 +65,7 @@ private:
 			model = glm::mat4(1.0f);
 			model = glm::translate(model, glm::vec3(0.0f, 0.0f, (float)i * -floorDistance));
 			model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-			*list = { line, VAO, model, shaderProgram, GL_LINES };
+			*list = { line, model, shaderProgram, GL_LINES };
 			floorLines.push_back(list);
 		}
 
@@ -75,7 +74,7 @@ private:
 			model = glm::mat4(1.0f);
 			model = glm::translate(model, glm::vec3(0.0f, 0.0f, (float)i * floorDistance));
 			model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-			*list = { line, VAO, model, shaderProgram, GL_LINES };
+			*list = { line, model, shaderProgram, GL_LINES };
 			floorLines.push_back(list);
 		}
 	}
@@ -103,14 +102,14 @@ public:
 		if (camera.Position[0] >= cameraOffsetX + floorDistance) {
 			cameraOffsetX += 4;
 			model = glm::translate(model, glm::vec3(floorDistance, 0.0f, 0.0f));
-			for (int i = 0; i < floorLines.size(); i++) {
+			for (auto i = 0u; i < floorLines.size(); i++) {
 				floorLines[i]->model = model * floorLines[i]->model;
 			}
 		}
 		else if (camera.Position[0] < cameraOffsetX - floorDistance) {
 			cameraOffsetX -= 4;
 			model = glm::translate(model, glm::vec3(-floorDistance, 0.0f, 0.0f));
-			for (int i = 0; i < floorLines.size(); i++) {
+			for (auto i = 0u; i < floorLines.size(); i++) {
 				floorLines[i]->model = model * floorLines[i]->model;
 			}
 		}
@@ -118,14 +117,14 @@ public:
 		if (camera.Position[2] >= cameraOffsetZ + floorDistance) {
 			cameraOffsetZ += 4;
 			model = glm::translate(model, glm::vec3(0.0f, 0.0f, floorDistance));
-			for (int i = 0; i < floorLines.size(); i++) {
+			for (auto i = 0u; i < floorLines.size(); i++) {
 				floorLines[i]->model = model * floorLines[i]->model;
 			}
 		}
 		else if (camera.Position[2] < cameraOffsetZ - floorDistance) {
 			cameraOffsetZ -= 4;
 			model = glm::translate(model, glm::vec3(0.0f, 0.0f, -floorDistance));
-			for (int i = 0; i < floorLines.size(); i++) {
+			for (auto i = 0u; i < floorLines.size(); i++) {
 				floorLines[i]->model = model * floorLines[i]->model;
 			}
 		}

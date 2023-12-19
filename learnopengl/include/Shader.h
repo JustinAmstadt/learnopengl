@@ -6,6 +6,23 @@
 
 class Shader
 {
+public:
+    // the program ID
+    GLuint ID = -1;
+
+    std::string vertexShaderName;
+    std::string fragShaderName;
+    std::string TCShaderName;
+    std::string TEShaderName;
+
+    // constructor reads and builds the shader
+    Shader(const char* vertexFile, const char* fragFile, const char* TEFile, const char* TCFile);
+    // use/activate the shader
+    void use();
+    void setBool(const std::string &name, bool value) const;
+    void setInt(const std::string &name, int value) const;
+    void setFloat(const std::string &name, float value) const;
+
 private:
     std::string vertexShaderSource;
     std::string fragShaderSource;
@@ -26,14 +43,5 @@ private:
     void readTessellationShaders(const char* TEFile, const char* TCFile);
     void addVertFragShaders();
     void addTessellationShaders();
-
-public:
-    // the program ID
-    GLuint ID = -1;
-
-    // constructor reads and builds the shader
-    Shader(const char* vertexFile, const char* fragFile, const char* TEFile, const char* TCFile);
-    // use/activate the shader
-    void use();
 };
 #endif

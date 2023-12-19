@@ -11,7 +11,7 @@ protected:
 	glm::vec4 lightPosDir = glm::vec4(0.0f);
 	glm::vec3 lightColor = glm::vec3(1.0f);
 
-	glm::vec3 ambient = glm::vec3(0.2f, 0.2f, 0.2f);
+	glm::vec3 ambient = glm::vec3(0.3f, 0.3f, 0.3f);
 	glm::vec3 diffuse = glm::vec3(0.5f, 0.5f, 0.5f);
 	glm::vec3 specular = glm::vec3(1.0f, 1.0f, 1.0f);
 
@@ -31,6 +31,16 @@ public:
 		constant = -1.0f;
 		linear = -1.0f;
 		quadratic = -1.0f;
+	}
+
+	void setAmbient(glm::vec3 color){
+		this->ambient = color;
+	}
+	void setDiffuse(glm::vec3 color){
+		this->diffuse = color;
+	}
+	void setSpecular(glm::vec3 color){
+		this->specular = color;
 	}
 
 	//either position or direction

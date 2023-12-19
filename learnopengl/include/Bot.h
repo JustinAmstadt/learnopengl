@@ -28,7 +28,7 @@ class Bot{
     bool move (int x, int z, float length, std::vector<std::vector<std::string>>& mazeGrid){
       int newCoordX = coordX + x;
       int newCoordZ = coordZ + z;
-      if(newCoordX > 0 && newCoordX < mazeGrid[0].size() && newCoordZ > 0 && newCoordZ < mazeGrid.size()
+      if(newCoordX > 0 && newCoordX < static_cast<int>(mazeGrid[0].size()) && newCoordZ > 0 && newCoordZ < static_cast<int>(mazeGrid.size())
           && !isWall(newCoordX, newCoordZ, mazeGrid)){
         move(glm::vec3(length * x, 0, length * z)); // 11 / 2 is one space over in the maze
         coordX = newCoordX;

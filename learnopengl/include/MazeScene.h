@@ -55,7 +55,7 @@ private:
     void makeGrid(); //sets the grid
     void setWalkable(); //sets at begining of program, the walls to not walkable
     void randomIndex(); //picks a random direction
-    void checkDirections(int h, int w); //checks possible walk directions
+    void checkDirections(unsigned long int h, unsigned long int w); //checks possible walk directions
     void savePosition(int x, int y); //saves position in a vector to later backtrack (move back)
     void backTrack(int& x, int& y); //moves back a spot and removes the position to complete the maze
     bool checkCompleted();
@@ -154,8 +154,8 @@ void MazeGenerator::makeGrid() {
     }
 
     //create the holes
-    for (int i = 0; i < grid.size(); i++) {
-        for (int j = 0; j < grid[i].size(); j++) {
+    for (auto i = 0u; i < grid.size(); i++) {
+        for (auto j = 0u; j < grid[i].size(); j++) {
             if (j % 2 == 0 || i % 2 == 0) {
                 grid[i][j] = "#";
             }
@@ -183,8 +183,8 @@ void MazeGenerator::makeGrid() {
 }
 
 void MazeGenerator::printMaze() {
-    for (int i = 0; i < grid.size(); i++) {
-        for (int j = 0; j < grid[i].size(); j++) {
+    for (auto i = 0u; i < grid.size(); i++) {
+        for (auto j = 0u; j < grid[i].size(); j++) {
             cout << grid[i][j] << " ";
             //cout << grid[i][j] << "";
         }
@@ -193,16 +193,16 @@ void MazeGenerator::printMaze() {
 }
 
 void MazeGenerator::setWalkable() {
-    for (int i = 0; i < grid.size(); i++) {
+    for (auto i = 0u; i < grid.size(); i++) {
         vector <bool> temp;
-        for (int j = 0; j < grid[i].size(); j++) {
+        for (auto j = 0u; j < grid[i].size(); j++) {
             temp.push_back(true);
         }
         walkable.push_back(temp);
     }
 
-    for (int i = 0; i < grid.size(); i++) {
-        for (int j = 0; j < grid[i].size(); j++) {
+    for (auto i = 0u; i < grid.size(); i++) {
+        for (auto j = 0u; j < grid[i].size(); j++) {
             if (j % 2 == 0 || i % 2 == 0) {
                 walkable[i][j] = false;
             }
@@ -226,7 +226,7 @@ void MazeGenerator::randomIndex() {
     walkDir = direction[i];
 }
 
-void MazeGenerator::checkDirections(int h, int w) {
+void MazeGenerator::checkDirections(unsigned long int h, unsigned long int w) {
     if (direction.size() > 0) {
         direction.erase(direction.begin(), direction.end());
     }
@@ -348,8 +348,8 @@ void MazeGenerator::backTrack(int& x, int& y) {
 }
 
 bool MazeGenerator::checkCompleted() {
-    for (int i = 0; i < grid.size(); i++) {
-        for (int j = 0; j < grid[i].size(); j++) {
+    for (auto i = 0u; i < grid.size(); i++) {
+        for (auto j = 0u; j < grid[i].size(); j++) {
             if (walkable[i][j] == 1) {
                 return false;
             }
@@ -372,10 +372,11 @@ private:
   MazeGenerator maze;
 
 public:
-	MazeScene(std::shared_ptr<Shader> lampShader) {
-    srand(time(0));
-    maze = MazeGenerator(mazeGenVal);
-    maze.generate();
+	MazeScene(const float screenWidth, const float screenHeight, std::shared_ptr<Shader> lampShader) : Scene(screenWidth, screenHeight)
+    {
+        srand(time(0));
+        maze = MazeGenerator(mazeGenVal);
+        maze.generate();
 
 		gridFloor = std::make_unique<GridFloor>(lampShader, 80);
 		this->addObjectVec(gridFloor->getFloorLines());
@@ -394,9 +395,8 @@ public:
 	{
 
 		std::shared_ptr<GeometricObject> cube = std::make_shared<Cube>(glm::vec4(1.0f, 0.0f, 0.0f, 0.4f));
-    glm::mat4 model = glm::mat4(1.0f);
-    std::shared_ptr<SceneObject> list;
-		GLuint cubeVAO = Scene::createVAO(cube->vertexData);
+        glm::mat4 model = glm::mat4(1.0f);
+        std::shared_ptr<SceneObject> list;
 
 		// If none are rendering, check the for loop
 		for (int x = 0; x < mazeSize; x++) {
@@ -406,7 +406,7 @@ public:
           model = glm::translate(model, glm::vec3(wallLength * x, 5.0f, wallLength * y));
           model = glm::scale(model, glm::vec3(wallLength));
           list = std::make_shared<SceneObject>();
-          *list = { cube, cubeVAO, model, lampShader, GL_TRIANGLES };
+          *list = { cube, model, lampShader, GL_TRIANGLES };
           cubes.push_back(list);
         }
 
@@ -415,19 +415,18 @@ public:
 		}
 		this->addObjectVec(cubes);
 
-    std::vector<std::shared_ptr<SceneObject>> botPtrVec;
+        std::vector<std::shared_ptr<SceneObject>> botPtrVec;
 		std::shared_ptr<GeometricObject> botPtr = std::make_shared<Cube>(glm::vec4(1.0f, 0.5f, 0.2f, 1.0f));
-    GLuint botVAO = Scene::createVAO(botPtr->vertexData);
 
-    for(int i = 0; i < botCount; ++i){
+        for(int i = 0; i < botCount; ++i){
 
-      glm::vec3 startingPos = glm::vec3(0.0f, 5.0f, 11.0f / 2.0f);
-      list = std::make_shared<SceneObject>();
-      *list = { botPtr, botVAO, model, lampShader, GL_TRIANGLES };
-      botPtrVec.push_back(list);
-      bots.push_back(std::make_shared<Bot>(list, startingPos));
-    }
-    this->addObjectVec(botPtrVec);
+            glm::vec3 startingPos = glm::vec3(0.0f, 5.0f, 11.0f / 2.0f);
+            list = std::make_shared<SceneObject>();
+            *list = { botPtr, model, lampShader, GL_TRIANGLES };
+            botPtrVec.push_back(list);
+            bots.push_back(std::make_shared<Bot>(list, startingPos));
+        }
+        this->addObjectVec(botPtrVec);
 	}
 
   void moveBotDown(){
@@ -455,7 +454,7 @@ public:
 		model = glm::translate(model, glm::vec3(wallLength * x, 5.0f, wallLength * y));
 		model = glm::scale(model, glm::vec3(.5f, wallHeight, wallLength));
 		list = std::make_shared<SceneObject>();
-		*list = { cube, cubeVAO, model, lampShader, GL_TRIANGLES };
+		*list = { cube, model, lampShader, GL_TRIANGLES };
 		cubes.push_back(list);
 
 		//right wall
@@ -463,7 +462,7 @@ public:
 		model = glm::translate(model, glm::vec3(wallLength * x + wallLength, 5.0f, wallLength * y));
 		model = glm::scale(model, glm::vec3(.5f, wallHeight, wallLength));
 		list = std::make_shared<SceneObject>();
-		*list = { cube, cubeVAO, model, lampShader, GL_TRIANGLES };
+		*list = { cube, model, lampShader, GL_TRIANGLES };
 		cubes.push_back(list);
 
 		//top wall
@@ -472,7 +471,7 @@ public:
 		model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(.5f, wallHeight, wallLength));
 		list = std::make_shared<SceneObject>();
-		*list = { cube, cubeVAO, model, lampShader, GL_TRIANGLES };
+		*list = { cube, model, lampShader, GL_TRIANGLES };
 		cubes.push_back(list);
 
 		//bottom wall
@@ -482,7 +481,7 @@ public:
 			model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 			model = glm::scale(model, glm::vec3(.5f, wallHeight, wallLength));
 			list = std::make_shared<SceneObject>();
-			*list = { cube, cubeVAO, model, lampShader, GL_TRIANGLES };
+			*list = { cube, model, lampShader, GL_TRIANGLES };
 			cubes.push_back(list);
 		}
 	}

@@ -15,36 +15,33 @@
 
 struct SceneObject {
 	std::shared_ptr<GeometricObject> object;
-	GLuint VAO = -1;
 	glm::mat4 model = glm::mat4(1.0f);
-	std::shared_ptr<Shader> program = nullptr;
+	std::shared_ptr<Shader> shader = nullptr;
 	GLenum DRAW_ENUM = GL_LINES;
 };
 
 class Scene {
 private:
-	const int SCREEN_WIDTH = 800;
-	const int SCREEN_HEIGHT = 600;
 	std::vector<std::vector<std::shared_ptr<SceneObject>>> objectVec;
 	glm::mat4 projection;
 	GLuint cubeMap = -1;
-  float prevTime = static_cast<float>(glfwGetTime());
-  float curTime;
+	float prevTime = static_cast<float>(glfwGetTime());
+	float curTime;
 protected:
 	glm::vec4 clearColor = glm::vec4(0.4f, 0.4f, 0.4f, 1.0f);
 public:
 	std::shared_ptr<Light> light;
 	static std::unordered_map<std::string, GLuint> textureMap;
 
-	Scene() {
+	Scene(const int screenWidth, const int screenHeight) {
 		projection = glm::mat4(1.0f);
-		projection = glm::perspective(glm::radians(45.0f), (float)SCREEN_WIDTH / (float)SCREEN_HEIGHT, 0.1f, 400.0f);
+		projection = glm::perspective(glm::radians(45.0f), (900.0f / 500.0f), 0.1f, 400.0f);
 	}
 	~Scene() {
 		objectVec.clear();
 	}
 
-	static GLuint createVAO(std::vector<Vertex> data, std::vector<GLuint> indices = std::vector<GLuint>());
+	static GLuint createVAO(std::vector<Vertex> data, std::vector<GLuint> indices);
 
 	void renderScene(Camera camera);
 	void addObjectVec(std::vector<std::shared_ptr<SceneObject>> vector) {
@@ -70,7 +67,7 @@ public:
     return deltaT;
   }
 
-	void addTexture(std::string fileName);
+	static GLuint addTexture(std::string fileName);
 
 	void addCubeMap(std::vector<std::string> faces);
 
@@ -84,7 +81,9 @@ public:
 		glBindTexture(GL_TEXTURE_2D, 0);
 	}
 
-  virtual void additionalUniformCalls(GLuint shaderID) {}
+  virtual void additionalUniformCalls(GLuint shaderID) {
+	static_cast<void>(shaderID); // Not used in parent class
+  }
 
   virtual void pressUp() {}
   virtual void pressDown() {}

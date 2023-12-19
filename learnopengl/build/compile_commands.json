@@ -1,0 +1,47 @@
+[
+{
+  "directory": "/home/justin/learnopengl/learnopengl/build",
+  "command": "/usr/bin/cc  -I/home/justin/learnopengl/learnopengl/include -g -o CMakeFiles/glad.dir/glad.c.o -c /home/justin/learnopengl/learnopengl/glad.c",
+  "file": "/home/justin/learnopengl/learnopengl/glad.c"
+},
+{
+  "directory": "/home/justin/learnopengl/learnopengl/build",
+  "command": "/usr/bin/c++  -I/home/justin/learnopengl/learnopengl/include -g -Wall -Wextra -ggdb -std=gnu++20 -o CMakeFiles/learnopengl.dir/Main.cpp.o -c /home/justin/learnopengl/learnopengl/Main.cpp",
+  "file": "/home/justin/learnopengl/learnopengl/Main.cpp"
+},
+{
+  "directory": "/home/justin/learnopengl/learnopengl/build",
+  "command": "/usr/bin/c++  -I/home/justin/learnopengl/learnopengl/include -g -Wall -Wextra -ggdb -std=gnu++20 -o CMakeFiles/learnopengl.dir/Scene.cpp.o -c /home/justin/learnopengl/learnopengl/Scene.cpp",
+  "file": "/home/justin/learnopengl/learnopengl/Scene.cpp"
+},
+{
+  "directory": "/home/justin/learnopengl/learnopengl/build",
+  "command": "/usr/bin/c++  -I/home/justin/learnopengl/learnopengl/include -g -Wall -Wextra -ggdb -std=gnu++20 -o CMakeFiles/learnopengl.dir/Shader.cpp.o -c /home/justin/learnopengl/learnopengl/Shader.cpp",
+  "file": "/home/justin/learnopengl/learnopengl/Shader.cpp"
+},
+{
+  "directory": "/home/justin/learnopengl/learnopengl/build",
+  "command": "/usr/bin/c++  -I/home/justin/learnopengl/learnopengl/include -g -Wall -Wextra -ggdb -std=gnu++20 -o CMakeFiles/learnopengl.dir/ObjectData.cpp.o -c /home/justin/learnopengl/learnopengl/ObjectData.cpp",
+  "file": "/home/justin/learnopengl/learnopengl/ObjectData.cpp"
+},
+{
+  "directory": "/home/justin/learnopengl/learnopengl/build",
+  "command": "/usr/bin/c++  -I/home/justin/learnopengl/learnopengl/include -g -Wall -Wextra -ggdb -std=gnu++20 -o CMakeFiles/learnopengl.dir/GeometricObject.cpp.o -c /home/justin/learnopengl/learnopengl/GeometricObject.cpp",
+  "file": "/home/justin/learnopengl/learnopengl/GeometricObject.cpp"
+},
+{
+  "directory": "/home/justin/learnopengl/learnopengl/build",
+  "command": "/usr/bin/c++  -I/home/justin/learnopengl/learnopengl/include -g -Wall -Wextra -ggdb -std=gnu++20 -o CMakeFiles/learnopengl.dir/CircularParabola.cpp.o -c /home/justin/learnopengl/learnopengl/CircularParabola.cpp",
+  "file": "/home/justin/learnopengl/learnopengl/CircularParabola.cpp"
+},
+{
+  "directory": "/home/justin/learnopengl/learnopengl/build",
+  "command": "/usr/bin/c++  -I/home/justin/learnopengl/learnopengl/include -g -Wall -Wextra -ggdb -std=gnu++20 -o CMakeFiles/learnopengl.dir/Pipe.cpp.o -c /home/justin/learnopengl/learnopengl/Pipe.cpp",
+  "file": "/home/justin/learnopengl/learnopengl/Pipe.cpp"
+},
+{
+  "directory": "/home/justin/learnopengl/learnopengl/build",
+  "command": "/usr/bin/c++  -I/home/justin/learnopengl/learnopengl/include -g -Wall -Wextra -ggdb -std=gnu++20 -o CMakeFiles/learnopengl.dir/Dragonfly.cpp.o -c /home/justin/learnopengl/learnopengl/Dragonfly.cpp",
+  "file": "/home/justin/learnopengl/learnopengl/Dragonfly.cpp"
+}
+]
