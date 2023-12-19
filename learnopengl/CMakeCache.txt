@@ -235,6 +235,15 @@ OPENGL_xmesa_INCLUDE_DIR:PATH=OPENGL_xmesa_INCLUDE_DIR-NOTFOUND
 
 //The directory containing a CMake configuration file for assimp.
 assimp_DIR:PATH=/usr/lib/x86_64-linux-gnu/cmake/assimp-5.2
+<<<<<<< HEAD
+=======
+
+//The directory containing a CMake configuration file for boost_Process.
+boost_Process_DIR:PATH=boost_Process_DIR-NOTFOUND
+>>>>>>> 0d723aba1af2c973d31adef636a00a16e2a3d6ee
+
+//The directory containing a CMake configuration file for draco.
+draco_DIR:PATH=/usr/lib/x86_64-linux-gnu/cmake/draco
 
 //The directory containing a CMake configuration file for draco.
 draco_DIR:PATH=/usr/lib/x86_64-linux-gnu/cmake/draco

@@ -9,9 +9,15 @@
 #include <fstream>
 #include <vector>
 #include <memory>
+<<<<<<< HEAD:learnopengl/src/Main.cpp
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
+=======
+// #include <assimp/Importer.hpp>
+// #include <assimp/scene.h>
+// #include <assimp/postprocess.h>
+>>>>>>> 0d723aba1af2c973d31adef636a00a16e2a3d6ee:learnopengl/Main.cpp
 
 #include "FlatPlane.h"
 #include "GeometricObject.h"

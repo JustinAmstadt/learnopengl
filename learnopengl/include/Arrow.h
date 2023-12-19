@@ -23,12 +23,8 @@ public:
     return objPtr;
   }
 
+  // Update position, scale, and rotation
   void update(glm::vec3 position, glm::vec3 newScale, float rotateDegrees){
-    // glm::vec3 scale, rotation, translation, skew;
-    // glm::quat orientation;
-    // glm::vec4 perspective;
-    // glm::decompose(objPtr->model, scale, orientation, translation, skew, perspective);
-
     // Create a new translation matrix using the new position
     glm::mat4 newTranslation = glm::translate(glm::mat4(1.0f), position);
     glm::mat4 newScaling = glm::scale(glm::mat4(1.0f), newScale);
@@ -58,6 +54,7 @@ private:
 	std::vector<glm::vec3> verts;
   std::vector<GLuint> indicies;
 
+  // Generates vertices and indices for the arrow
   void makeArrow(std::shared_ptr<Shader> shaderProgram){
     verts.push_back(glm::vec3(0.0f));
     verts.push_back(glm::vec3(1.0f, 0.0f, 0.0f));
