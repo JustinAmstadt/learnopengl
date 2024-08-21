@@ -4,24 +4,20 @@ set(CMAKE_CXX_STANDARD 20)
 
 project(learnopengl)
 
-# Set the path to the OpenGL libraries
+# Find the required packages
 find_package(OpenGL REQUIRED)
-
-# Set the path to the GLFW library
 find_package(glfw3 REQUIRED)
-# find_package(assimp REQUIRED)
-
 find_package(assimp REQUIRED)
 
+# Include directories
 include_directories(include)
-# include_directories(${ASSIMP_INCLUDE_DIRS})
 
+# Glob all source files
 file(GLOB SOURCES "src/*.cpp")
 
+# Add executable with all sources
 add_executable(learnopengl
-<<<<<<< HEAD
   ${SOURCES}
-=======
   Main.cpp 
   Scene.cpp 
   Shader.cpp 
@@ -56,17 +52,16 @@ add_executable(learnopengl
   include/DebugShape.h
   include/Physics.h
   include/Arrow.h
->>>>>>> 0d723aba1af2c973d31adef636a00a16e2a3d6ee
 )
 
+# Add the glad library
 add_library(glad STATIC glad.c)
 
+# Set compile options
 target_compile_options(learnopengl PRIVATE -Wall -Wextra -ggdb)
 
-<<<<<<< HEAD
+# Link libraries
 target_link_libraries(learnopengl PRIVATE ${OPENGL_LIBRARIES} glfw glad assimp::assimp)
+
+# Include Assimp directories (though not strictly necessary since find_package already does it)
 target_include_directories(learnopengl PRIVATE ${ASSIMP_INCLUDE_DIRS})
-=======
-# ${ASSIMP_LIBRARIES} in target_link_libraries
-target_link_libraries(learnopengl PRIVATE ${OPENGL_LIBRARIES} glfw glad)
->>>>>>> 0d723aba1af2c973d31adef636a00a16e2a3d6ee
