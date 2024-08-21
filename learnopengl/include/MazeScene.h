@@ -358,6 +358,9 @@ bool MazeGenerator::checkCompleted() {
     return true;
 }
 
+// Made by Justin Amstadt
+// Credits to MazeGenerator class above
+
 class MazeScene : public Scene {
 private:
 	std::unique_ptr<GridFloor> gridFloor;
