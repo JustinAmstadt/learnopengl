@@ -345,8 +345,8 @@ CMakeFiles/learnopengl.dir/src/Model.cpp.o: \
  /usr/include/glm/packing.hpp /usr/include/glm/detail/func_packing.inl \
  /usr/include/glm/detail/type_half.hpp \
  /usr/include/glm/detail/type_half.inl /usr/include/glm/integer.hpp \
- /usr/include/glm/detail/func_integer.inl /usr/local/include/glad/glad.h \
- /usr/local/include/KHR/khrplatform.h /usr/include/c++/11/memory \
+ /usr/include/glm/detail/func_integer.inl /usr/include/glad/glad.h \
+ /usr/include/KHR/khrplatform.h /usr/include/c++/11/memory \
  /usr/include/c++/11/bits/stl_raw_storage_iter.h \
  /usr/include/c++/11/bits/align.h /usr/include/c++/11/bit \
  /usr/include/c++/11/bits/unique_ptr.h \

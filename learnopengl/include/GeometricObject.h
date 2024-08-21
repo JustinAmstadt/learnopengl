@@ -30,12 +30,13 @@ public:
 	Material material;
 	bool meshCreated;
 
-	GeometricObject();
-	GeometricObject(std::vector<glm::vec3> vertices);
-	GeometricObject(Mesh mesh);
+	GeometricObject(std::string name);
+	GeometricObject(std::string name, std::vector<glm::vec3> vertices);
+	GeometricObject(std::string name, std::vector<glm::vec3> vertices, std::vector<GLuint> indices);
+	GeometricObject(std::string name, Mesh mesh);
 
 	// Keep this legacy code for the dragonfly scene
-	GeometricObject(std::vector<glm::vec3> vertices, float vecInLineDist);
+	GeometricObject(std::string name, std::vector<glm::vec3> vertices, float vecInLineDist);
 
 	~GeometricObject() { tragectory.reset(); }
 

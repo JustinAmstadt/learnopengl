@@ -1,8 +1,9 @@
 #include "Dragonfly.h"
 
 void Dragonfly::makeWingPtr(std::vector<glm::vec3> wingPts, std::shared_ptr<Shader> wingShader){
-  std::shared_ptr<GeometricObject> rightLine = std::make_shared<GeometricObject>(wingPts, wingDistance);
+  std::shared_ptr<GeometricObject> rightLine = std::make_shared<GeometricObject>("Right Line Wing", wingPts, wingDistance);
   rightLine->setColor(glm::vec4(0.970f, 0.291f, 0.476f, 1.0f));
+  rightLine->createMesh();
   std::shared_ptr<SceneObject> list = std::make_shared<SceneObject>();
 
   // top right
@@ -17,8 +18,9 @@ void Dragonfly::makeWingPtr(std::vector<glm::vec3> wingPts, std::shared_ptr<Shad
   wingptr.push_back(list);
 
   std::for_each(wingPts.begin(), wingPts.end(), [](glm::vec3& vec) { vec.x = -vec.x; }); // marking the left side with a negative x. will fix in shader
-  std::shared_ptr<GeometricObject> leftLine = std::make_shared<GeometricObject>(wingPts, wingDistance);
+  std::shared_ptr<GeometricObject> leftLine = std::make_shared<GeometricObject>("Left Line Wing", wingPts, wingDistance);
   leftLine->setColor(glm::vec4(0.970f, 0.291f, 0.476f, 1.0f));
+  leftLine->createMesh();
 
   // top left
   model = glm::mat4(1.0f);

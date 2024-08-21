@@ -49,7 +49,7 @@ void CircularParabola::createLineFunc(std::shared_ptr<Shader> shaderProgram)
 		indices.push_back(1 + i);
 	}
 
-	std::shared_ptr<GeometricObject> line = std::make_shared<GeometricObject>(verts);
+	std::shared_ptr<GeometricObject> line = std::make_shared<GeometricObject>("Circular Parabola Line", verts);
 	line->setColor(glm::vec4(0.0f, 0.0f, 0.8f, 0.8f));
 	line->getMesh().indices = indices;
 	std::shared_ptr<SceneObject> list = std::make_shared<SceneObject>();

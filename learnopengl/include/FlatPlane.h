@@ -51,7 +51,7 @@ public:
 			model = glm::mat4(1.0f);
 		}
 
-		plane = std::make_shared<GeometricObject>(vertices);
+		plane = std::make_shared<GeometricObject>("FlatPlane Line", vertices);
 
 		/*for (const auto& v : vertices) {
 			std::cout << v.x << ", " << v.y << ", " << v.z << std::endl;

@@ -20,6 +20,7 @@ public:
 	};
 
 	Square() : GeometricObject(
+		"Square",
 		std::vector<glm::vec3> {
 			glm::vec3(0.5f, 0.5f, 0.0f),  // top right
 			glm::vec3(0.5f, -0.5f, 0.0f),  // bottom right
@@ -36,6 +37,7 @@ public:
 
 	// fileName: Texture file name 
 	Square(std::string fileName) : GeometricObject(
+		"Square",
 		std::vector<glm::vec3> {
 			glm::vec3(0.5f, 0.5f, 0.0f),  // top right
 			glm::vec3(0.5f, -0.5f, 0.0f),  // bottom right

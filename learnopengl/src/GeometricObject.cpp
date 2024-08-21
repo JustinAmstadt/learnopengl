@@ -3,7 +3,7 @@
 #include "Mesh.h"
 #include <iostream>
 
-GeometricObject::GeometricObject(std::vector<glm::vec3> vertices) 
+GeometricObject::GeometricObject(std::string name, std::vector<glm::vec3> vertices) 
 {
 	for (int i = 0; i < vertices.size(); i++) {
 		Vertex v;
@@ -14,15 +14,34 @@ GeometricObject::GeometricObject(std::vector<glm::vec3> vertices)
 	meshCreated = false;
 }
 
-GeometricObject::GeometricObject() {}
-
-GeometricObject::GeometricObject(Mesh mesh) 
+GeometricObject::GeometricObject(std::string name, std::vector<glm::vec3> vertices, std::vector<GLuint> indices) 
 {
+	for (int i = 0; i < vertices.size(); i++) {
+		Vertex v;
+		v.position = vertices[i];
+		vertexData.push_back(v);
+	}
+
+	for (int i = 0; i < indices.size(); i++) {
+		this->indices.push_back(indices[i]);
+	}
+
+	this->objName = name;
+	meshCreated = false;
+}
+
+GeometricObject::GeometricObject(std::string name) {
+	this->objName = name;
+}
+
+GeometricObject::GeometricObject(std::string name, Mesh mesh) 
+{
+	this->objName = name;
 	this->mesh = mesh;
 	meshCreated = true;
 }
 
-GeometricObject::GeometricObject(std::vector<glm::vec3> vertices, float vecInLineDist) 
+GeometricObject::GeometricObject(std::string name, std::vector<glm::vec3> vertices, float vecInLineDist) 
 {
 	for (int i = 0; i < vertices.size(); i++) {
 		Vertex v;
@@ -31,6 +50,7 @@ GeometricObject::GeometricObject(std::vector<glm::vec3> vertices, float vecInLin
 		vertexData.push_back(v);
 	}
 
+	this->objName = name;
 	meshCreated = false;
 }
 

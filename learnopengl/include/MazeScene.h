@@ -433,19 +433,27 @@ public:
 	}
 
   void moveBotDown(){
-    bots[0]->moveDown(maze.grid);
+    if(bots.size() > 0) {
+        bots[0]->moveDown(maze.grid);
+    }
   }
 
   void moveBotUp(){
-    bots[0]->moveUp(maze.grid);
+    if(bots.size() > 0) {
+        bots[0]->moveUp(maze.grid);
+    }
   }
 
   void moveBotRight(){
-    bots[0]->moveRight(maze.grid);
+    if(bots.size() > 0) {
+        bots[0]->moveRight(maze.grid);
+    }
   }
 
   void moveBotLeft(){
-    bots[0]->moveLeft(maze.grid);
+    if(bots.size() > 0) {
+        bots[0]->moveLeft(maze.grid);
+    }
   }
 
     //not used. makes a grid with walls that don't count as a space

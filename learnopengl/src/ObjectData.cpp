@@ -38,7 +38,7 @@ void ObjectData::createData(std::shared_ptr<Shader> shaderProgram) {
 			linepts.push_back(glm::vec3(cos(i), sin(i), 0.0f));
 	}
 
-	circle.reset(new GeometricObject(linepts));
+	circle.reset(new GeometricObject("Circle", linepts));
 	//model = glm::scale(model, glm::vec3(0.2, 0.2, 0.2));
 	list.reset(new SceneObject());
 	*list = { circle, model, shaderProgram, GL_TRIANGLE_FAN };
