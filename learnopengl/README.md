@@ -4,6 +4,12 @@ This is a simple game engine written with OpenGL that uses the learnopengl tutor
 
 All abstractions and optimizations were made by me.
 
+# Camera Controls
+
+wasd + mouse to control movement.
+
+The green grid below will follow you to confirm that you are moving.
+
 # How to Change Scenes
 
 Any class that inherits the Scene class can be used as a brand new scene as long as you call.
@@ -32,6 +38,16 @@ Tessellation Plane Scene: It compiles, but looks very wrong.
 
 Sandbox Scene: A testing scene to try new ideas out. When an idea formulates I usually copy this scene and rename it and then empty the sandbox scene out again.
 
+# Dragonfly Scene Controls
+
+Left: f
+
+Right: g
+
+More Upward Thrust: up arrow
+
+Less Upward Thrust: down arrow
+
 # Other Classes
 
-There are other classes that aren't currently being used by a scene such as lighting and specific geometry that are available under the include directory
+There are other classes that aren't currently being used by a scene such as lighting and specific geometry that are available under the include directory.
