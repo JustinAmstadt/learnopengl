@@ -361,3 +361,15 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+# CMake related files
+**/Makefile
+**/libglad.a
+**/CMakeCache.txt
+**/cmake_install.cmake
+**/CMakeFiles
+
+# Executable files
+hellotriangle/hellotriangle
+learnopengl/learnopengl
+compute-shader-raytracing/computeshaderraytracer
