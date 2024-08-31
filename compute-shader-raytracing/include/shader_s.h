@@ -7,6 +7,8 @@
 #include <fstream>
 #include <sstream>
 #include <iostream>
+#include <regex>
+#include <sstream>
 
 class Shader
 {
@@ -32,7 +34,8 @@ public:
             // close file handlers
             cShaderFile.close();
             // convert stream into string
-            computeCode   = cShaderStream.str();
+            computeCode = cShaderStream.str();
+            preprocessShader(computeCode);
         }
         catch (std::ifstream::failure& e)
         {
@@ -83,6 +86,8 @@ public:
             // convert stream into string
             vertexCode   = vShaderStream.str();
             fragmentCode = fShaderStream.str();
+            preprocessShader(vertexCode);
+            preprocessShader(fragmentCode);
         }
         catch (std::ifstream::failure& e)
         {
@@ -162,5 +167,45 @@ private:
             }
         }
     }
+
+    // Cuts anything in the shape of "// #include<FILE>" and works to cut and paste code from
+    // another file
+    void preprocessShader(std::string& code) {
+        std::regex includeRegex(R"(^\s*//?\s*#\s*include\s*<[^>]+>)");
+        std::istringstream stream(code);
+        std::string newCode;
+        std::string line;
+
+        while (std::getline(stream, line)) {
+            std::smatch matches; // Stores result of regex match
+            if (std::regex_match(line, matches, includeRegex)) {
+                std::string includeValue = matches.str(); // Turns into // #include <file.glsl>
+                includeValue = includeValue.substr(13, includeValue.size() - 1); // Turns into file.glsl>
+                includeValue = includeValue.substr(0, includeValue.size() - 1); // Turns into file.glsl. Idk why, 
+                    //but I couldn't get > to drop, so I'm doing another substr
+
+                std::ifstream includeShaderFile;
+
+                // ensure ifstream objects can throw exceptions:
+                includeShaderFile.exceptions(std::ifstream::failbit | std::ifstream::badbit);
+                try 
+                {
+                    includeShaderFile.open("shaders/" + includeValue);
+                    std::stringstream shaderStream;
+                    shaderStream << includeShaderFile.rdbuf(); // read file's buffer contents into streams
+                    includeShaderFile.close();
+                    newCode += shaderStream.str() + "\n"; // Convert into string and add to shader code
+                }
+                catch (std::ifstream::failure& e)
+                {
+                    std::cout << "ERROR::SHADER::FILE_NOT_SUCCESSFULLY_READ: " << e.what() << std::endl;
+                }
+            } else {
+                newCode += line + "\n";
+            }
+        }
+
+        code = newCode;
+    }    
 };
 #endif
