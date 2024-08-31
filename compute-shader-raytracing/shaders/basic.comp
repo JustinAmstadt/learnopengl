@@ -7,26 +7,29 @@ layout (local_size_x = 1, local_size_y = 1, local_size_z = 1) in;
 
 layout(rgba32f, binding = 0) uniform image2D imgOutput;
 
-// #include <include/sphere.glsl>
-
-// Ray structure
-struct Ray {
-    vec3 origin;
-    vec3 direction;
-};
+// #include <include/structs.glsl>
 
 // Function to intersect a ray with a sphere
-bool intersectSphere(Ray ray, Sphere sphere, out float t) {
+float intersectSphere(Ray ray, Sphere sphere) {
     vec3 oc = ray.origin - sphere.center;
     float b = dot(oc, ray.direction);
     float c = dot(oc, oc) - sphere.radius * sphere.radius;
     float h = b * b - c;
 
-    if (h < 0.0) return false;
+    if (h < 0.0) return -1;
+    return -b - sqrt(h); // This is going to be t in our ray equation
+}
 
-    h = sqrt(h);
-    t = -b - h;
-    return true;
+vec3 ray_color(Ray r, Sphere sphere) {
+    // Check intersection with sphere
+    float t = intersectSphere(r, sphere);
+    if (t > 0) {
+        return sphere.color;
+    }
+
+    vec3 unit_direction = normalize(r.direction);
+    float a = 0.5*(unit_direction.y + 1.0);
+    return (1.0-a)*vec3(1.0, 1.0, 1.0) + a*vec3(0.5, 0.7, 1.0);
 }
 
 // Main function
@@ -47,13 +50,7 @@ void main() {
     // Scene setup (simple scene with one sphere)
     Sphere sphere = Sphere(vec3(0.0, 0.0, -3.0), 1.0, vec3(1.0, 0.0, 0.0));  // Red sphere
 
-    float t;
-    vec3 pixel_color = vec3(0.0);
-
-    // Check intersection with sphere
-    if (intersectSphere(ray, sphere, t)) {
-        pixel_color = sphere.color;
-    }
+    vec3 pixel_color = ray_color(ray, sphere);
 
     // Write color to output image
     imageStore(imgOutput, pixel_coords, vec4(pixel_color, 1.0));

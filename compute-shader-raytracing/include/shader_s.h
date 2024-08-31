@@ -198,7 +198,7 @@ private:
                 }
                 catch (std::ifstream::failure& e)
                 {
-                    std::cout << "ERROR::SHADER::FILE_NOT_SUCCESSFULLY_READ: " << e.what() << std::endl;
+                    std::cout << "ERROR::SHADER::INCLUDE_FILE_NOT_SUCCESSFULLY_READ: " << e.what() << std::endl;
                 }
             } else {
                 newCode += line + "\n";
