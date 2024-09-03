@@ -12,8 +12,8 @@ unsigned int makeAndBindTexture(Shader shader);
 void renderQuad();
 
 // settings
-const unsigned int SCR_WIDTH = 800;
-const unsigned int SCR_HEIGHT = 600;
+const unsigned int SCR_WIDTH = 500;
+const unsigned int SCR_HEIGHT = 500;
 
 const unsigned int TEXTURE_WIDTH = 512, TEXTURE_HEIGHT = 512;
 
@@ -164,6 +164,8 @@ unsigned int makeAndBindTexture(Shader shader) {
 
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, texture);
+
+    return texture;
 }
 
 // renderQuad() renders a 1x1 XY quad in NDC
