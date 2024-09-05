@@ -1,5 +1,7 @@
 // Function to intersect a ray with a sphere
-HitRecord hit_sphere(Ray ray, Sphere sphere, float cur_ray_tmax, HitRecord rec) {
+HitReturn hit_sphere(Ray ray, Sphere sphere, float cur_ray_tmax) {
+    HitReturn return_val = HitReturn(HitRecord(vec3(0.0, 0.0, 0.0),vec3(0.0, 0.0, 0.0), 0.0, true), true);
+
     vec3 oc = sphere.center - ray.origin;
     float a = dot(ray.direction, ray.direction); // This is length squared
     float c = dot(oc, oc) - sphere.radius * sphere.radius;
@@ -7,30 +9,30 @@ HitRecord hit_sphere(Ray ray, Sphere sphere, float cur_ray_tmax, HitRecord rec) 
     float discriminant = h * h - a * c;
 
     if (discriminant < 0.0) {
-        rec.hit = false;
-        return rec;
+        return_val.hit = false;
+        return return_val;
     }
     float sqrtd = sqrt(discriminant);
     float root = (h - sqrtd) / a;
     if (root <= ray_tmin || cur_ray_tmax <= root) {
         root = (h + sqrtd) / a;
         if (root <= ray_tmin || cur_ray_tmax <= root) {
-            rec.hit = false;
-            return rec;
+            return_val.hit = false;
+            return return_val;
         }
     }
 
-    rec.t = root;
-    rec.p = rayAt(ray, rec.t);
-    rec.normal = (rec.p - sphere.center) / sphere.radius;
+    return_val.rec.t = root;
+    return_val.rec.p = rayAt(ray, return_val.rec.t);
+    return_val.rec.normal = (return_val.rec.p - sphere.center) / sphere.radius;
 
-    if(is_front_face(ray, rec.normal)) {
-        rec.front_face = true;
+    if(is_front_face(ray, return_val.rec.normal)) {
+        return_val.rec.front_face = true;
     } else {
-        rec.front_face = false;
-        rec.normal = -rec.normal;
+        return_val.rec.front_face = false;
+        return_val.rec.normal = -return_val.rec.normal;
     }
 
-    rec.hit = true;
-    return rec;
+    return_val.hit = true;
+    return return_val;
 }

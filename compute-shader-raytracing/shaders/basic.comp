@@ -22,30 +22,30 @@ const int NUM_SPHERES = 2;
 // #include <include/hit_record.glsl>
 // #include <include/sphere.glsl>
 
-HitRecord hit_world(Sphere world[NUM_SPHERES], Ray r) {
-    HitRecord rec = HitRecord(vec3(0.0, 0.0, 0.0),vec3(0.0, 0.0, 0.0), 0.0, true, true);
-    HitRecord temp_rec = HitRecord(vec3(0.0, 0.0, 0.0),vec3(0.0, 0.0, 0.0), 0.0, true, true);
+HitReturn hit_world(Sphere world[NUM_SPHERES], Ray r) {
+    HitReturn return_val = HitReturn(HitRecord(vec3(0.0, 0.0, 0.0),vec3(0.0, 0.0, 0.0), 0.0, true), true);
+    HitRecord temp_rec = HitRecord(vec3(0.0, 0.0, 0.0),vec3(0.0, 0.0, 0.0), 0.0, true);
     bool hit_anything = false;
     float closest_so_far = ray_tmax;
 
     for (int i = 0; i < NUM_SPHERES; ++i) {
-        temp_rec = hit_sphere(r, world[i], closest_so_far, rec);
-        if (temp_rec.hit) {
+        HitReturn temp_return = hit_sphere(r, world[i], closest_so_far);
+        if (temp_return.hit) {
             hit_anything = true;
-            closest_so_far = temp_rec.t;
-            rec = temp_rec;
+            closest_so_far = temp_return.rec.t;
+            return_val.rec = temp_return.rec;
         }
     }
 
-    rec.hit = hit_anything;
-    return rec;
+    return_val.hit = hit_anything;
+    return return_val;
 }
 
 vec3 ray_color(Ray r, Sphere world[NUM_SPHERES]) {
     // Check intersection with sphere
-    HitRecord rec = hit_world(world, r);
-    if (rec.hit) {
-        return 0.5 * (rec.normal + vec3(1,1,1));
+    HitReturn hit_return = hit_world(world, r);
+    if (hit_return.hit) {
+        return 0.5 * (hit_return.rec.normal + vec3(1,1,1));
     }
 
     vec3 unit_direction = normalize(r.direction);
@@ -68,10 +68,10 @@ void main() {
     Ray ray = Ray(ray_origin, ray_direction);
 
     Sphere world[NUM_SPHERES];
-    world[0].center = vec3(0.0, 0.0, -1.0);
+    world[0].center = vec3(0.0, 0.0, -1.0 - t);
     world[0].radius = 0.5;
     world[0].color = vec3(1.0, 0.0, 0.0);
-    world[1].center = vec3(0.0, -100.5, -1.0);
+    world[1].center = vec3(0.0, -100.5, -1.0 - t);
     world[1].radius = 100;
     world[1].color = vec3(0.0, 1.0, 0.0);
 

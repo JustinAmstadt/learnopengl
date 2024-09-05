@@ -36,6 +36,7 @@ public:
             // convert stream into string
             computeCode = cShaderStream.str();
             preprocessShader(computeCode);
+            std::cout << computeCode << std::endl;
         }
         catch (std::ifstream::failure& e)
         {
