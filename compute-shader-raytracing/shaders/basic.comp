@@ -8,33 +8,44 @@ layout (local_size_x = 1, local_size_y = 1, local_size_z = 1) in;
 layout(rgba32f, binding = 0) uniform image2D imgOutput;
 
 layout (binding = 1) buffer ShapeData {
-    vec4 vertices[];
+    vec3 vertices[];
 };
 
 uniform float t;
+uniform float ray_tmin;
+uniform float ray_tmax;
+
+const int NUM_SPHERES = 2;
 
 // #include <include/structs.glsl>
 // #include <include/ray.glsl>
+// #include <include/hit_record.glsl>
 // #include <include/sphere.glsl>
 
-// Function to intersect a ray with a sphere
-float hit_sphere(Ray ray, Sphere sphere) {
-    vec3 oc = sphere.center - ray.origin;
-    float a = dot(ray.direction, ray.direction); // This is length squared
-    float c = dot(oc, oc) - sphere.radius * sphere.radius;
-    float h = dot(ray.direction, oc);
-    float discriminant = h * h - a * c;
+HitRecord hit_world(Sphere world[NUM_SPHERES], Ray r) {
+    HitRecord rec = HitRecord(vec3(0.0, 0.0, 0.0),vec3(0.0, 0.0, 0.0), 0.0, true, true);
+    HitRecord temp_rec = HitRecord(vec3(0.0, 0.0, 0.0),vec3(0.0, 0.0, 0.0), 0.0, true, true);
+    bool hit_anything = false;
+    float closest_so_far = ray_tmax;
 
-    if (discriminant < 0.0) return -1;
-    return (h - sqrt(discriminant)) / a; // This is going to be t in our ray equation
+    for (int i = 0; i < NUM_SPHERES; ++i) {
+        temp_rec = hit_sphere(r, world[i], closest_so_far, rec);
+        if (temp_rec.hit) {
+            hit_anything = true;
+            closest_so_far = temp_rec.t;
+            rec = temp_rec;
+        }
+    }
+
+    rec.hit = hit_anything;
+    return rec;
 }
 
-vec3 ray_color(Ray r, Sphere sphere) {
+vec3 ray_color(Ray r, Sphere world[NUM_SPHERES]) {
     // Check intersection with sphere
-    float t = hit_sphere(r, sphere);
-    if (t > 0) {
-        vec3 N = normalize(rayAt(r, t) - sphere.center);
-        return 0.5 * vec3(N.x + 1, N.y + 1, N.z + 1);
+    HitRecord rec = hit_world(world, r);
+    if (rec.hit) {
+        return 0.5 * (rec.normal + vec3(1,1,1));
     }
 
     vec3 unit_direction = normalize(r.direction);
@@ -56,10 +67,15 @@ void main() {
 
     Ray ray = Ray(ray_origin, ray_direction);
 
-    // Scene setup (simple scene with one sphere)
-    Sphere sphere = Sphere(vec3(0.0, 0.0, -vertices[0].x), 0.5, vec3(1.0, 0.0, 0.0));  // Red sphere
+    Sphere world[NUM_SPHERES];
+    world[0].center = vec3(0.0, 0.0, -1.0);
+    world[0].radius = 0.5;
+    world[0].color = vec3(1.0, 0.0, 0.0);
+    world[1].center = vec3(0.0, -100.5, -1.0);
+    world[1].radius = 100;
+    world[1].color = vec3(0.0, 1.0, 0.0);
 
-    vec3 pixel_color = ray_color(ray, sphere);
+    vec3 pixel_color = ray_color(ray, world);
 
     // Write color to output image
     imageStore(imgOutput, pixel_coords, vec4(pixel_color, 1.0));

@@ -13,4 +13,6 @@ struct HitRecord {
     vec3 p;
     vec3 normal;
     float t;
+    bool front_face;
+    bool hit; // This is a temp value so that I can return this and tell whether or not there was a hit that time
 };

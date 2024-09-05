@@ -93,9 +93,11 @@ int main()
 
         compShader.use();
         compShader.setFloat("t", time / 1000.0);
+        compShader.setFloat("ray_tmin", 0);
+        compShader.setFloat("ray_tmax", 100000000);
         glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 1, vertexBuffer);
 
-		glDispatchCompute((unsigned int)TEXTURE_WIDTH, (unsigned int)TEXTURE_HEIGHT, 1);
+		glDispatchCompute((unsigned int)TEXTURE_WIDTH + 9, (unsigned int)TEXTURE_HEIGHT + 9, 1);
 
 		// make sure writing to image has finished before read
 		glMemoryBarrier(GL_SHADER_IMAGE_ACCESS_BARRIER_BIT);
@@ -195,11 +197,10 @@ void makeComputeBuffer(GLuint& vertexBuffer) {
         glGenBuffers(1, &vertexBuffer);
         glBindBuffer(GL_SHADER_STORAGE_BUFFER, vertexBuffer);
 
-        // Example vertex data
         float vertexData[] = {
-            1.0f,  0.5f, 0.0f,
-            -0.5f, -0.5f, 0.0f,
-            0.5f, -0.5f, 0.0f
+            1.0f,  3.5f, 5.0f,
+            3.0f, -0.5f, 0.0f,
+            0.5f, -0.5f, 5.0f
         };
         glBufferData(GL_SHADER_STORAGE_BUFFER, sizeof(vertexData), vertexData, GL_STATIC_DRAW);
     }
