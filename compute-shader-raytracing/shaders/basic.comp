@@ -7,8 +7,15 @@ layout (local_size_x = 1, local_size_y = 1, local_size_z = 1) in;
 
 layout(rgba32f, binding = 0) uniform image2D imgOutput;
 
+layout (binding = 1) buffer ShapeData {
+    vec4 vertices[];
+};
+
+uniform float t;
+
 // #include <include/structs.glsl>
 // #include <include/ray.glsl>
+// #include <include/sphere.glsl>
 
 // Function to intersect a ray with a sphere
 float hit_sphere(Ray ray, Sphere sphere) {
@@ -50,7 +57,7 @@ void main() {
     Ray ray = Ray(ray_origin, ray_direction);
 
     // Scene setup (simple scene with one sphere)
-    Sphere sphere = Sphere(vec3(0.0, 0.0, -1.0), 0.5, vec3(1.0, 0.0, 0.0));  // Red sphere
+    Sphere sphere = Sphere(vec3(0.0, 0.0, -vertices[0].x), 0.5, vec3(1.0, 0.0, 0.0));  // Red sphere
 
     vec3 pixel_color = ray_color(ray, sphere);
 

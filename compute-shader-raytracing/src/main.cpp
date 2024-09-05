@@ -1,6 +1,7 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
+#include <chrono>
 #include <iostream>
 
 #include "../include/shader_s.h"
@@ -10,6 +11,8 @@ void processInput(GLFWwindow *window);
 void queryComputeLimitations();
 unsigned int makeAndBindTexture(Shader shader);
 void renderQuad();
+float getTime();
+void makeComputeBuffer(GLuint& vertexBuffer);
 
 // settings
 const unsigned int SCR_WIDTH = 500;
@@ -17,11 +20,21 @@ const unsigned int SCR_HEIGHT = 500;
 
 const unsigned int TEXTURE_WIDTH = 512, TEXTURE_HEIGHT = 512;
 
+GLFWerrorfun errorCallback = [](int error, const char* description) {
+    std::cout << "GLFW Error (" << error << "): " << description << std::endl;
+};
+
 int main()
 {
     // glfw: initialize and configure
     // ------------------------------
-    glfwInit();
+    if (!glfwInit()) {
+        std::cout << "Failed to initialize GLFW" << std::endl;
+        return -1;
+    }
+
+    glfwSetErrorCallback(errorCallback);
+
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
@@ -58,25 +71,34 @@ int main()
 
     makeAndBindTexture(quadShader);
 
+    GLuint vertexBuffer = 0;
+    makeComputeBuffer(vertexBuffer);
+
     // uncomment this call to draw in wireframe polygons.
     // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
     glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 
+    float startTime = getTime();
+
     // render loop
     // -----------
     while (!glfwWindowShouldClose(window))
     {
+        float time = getTime() - startTime;
+
         // input
         // -----
         processInput(window);
 
         compShader.use();
+        compShader.setFloat("t", time / 1000.0);
+        glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 1, vertexBuffer);
+
 		glDispatchCompute((unsigned int)TEXTURE_WIDTH, (unsigned int)TEXTURE_HEIGHT, 1);
 
 		// make sure writing to image has finished before read
 		glMemoryBarrier(GL_SHADER_IMAGE_ACCESS_BARRIER_BIT);
-
 
         // render
         // ------
@@ -168,6 +190,21 @@ unsigned int makeAndBindTexture(Shader shader) {
     return texture;
 }
 
+void makeComputeBuffer(GLuint& vertexBuffer) {
+    if (vertexBuffer == 0) {
+        glGenBuffers(1, &vertexBuffer);
+        glBindBuffer(GL_SHADER_STORAGE_BUFFER, vertexBuffer);
+
+        // Example vertex data
+        float vertexData[] = {
+            1.0f,  0.5f, 0.0f,
+            -0.5f, -0.5f, 0.0f,
+            0.5f, -0.5f, 0.0f
+        };
+        glBufferData(GL_SHADER_STORAGE_BUFFER, sizeof(vertexData), vertexData, GL_STATIC_DRAW);
+    }
+}
+
 // renderQuad() renders a 1x1 XY quad in NDC
 // -----------------------------------------
 unsigned int quadVAO = 0;
@@ -197,4 +234,10 @@ void renderQuad()
 	glBindVertexArray(quadVAO);
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 	glBindVertexArray(0);
+}
+
+float getTime() {
+    auto now = std::chrono::steady_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(now.time_since_epoch());
+    return duration.count();
 }
