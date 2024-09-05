@@ -97,6 +97,7 @@ public:
 	Cube(glm::vec4 defaultColor = glm::vec4(1.0f, 0.0f, 0.0f, 1.0f), 
 		Material material = Material{ glm::vec3(1.0f, 0.5f, 0.31f), glm::vec3(1.0f, 0.5f, .031f), glm::vec3(0.5f, 0.5f, 0.5f), 32.0f }) 
 		: GeometricObject(
+		"Cube",
 		std::vector<glm::vec3> {
 		glm::vec3(-0.5f, -0.5f, -0.5f),
 			glm::vec3(0.5f, -0.5f, -0.5f),
@@ -145,12 +146,12 @@ public:
 		setNormals(normals);
 		setColor(defaultColor);
 		createMesh();
-		objName = "Cube";
 	}
 
 	Cube(std::string textureFileName, 
 		Material material = Material{ glm::vec3(1.0f, 0.5f, 0.31f), glm::vec3(1.0f, 0.5f, .031f), glm::vec3(0.5f, 0.5f, 0.5f), 32.0f }) \
 		: GeometricObject(
+		"Cube",
 		std::vector<glm::vec3> {
 		glm::vec3(-0.5f, -0.5f, -0.5f),
 			glm::vec3(0.5f, -0.5f, -0.5f),

@@ -340,8 +340,8 @@ CMakeFiles/learnopengl.dir/src/GeometricObject.cpp.o: \
  /usr/include/glm/packing.hpp /usr/include/glm/detail/func_packing.inl \
  /usr/include/glm/detail/type_half.hpp \
  /usr/include/glm/detail/type_half.inl /usr/include/glm/integer.hpp \
- /usr/include/glm/detail/func_integer.inl /usr/local/include/glad/glad.h \
- /usr/local/include/KHR/khrplatform.h \
+ /usr/include/glm/detail/func_integer.inl /usr/include/glad/glad.h \
+ /usr/include/KHR/khrplatform.h \
  /home/justin/learnopengl/learnopengl/include/Tragectory.h \
  /usr/include/c++/11/iostream /usr/include/c++/11/istream \
  /usr/include/c++/11/bits/istream.tcc /usr/include/c++/11/queue \

@@ -220,8 +220,8 @@ CMakeFiles/learnopengl.dir/src/Mesh.cpp.o: \
  /usr/include/glm/packing.hpp /usr/include/glm/detail/func_packing.inl \
  /usr/include/glm/detail/type_half.hpp \
  /usr/include/glm/detail/type_half.inl /usr/include/glm/integer.hpp \
- /usr/include/glm/detail/func_integer.inl /usr/local/include/glad/glad.h \
- /usr/local/include/KHR/khrplatform.h /usr/include/c++/11/iostream \
+ /usr/include/glm/detail/func_integer.inl /usr/include/glad/glad.h \
+ /usr/include/KHR/khrplatform.h /usr/include/c++/11/iostream \
  /usr/include/c++/11/ostream /usr/include/c++/11/ios \
  /usr/include/c++/11/iosfwd /usr/include/c++/11/bits/stringfwd.h \
  /usr/include/c++/11/bits/memoryfwd.h /usr/include/c++/11/bits/postypes.h \

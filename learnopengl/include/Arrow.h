@@ -74,9 +74,9 @@ private:
     indicies.push_back(3);
 
 
-    std::shared_ptr<GeometricObject> line = std::make_shared<GeometricObject>(verts);
+    std::shared_ptr<GeometricObject> line = std::make_shared<GeometricObject>("Arrow Line", verts, indicies);
     line->setColor(glm::vec4(1.0f, 0.0f, 0.0f, 1.0f));
-    line->getMesh().indices = indicies;
+    line->createMesh();
     objPtr = std::make_shared<SceneObject>();
     *objPtr = { line, glm::mat4(1.0f), shaderProgram, GL_LINES };
   }

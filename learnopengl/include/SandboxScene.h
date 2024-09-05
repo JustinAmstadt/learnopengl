@@ -49,56 +49,6 @@ public:
 		// this->light->setLightPosDir(lightPos);
 		this->renderScene(camera);
 		updateGeometry(camera);
-<<<<<<< HEAD
-=======
-    this->df->update(getDeltaT());
-
-    // Formula to get scalar of a vector with from the x and y components
-    float liftScalar = std::sqrt(df->getForces().Flift[0] * df->getForces().Flift[0] + df->getForces().Flift[1] * df->getForces().Flift[1]);
-    float liftTheta = 90.0f;
-
-    // Formula to get angle of a vector with from the x and y components. If x is zero, the angle is already set to 90 degrees
-    if(df->getForces().Flift[0] != 0){
-      liftTheta = glm::degrees(std::atan(df->getForces().Flift[1] / df->getForces().Flift[0]));
-    }
-
-    // Correct the angle if below zero
-    if(liftTheta < 0){
-      float distTo90 = 90.0f - std::abs(liftTheta);
-      liftTheta = 90 + distTo90;
-    }
-
-    std::cout << "lift theta: " << liftTheta << ", lift scalar " << liftScalar << std::endl;
-
-    // Update the arrow position, scale, and rotation
-    this->liftArrow->update(df->getAttrib().pos, glm::vec3(liftScalar, liftScalar / 2.0f, 1.0f), liftTheta);
-
-    // Formula to get scalar of a vector with from the x and y components
-    float gravityScalar = std::sqrt(df->getForces().Fg[1] * df->getForces().Fg[1]);
-    // Update the arrow position, scale, and rotation
-    this->gravityArrow->update(df->getAttrib().pos, glm::vec3(gravityScalar, gravityScalar / 2.0f, 1.0f), 270.0f);
-
-    // Formula to get scalar of a vector with from the x and y components
-    float dragScalar = std::sqrt(df->getForces().Fdrag[0] * df->getForces().Fdrag[0] + df->getForces().Fdrag[1] * df->getForces().Fdrag[1]);
-    float dragTheta = -90.0f;
-
-    // Formula to get angle of a vector with from the x and y components. If x is zero, the angle is already set to 90 degrees
-    if(df->getForces().Fdrag[0] != 0){
-      dragTheta = glm::degrees(std::atan(df->getForces().Fdrag[1] / df->getForces().Fdrag[0]));
-    }
-
-    // Correct the angle if below zero
-    if(df->getForces().Fdrag.x < 0){
-      dragTheta += 180.0;
-    }
-
-    std::cout << "drag theta: " << dragTheta << ", drag scalar: " << dragScalar << std::endl;
-
-    // Update the arrow position, scale, and rotation
-    this->dragArrow->update(df->getAttrib().pos, glm::vec3(dragScalar, dragScalar / 2.0f, 1.0f), dragTheta);
-
-    std::cout << "\n\n";
->>>>>>> 0d723aba1af2c973d31adef636a00a16e2a3d6ee
 	}
 
 	void createGeometry(std::shared_ptr<Shader> shaderProgram, std::shared_ptr<Shader> lampShader)

@@ -28,6 +28,7 @@ public:
 
 	Rain(std::shared_ptr<Shader> shaderProgram) {
 		std::shared_ptr<GeometricObject> line = std::make_shared<GeometricObject>(
+		"Rain Line",
 		std::vector<glm::vec3> { glm::vec3(0.0f, -dropLength / 2.0f, 0.0f), glm::vec3(0.0f, dropLength / 2.0f, 0.0f) });
 		line->setColor(glm::vec4(34.0f / 255.0f, 25.0f / 255.0f, 255.0f / 255.0f, 0.0f));
 		std::shared_ptr<SceneObject> list;

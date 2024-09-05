@@ -44,12 +44,7 @@ protected:
 
     PhysicsObject() {}
 
-<<<<<<< HEAD
     virtual void calcAccel() {
-=======
-    virtual void calcAccel(float deltaT) {
-      // Update forces
->>>>>>> 0d723aba1af2c973d31adef636a00a16e2a3d6ee
       calcGravity();
       calcLift();
       calcDrag();

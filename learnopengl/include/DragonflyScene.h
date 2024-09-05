@@ -108,11 +108,11 @@ public:
     df->decWingSpeed();
   }
 
-  virtual void pressR() override {
-    df->goLeft();
+  virtual void pressG() override {
+    df->goRight();
   }
   virtual void pressF() override {
-    df->goRight();
+    df->goLeft();
   }
 
 };

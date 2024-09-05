@@ -23,6 +23,7 @@ private:
 		glm::mat4 model = glm::mat4(1.0f);
 
 		std::shared_ptr<GeometricObject> line = std::make_shared<GeometricObject>(
+			"GridFloor Line",
 			std::vector<glm::vec3> { glm::vec3(0.0f, -2.0f, -size), glm::vec3(0.0f, -2.0f, size) });
 
 		std::vector<glm::vec3> normals{ normal, normal };

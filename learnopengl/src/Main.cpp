@@ -122,13 +122,13 @@ void loop() {
 	// Model backpack = Model("models/backpack/backpack.obj");
 
 	// std::shared_ptr<Scene> ocean = std::make_shared<OceanScene>(oceanShader, lampShader, skyboxShader);
-	sandbox = std::make_shared<SandboxScene>(screenWidth, screenHeight, shaderProgram, lampShader);
-	// dragonfly = std::make_shared<SandboxScene>(lampShader, dragonflyShader);
+	// sandbox = std::make_shared<SandboxScene>(screenWidth, screenHeight, shaderProgram, lampShader);
+	dragonfly = std::make_shared<DragonflyScene>(screenWidth, screenHeight, lampShader, dragonflyShader);
 	// std::shared_ptr<Scene> tessellation = std::make_shared<TessellationPlaneScene>(tessShader);
 
 	//maze = std::make_shared<MazeScene>(lampShader);
 
-	sandbox->makeCurrent();
+	dragonfly->makeCurrent();
   
 	glClearColor(0.4f, 0.4f, 0.4f, 1.0f);
 	glEnable(GL_DEPTH_TEST);
@@ -142,7 +142,7 @@ void loop() {
 		
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		sandbox->update(camera);
+		dragonfly->update(camera);
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();
@@ -177,32 +177,31 @@ void processInput(GLFWwindow* window)
   std::shared_ptr<SandboxScene> sandboxCast = std::dynamic_pointer_cast<SandboxScene>(sandbox);
 
 	if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS){
-    mazeCast->moveBotUp();
-    sandboxCast->pressUp();
-	dragonfly->pressUp();
-  }
+		// mazeCast->moveBotUp();
+		// sandboxCast->pressUp();
+		dragonfly->pressUp();
+	}
 	if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS){
-    mazeCast->moveBotDown();
-    sandboxCast->pressDown();
-	dragonfly->pressDown();
-  }
+		// mazeCast->moveBotDown();
+		// sandboxCast->pressDown();
+		dragonfly->pressDown();
+	}
 	if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
-    mazeCast->moveBotRight();
+		// mazeCast->moveBotRight();
 	if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)
-    mazeCast->moveBotLeft();
-
+		// mazeCast->moveBotLeft();
 	if (glfwGetKey(window, GLFW_KEY_R) == GLFW_PRESS){
-	dragonfly->pressR();
-  }
+	}
 	if (glfwGetKey(window, GLFW_KEY_F) == GLFW_PRESS){
-	dragonfly->pressF();
-  }
+		dragonfly->pressF();
+	}
 	if (glfwGetKey(window, GLFW_KEY_T) == GLFW_PRESS){
-    sandboxCast->pressT();
-  }
+		// sandboxCast->pressT();
+	}
 	if (glfwGetKey(window, GLFW_KEY_G) == GLFW_PRESS){
-    sandboxCast->pressG();
-  }
+		dragonfly->pressG();
+		// sandboxCast->pressG();
+	}
 }
 
 void mouse_callback(GLFWwindow* window, double xposIn, double yposIn) {

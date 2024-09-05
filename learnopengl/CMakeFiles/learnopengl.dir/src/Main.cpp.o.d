@@ -1,7 +1,7 @@
 CMakeFiles/learnopengl.dir/src/Main.cpp.o: \
  /home/justin/learnopengl/learnopengl/src/Main.cpp \
- /usr/include/stdc-predef.h /usr/local/include/glad/glad.h \
- /usr/local/include/KHR/khrplatform.h \
+ /usr/include/stdc-predef.h /usr/include/glad/glad.h \
+ /usr/include/KHR/khrplatform.h \
  /usr/lib/gcc/x86_64-linux-gnu/11/include/stdint.h /usr/include/stdint.h \
  /usr/include/x86_64-linux-gnu/bits/libc-header-start.h \
  /usr/include/features.h /usr/include/features-time64.h \

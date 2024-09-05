@@ -4,5 +4,7 @@
 **/CMakeFiles
 **/learnopengl
 **/raytracer
+**/hellotriangle
+**/computeshaderraytracer
 **/Makefile
 **/cmake_install.cmake
