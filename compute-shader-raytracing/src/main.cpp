@@ -92,9 +92,13 @@ int main()
         processInput(window);
 
         compShader.use();
-        compShader.setFloat("t", time / 1000.0);
+        // compShader.setFloat("t", time / 1000.0);
+        compShader.setFloat("t", 0);
         compShader.setFloat("ray_tmin", 0);
         compShader.setFloat("ray_tmax", 100000000);
+        compShader.setInt("samples_per_pixel", 100);
+        compShader.setVec3("camera_center", 0.0f, 0.0f, 0.0f);
+
         glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 1, vertexBuffer);
 
 		glDispatchCompute((unsigned int)TEXTURE_WIDTH + 9, (unsigned int)TEXTURE_HEIGHT + 9, 1);
