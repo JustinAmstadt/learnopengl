@@ -15,8 +15,8 @@ float getTime();
 void makeComputeBuffer(GLuint& vertexBuffer);
 
 // settings
-const unsigned int SCR_WIDTH = 500;
-const unsigned int SCR_HEIGHT = 500;
+const unsigned int SCR_WIDTH = 1000;
+const unsigned int SCR_HEIGHT = 1000;
 
 const unsigned int TEXTURE_WIDTH = 512, TEXTURE_HEIGHT = 512;
 
@@ -92,12 +92,13 @@ int main()
         processInput(window);
 
         compShader.use();
-        // compShader.setFloat("t", time / 1000.0);
-        compShader.setFloat("t", 0);
-        compShader.setFloat("ray_tmin", 0);
+        compShader.setFloat("t", time / 10000.0);
+        // compShader.setFloat("t", 0);
+        compShader.setFloat("ray_tmin", 0.001);
         compShader.setFloat("ray_tmax", 100000000);
         compShader.setInt("samples_per_pixel", 100);
         compShader.setVec3("camera_center", 0.0f, 0.0f, 0.0f);
+        compShader.setInt("depth", 10);
 
         glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 1, vertexBuffer);
 
