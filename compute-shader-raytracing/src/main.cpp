@@ -3,6 +3,7 @@
 
 #include <chrono>
 #include <iostream>
+#include <cmath>
 
 #include "../include/shader_s.h"
 
@@ -80,20 +81,23 @@ int main()
     glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 
     float startTime = getTime();
+    int frameCount = 0;
 
     // render loop
     // -----------
     while (!glfwWindowShouldClose(window))
     {
         float time = getTime() - startTime;
+        std::cout << frameCount << std::endl;
+
+        frameCount %= 360;
 
         // input
         // -----
         processInput(window);
 
         compShader.use();
-        compShader.setFloat("t", time / 10000.0);
-        // compShader.setFloat("t", 0);
+        compShader.setFloat("t", frameCount * 5 * (M_PI / 180));
         compShader.setFloat("ray_tmin", 0.001);
         compShader.setFloat("ray_tmax", 100000000);
         compShader.setInt("samples_per_pixel", 100);
@@ -118,6 +122,8 @@ int main()
         // -------------------------------------------------------------------------------
         glfwSwapBuffers(window);
         glfwPollEvents();
+
+        ++frameCount;
     }
 
     // optional: de-allocate all resources once they've outlived their purpose:

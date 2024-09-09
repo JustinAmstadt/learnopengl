@@ -36,7 +36,7 @@ public:
             // convert stream into string
             computeCode = cShaderStream.str();
             preprocessShader(computeCode);
-            std::cout << computeCode << std::endl;
+            printShader(computeCode);
         }
         catch (std::ifstream::failure& e)
         {
@@ -212,5 +212,17 @@ private:
 
         code = newCode;
     }    
+
+void printShader(const std::string& code) {
+        std::istringstream stream(code);
+        std::string newCode;
+        std::string line;
+        int lineNum = 1;
+
+        while (std::getline(stream, line)) {
+            std::cout << lineNum << ": " << line << std::endl;
+            ++lineNum;
+        }
+    }
 };
 #endif

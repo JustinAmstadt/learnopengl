@@ -2,7 +2,6 @@ float rand(int pixel_index, int sample_index) {
     return fract(sin(float(pixel_index + sample_index * 31)) * 43758.5453);
 }
 
-
 float rand_range(int pixel_index, int sample_index, float min, float max) {
     return min + (max - min) * rand(pixel_index, sample_index);
 }
