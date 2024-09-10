@@ -1,7 +1,7 @@
 #version 430 core
 
 // Work groups
-layout (local_size_x = 1, local_size_y = 1, local_size_z = 1) in;
+layout (local_size_x = 16, local_size_y = 16, local_size_z = 1) in;
 
 // Output image
 
@@ -123,6 +123,7 @@ void main() {
 
     // Clamp values
     pixel_color = clamp(pixel_color, 0.000, 0.999);
+
 
     // Write color to output image
     imageStore(imgOutput, pixel_coords, vec4(pixel_color, 1.0));
