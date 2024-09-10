@@ -93,7 +93,7 @@ Ray get_ray(vec2 uv, int pixel_index, int sample_index, vec2 image_size) {
 // Main function
 void main() {
     Sphere world[NUM_SPHERES];
-    world[0].center = vec3(cos(t), 0.0, -1.0);
+    world[0].center = vec3(cos(t), 0.0, -2.0 + sin(t));
     world[0].radius = 0.5;
     world[0].color = vec3(1.0, 0.0, 0.0);
     world[1].center = vec3(0.0, -100.5, -1.0);
