@@ -100,13 +100,16 @@ int main()
         compShader.setFloat("t", frameCount * 5 * (M_PI / 180));
         compShader.setFloat("ray_tmin", 0.001);
         compShader.setFloat("ray_tmax", 100000000);
-        compShader.setInt("samples_per_pixel", 100);
+        compShader.setInt("samples_per_pixel", 50);
         compShader.setVec3("camera_center", 0.0f, 0.0f, 0.0f);
         compShader.setInt("depth", 10);
 
         glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 1, vertexBuffer);
 
-		glDispatchCompute((unsigned int)TEXTURE_WIDTH + 9, (unsigned int)TEXTURE_HEIGHT + 9, 1);
+        const int WORK_GROUP_X = 16;
+        const int WORK_GROUP_Y = 16;
+
+		glDispatchCompute(((unsigned int)TEXTURE_WIDTH + WORK_GROUP_X - 1) / WORK_GROUP_X, ((unsigned int)TEXTURE_HEIGHT + WORK_GROUP_Y - 1) / WORK_GROUP_Y, 1);
 
 		// make sure writing to image has finished before read
 		glMemoryBarrier(GL_SHADER_IMAGE_ACCESS_BARRIER_BIT);
