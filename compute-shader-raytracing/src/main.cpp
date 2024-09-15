@@ -3,6 +3,7 @@
 
 #include <chrono>
 #include <iostream>
+#include <cmath>
 
 #include "../include/shader_s.h"
 
@@ -15,8 +16,8 @@ float getTime();
 void makeComputeBuffer(GLuint& vertexBuffer);
 
 // settings
-const unsigned int SCR_WIDTH = 500;
-const unsigned int SCR_HEIGHT = 500;
+const unsigned int SCR_WIDTH = 1000;
+const unsigned int SCR_HEIGHT = 1000;
 
 const unsigned int TEXTURE_WIDTH = 512, TEXTURE_HEIGHT = 512;
 
@@ -80,24 +81,36 @@ int main()
     glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 
     float startTime = getTime();
+    int frameCount = 0;
 
     // render loop
     // -----------
     while (!glfwWindowShouldClose(window))
     {
         float time = getTime() - startTime;
+        std::cout << frameCount << std::endl;
+
+        frameCount %= 360;
 
         // input
         // -----
         processInput(window);
 
         compShader.use();
-        compShader.setFloat("t", time / 1000.0);
-        compShader.setFloat("ray_tmin", 0);
+        compShader.setFloat("t", 0);
+        // compShader.setFloat("t", frameCount * 5 * (M_PI / 180));
+        compShader.setFloat("ray_tmin", 0.001);
         compShader.setFloat("ray_tmax", 100000000);
+        compShader.setInt("samples_per_pixel", 50);
+        compShader.setVec3("camera_center", 0.0f, 0.0f, 0.0f);
+        compShader.setInt("depth", 1);
+
         glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 1, vertexBuffer);
 
-		glDispatchCompute((unsigned int)TEXTURE_WIDTH + 9, (unsigned int)TEXTURE_HEIGHT + 9, 1);
+        const int WORK_GROUP_X = 16;
+        const int WORK_GROUP_Y = 16;
+
+		glDispatchCompute(((unsigned int)TEXTURE_WIDTH + WORK_GROUP_X - 1) / WORK_GROUP_X, ((unsigned int)TEXTURE_HEIGHT + WORK_GROUP_Y - 1) / WORK_GROUP_Y, 1);
 
 		// make sure writing to image has finished before read
 		glMemoryBarrier(GL_SHADER_IMAGE_ACCESS_BARRIER_BIT);
@@ -113,6 +126,8 @@ int main()
         // -------------------------------------------------------------------------------
         glfwSwapBuffers(window);
         glfwPollEvents();
+
+        ++frameCount;
     }
 
     // optional: de-allocate all resources once they've outlived their purpose:

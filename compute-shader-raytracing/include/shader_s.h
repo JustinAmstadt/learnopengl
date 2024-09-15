@@ -36,7 +36,7 @@ public:
             // convert stream into string
             computeCode = cShaderStream.str();
             preprocessShader(computeCode);
-            std::cout << computeCode << std::endl;
+            printShader(computeCode);
         }
         catch (std::ifstream::failure& e)
         {
@@ -141,6 +141,10 @@ public:
     { 
         glUniform1f(glGetUniformLocation(ID, name.c_str()), value); 
     }
+    void setVec3(const std::string &name, float x, float y, float z)
+    {
+        glUniform3f(glGetUniformLocation(ID, name.c_str()), x, y, z); 
+    }
 
 private:
     // utility function for checking shader compilation/linking errors.
@@ -208,5 +212,17 @@ private:
 
         code = newCode;
     }    
+
+void printShader(const std::string& code) {
+        std::istringstream stream(code);
+        std::string newCode;
+        std::string line;
+        int lineNum = 1;
+
+        while (std::getline(stream, line)) {
+            std::cout << lineNum << ": " << line << std::endl;
+            ++lineNum;
+        }
+    }
 };
 #endif
