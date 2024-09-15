@@ -1,0 +1,9 @@
+canvas {
+    width: 768px;
+    height: 768px;
+}
+
+.canvas-demo canvas {
+    width: inherit;
+    height: inherit;
+}
