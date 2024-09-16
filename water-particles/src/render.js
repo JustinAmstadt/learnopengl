@@ -3,8 +3,8 @@
 let gl = undefined;        // WebGL context
 let program = undefined;   // Our shader program
 let numVerts = 200;
-let particles = [];
 let lastTime = 0;
+let particleSystem = undefined;
 
 function init() {
     let canvas = document.getElementById("webgl-canvas");
@@ -35,7 +35,8 @@ function init() {
 
     gl.clearColor(0.2, 0.2, 0.2, 1.0);
 
-    particles = genParticles(15);
+    particleSystem = new ParticleSystem(100);
+    console.log(particleSystem)
 
     render();
 }
@@ -49,8 +50,10 @@ function render() {
 
     gl.useProgram(program);
 
-    for (let i = 0; i < particles.length; i++) {
-        let S = particles[i].update(deltaTime);
+
+    for (let i = 0; i < particleSystem.numParticles; i++) {
+        let neighbors = particleSystem.findNeighbors(i);
+        let S = particleSystem.particles[i].update(deltaTime, neighbors, particleSystem.h, particleSystem.k);
         program.MV(S);
         program.uNumVerts(numVerts);
 
