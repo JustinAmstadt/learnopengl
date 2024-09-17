@@ -1,4 +1,10 @@
 class PhysicsEngine {
+    // particle: Particle
+    // neighbors: Particle[]
+    // h: float
+    // k: float
+    // restDensity: float
+    // return: F: vec2
     static calcForces(particle, neighbors, h, k, restDensity) {
         let pressure = this.calcFp(particle, neighbors, h, k, restDensity);
         let gravity = this.calcGravity(particle.mass);
@@ -8,10 +14,17 @@ class PhysicsEngine {
     }
 
     // mass: float
+    // return: Fg: vec2
     static calcGravity(mass) {
         return vec2(0, -mass * 9.81);
     }
 
+    // particle: Particle
+    // neighbors: Particle[]
+    // h: float
+    // k: float
+    // restDensity: float
+    // return: Fp: vec2
     static calcFp(particle, neighbors, h, k, restDensity) {
         let densityi = this.calcDensity(particle, neighbors, h);
         let pressurei = this.calcPressure(densityi, restDensity, k);
@@ -33,6 +46,7 @@ class PhysicsEngine {
 
     // r: float: magnitude(ri - rj)
     // h: float: smoothing length
+    // return: float
     static gaussianKernel(r, h) {
         return 1.0 / Math.pow((2 * Math.PI * h * h), 1.5) * Math.exp(-(r * r) / (2 * h * h));
     }
@@ -44,6 +58,7 @@ class PhysicsEngine {
     // pi: vec2 of this particle
     // pj: vec2 of neighboring particle
     // h: float: smoothing length
+    // return: gradient: vec2
     static gradientOfGaussianKernel(pi, pj, h) {
         let r_vec = subtract(pi, pj);
         let r = magnitude(r_vec);
@@ -58,6 +73,7 @@ class PhysicsEngine {
     // p: Particle
     // neighbors: Particle[]
     // h: smoothing length
+    // return: density: float
     static calcDensity(particle, neighbors, h) {
         let sum = 0.0;
 
@@ -69,6 +85,10 @@ class PhysicsEngine {
         return sum;
     }
 
+    // density: float
+    // restDensity: float
+    // k: float
+    // return: pressure: float
     static calcPressure(density, restDensity, k) {
         return k * (density - restDensity);
     }
