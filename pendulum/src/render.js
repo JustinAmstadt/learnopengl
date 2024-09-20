@@ -70,7 +70,7 @@ function render() {
 
     gl.useProgram(program);
 
-    S = mult(translate(0.0, 1.0, 0.0), mult(rotate(rotation, vec3(0, 0, 1)), mult(translate(0, -1, 0), scalem(0.1, 0.1, 0.1))));
+    S = mult(S, mult(translate(0, -1, 0), scalem(0.1, 0.1, 0.1)));
     program.MV(S);
     program.uNumVerts(numVerts);
 
