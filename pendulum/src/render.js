@@ -1,10 +1,15 @@
+// WebGL code taken from Dave Shreiner
+// Pendulum code made by Justin Amstadt
+
 'use strict;'
 
 let gl = undefined;        // WebGL context
 let program = undefined;   // Our shader program
 let numVerts = 200;
-let rotation = 0;
-let positiveSwing = true;
+let upperRotation = 0;
+let lowerRotation = 0;
+let positiveUpperSwing = true;
+let positiveLowerSwing = true;
 let previousTime = performance.now();
 let speed = 50.0;
 let rotationMax = 45;
@@ -61,32 +66,63 @@ function render() {
 
     gl.clear(gl.COLOR_BUFFER_BIT);
 
+    // Upper Arm
     gl.useProgram(lineProgram);
 
-    let S = mult(translate(0.0, 1.0, 0.0), mult(rotate(rotation, vec3(0, 0, 1)), scalem(1, 1, 1)));
+    // Yes, this line scales everything down. 
+    // The whole pendulum was too big for the screen and this was the easier way to shrink the whole thing.
+    let S = mult(translate(0.0, 1.0, 0.0), mult(rotate(upperRotation, vec3(0, 0, 1)), scalem(0.8, 0.8, 0.8)));
     lineProgram.MV(S);
 
     gl.drawArrays(gl.LINES, 0, 2);
 
+    // Upper Ball
     gl.useProgram(program);
 
-    S = mult(S, mult(translate(0, -1, 0), scalem(0.1, 0.1, 0.1)));
-    program.MV(S);
+    S = mult(S, translate(0, -1, 0));
+    program.MV(mult(S, scalem(0.1, 0.1, 0.1)));
+    program.uNumVerts(numVerts);
+
+    gl.drawArrays(gl.TRIANGLE_FAN, 0, numVerts);
+
+    // Lower Arm
+    gl.useProgram(lineProgram);
+
+    S = mult(S, rotate(lowerRotation, vec3(0, 0, 1)));
+    lineProgram.MV(mult(S, scalem(1, 1, 1)));
+
+    gl.drawArrays(gl.LINES, 0, 2);
+
+    // Lower Ball
+    gl.useProgram(program);
+
+    S = mult(S, translate(0, -1, 0));
+    program.MV(mult(S, scalem(0.1, 0.1, 0.1)));
     program.uNumVerts(numVerts);
 
     gl.drawArrays(gl.TRIANGLE_FAN, 0, numVerts);
 
     requestAnimationFrame(render);
 
-    if (positiveSwing) {
+    let { swingBool: upperSwingBool, rotation: upperRotationUpdated } = updateSwing(upperRotation, positiveUpperSwing, deltaTime, speed);
+    positiveUpperSwing = upperSwingBool;
+    upperRotation = upperRotationUpdated;
+
+    let { swingBool: lowerSwingBool, rotation: lowerRotationUpdated } = updateSwing(lowerRotation, positiveLowerSwing, deltaTime, speed * 3.0);
+    positiveLowerSwing = lowerSwingBool;
+    lowerRotation = lowerRotationUpdated;
+}
+
+function updateSwing(rotation, swingBool, deltaTime, speed) {
+    if (swingBool) {
         rotation += deltaTime * speed;
-        if (rotation > rotationMax) { positiveSwing = false; }
+        if (rotation > rotationMax) { swingBool = false; }
     } else {
         rotation -= deltaTime * speed;
-        if (rotation < -rotationMax) { positiveSwing = true; }
+        if (rotation < -rotationMax) { swingBool = true; }
     }
 
-    console.log(rotation, positiveSwing)
+    return { swingBool, rotation };
 }
 
 window.onload = init;
