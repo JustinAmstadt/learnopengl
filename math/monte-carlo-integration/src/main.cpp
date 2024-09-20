@@ -6,14 +6,18 @@ struct domain {
     double b;
 };
 
-// Have it integrate x*x for now
+float mathFunction(double x) {
+    return x * x;
+}
+
+// Integrate in 1 dimension
 float integrate1d(int numPoints, domain d) {
     double volume = d.b - d.a;
     double sum = 0;
 
     for (int i = 0; i < numPoints; ++i) {
-		double x = d.a + (float(rand())/RAND_MAX) * (d.b - d.a);
-        sum += x * x;
+		double randNum = d.a + (float(rand())/RAND_MAX) * (d.b - d.a);
+        sum += mathFunction(randNum);
     }
 
     return (sum / numPoints) * volume;
@@ -21,7 +25,7 @@ float integrate1d(int numPoints, domain d) {
 
 int main() {
     const int NUM_LOOPS = 100;
-    int sampleCount = 2000475010;
+    int sampleCount = 2475010;
 
     domain d;
     d.a = -1.0;

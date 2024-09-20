@@ -5,10 +5,9 @@ class PhysicsEngine {
     // k: float
     // restDensity: float
     // return: F: vec2
-    static calcForces(particle, neighbors, h, k, restDensity) {
-        let pressure = this.calcFp(particle, neighbors, h, k, restDensity);
+    static calcForces(particle, neighbors, h) {
+        let pressure = this.calcFp(particle, neighbors, h);
         let gravity = this.calcGravity(particle.mass);
-        gravity = vec2(0, 0);
 
         return add(pressure, gravity);
     }
@@ -16,7 +15,7 @@ class PhysicsEngine {
     // mass: float
     // return: Fg: vec2
     static calcGravity(mass) {
-        return vec2(0, -mass * 9.81);
+        return vec2(0, -mass * 0.81);
     }
 
     // particle: Particle
@@ -25,18 +24,32 @@ class PhysicsEngine {
     // k: float
     // restDensity: float
     // return: Fp: vec2
-    static calcFp(particle, neighbors, h, k, restDensity) {
-        let densityi = this.calcDensity(particle, neighbors, h);
-        let pressurei = this.calcPressure(densityi, restDensity, k);
+    static calcFp(particle, neighbors, h) {
+        let densityi = particle.prevDensity;
+        let pressurei = particle.prevPressure;
+
         let sum = vec2(0.0, 0.0);
 
         for (let i = 0; i < neighbors.length; i++) {
-            let densityj = this.calcDensity(neighbors[i], neighbors, h);
-            let pressurej = this.calcPressure(densityj, neighbors[i].restDensity, k);
+            let densityj = neighbors[i].prevDensity;
+            let pressurej = neighbors[i].prevPressure;
             let scalar = neighbors[i].mass * ((pressurei / (densityi * densityi)) + (pressurej / (densityj * densityj)));
 
             let gradient = this.gradientOfGaussianKernel(particle.position, neighbors[i].position, h);
+
+
             let output = vec2(scalar * gradient[0], scalar * gradient[1]);
+
+            console.log(`
+                Neighbor ${i}:
+                    Previous Density (densityj): ${densityj}
+                    Previous Pressure (pressurej): ${pressurej}
+                    Scalar: ${scalar}
+                    Gradient: (${gradient[0]}, ${gradient[1]})
+                    Output: (${output[0]}, ${output[1]})
+            `);
+
+            if (isNaN(gradient)) {continue};
 
             sum = add(sum, output);
         }
@@ -48,6 +61,7 @@ class PhysicsEngine {
     // h: float: smoothing length
     // return: float
     static gaussianKernel(r, h) {
+        if (h <= 0) throw new Error("Smoothing length h must be positive.");
         return 1.0 / Math.pow((2 * Math.PI * h * h), 1.5) * Math.exp(-(r * r) / (2 * h * h));
     }
 
@@ -79,17 +93,29 @@ class PhysicsEngine {
 
         for (let i = 0; i < neighbors.length; i++) {
             let rij = subtract(particle.position, neighbors[i].position);
-            sum += neighbors[i].mass * this.gaussianKernel(magnitude(rij), h);
+            let r = magnitude(rij);
+
+            // Only include neighbors with a non-zero distance to avoid singularities
+            if (r > 0) {
+                sum += neighbors[i].mass * this.gaussianKernel(r, h);
+            }
         }
 
-        return sum;
-    }
-
+        // return sum;
+        return .9;
+    }    
+    
     // density: float
     // restDensity: float
-    // k: float
+    // k (stiffness constant): float
     // return: pressure: float
     static calcPressure(density, restDensity, k) {
-        return k * (density - restDensity);
+        return this.clampPressure(k * (density - restDensity));
+    }
+
+    static clampPressure(value) {
+        let min = -1;
+        let max = 1;
+        return Math.max(min, Math.min(max, value));
     }
 }

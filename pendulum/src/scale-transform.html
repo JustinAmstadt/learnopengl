@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script id="vertex-shader" type="x-shader/x-vertex">
+            uniform mat4 MV;
+            uniform int uNumVerts;
+
+            void main() {
+                float vid = float(gl_VertexID);
+                
+                const float Pi = 3.14159265358979;
+                float angle = vid * 2.0 * Pi / float(uNumVerts);
+
+                vec2 v = vec2(cos(angle), sin(angle));
+                
+                gl_Position = MV * vec4(v, 0.0, 1.0);
+            }  
+        </script>
+        
+        <script id="line-vertex-shader" type="x-shader/x-vertex">
+            uniform mat4 MV;
+
+            void main() {
+                float vid = float(gl_VertexID);
+
+                vec2 v = vec2(0, -vid);
+                
+                gl_Position = MV * vec4(v, 0.0, 1.0);
+            }  
+        </script>
+
+        <script id="fragment-shader" type="x-shader/x-fragment">
+            out vec4 fColor;
+
+            void main() {
+                fColor = vec4(1.0, 1.0, 1.0, 1.0);
+            }
+        </script>
+
+        <script src="../Common/initShaders.js" type="text/javascript"></script>
+        <script src="../Common/MV.js" type="text/javascript"></script>
+        <script src="render.js" type="text/javascript"></script>
+        <script src="../Common/vector.js" type="text/javascript"></script>
+        <script src="../Common/physicsEngine.js" type="text/javascript"></script>
+
+        <link rel="stylesheet" href="../Common/demo.css">
+
+    </head>
+
+    <body>
+        <canvas id="webgl-canvas"></canvas>
+    </body>
+</html>
