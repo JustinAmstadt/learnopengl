@@ -8,3 +8,5 @@
 **/computeshaderraytracer
 **/Makefile
 **/cmake_install.cmake
+
+**/node_modules
